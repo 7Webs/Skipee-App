@@ -1,4 +1,7 @@
+import 'package:assignment/models/user_model.dart';
+import 'package:assignment/screens/home_screen.dart';
 import 'package:assignment/screens/signup_screen.dart';
+import 'package:assignment/services/auth_services.dart';
 import 'package:assignment/widgets/resuable.dart';
 import 'package:flutter/material.dart';
 
@@ -12,14 +15,51 @@ class SignInScreen extends StatefulWidget {
 class _SignInScreenState extends State<SignInScreen> {
   final TextEditingController _passwordTextController = TextEditingController();
   final TextEditingController _emailTextController = TextEditingController();
+
+  void loginButton() async {
+    if (_emailTextController.text.isEmpty ||
+        _passwordTextController.text.isEmpty) {
+      ScaffoldMessenger.of(context).clearSnackBars();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text("Enter the required fields"),
+          backgroundColor: Colors.red.shade400,
+          behavior: SnackBarBehavior.fixed,
+        ),
+      );
+      return;
+    }
+    try {
+      UserModel userData = await AuthServices()
+          .loginUser(_emailTextController.text, _passwordTextController.text);
+      ScaffoldMessenger.of(context).clearSnackBars();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text("Logged in Successfully"),
+          backgroundColor: Colors.green.shade400,
+          behavior: SnackBarBehavior.fixed,
+        ),
+      );
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const HomeScreen()));
+    } catch (e) {
+      ScaffoldMessenger.of(context).clearSnackBars();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text("Some Error occured"),
+          backgroundColor: Colors.red.shade400,
+          behavior: SnackBarBehavior.fixed,
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text('Login'),
-      ),
       body: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: gradientColors(),
@@ -41,7 +81,9 @@ class _SignInScreenState extends State<SignInScreen> {
                 resuableTextField('Enter your password', Icons.lock_outline,
                     true, _passwordTextController),
                 const SizedBox(height: 20),
-                signinSignupButton(context, true, () {}),
+                signinSignupButton(context, true, () {
+                  loginButton();
+                }),
                 signUpOption(),
               ],
             ),
@@ -56,7 +98,7 @@ class _SignInScreenState extends State<SignInScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const Text(
-          "Don't have account?",
+          "Don't have account? ",
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,

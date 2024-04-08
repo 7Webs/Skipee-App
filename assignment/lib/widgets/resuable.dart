@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 
 List<Color> gradientColors() {
   return const [
-    Color.fromARGB(255, 237, 63, 127),
-    Color.fromARGB(255, 252, 95, 153),
-    Color.fromARGB(255, 159, 44, 242),
-    Color.fromARGB(255, 150, 33, 233),
+    Color.fromARGB(255, 46, 49, 146),
+    Color.fromARGB(255, 27, 255, 255),
   ];
 }
 
