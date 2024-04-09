@@ -1,5 +1,5 @@
 import 'package:assignment/models/user_model.dart';
-import 'package:assignment/screens/generate_code_screen.dart';
+import 'package:assignment/screens/home_screen.dart';
 import 'package:assignment/screens/signup_screen.dart';
 import 'package:assignment/services/auth_services.dart';
 import 'package:assignment/widgets/resuable.dart';
@@ -42,7 +42,7 @@ class _SignInScreenState extends State<SignInScreen> {
       );
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => GenerateCodeScreen(
+          builder: (context) => HomeScreen(
             user: userData,
           ),
         ),

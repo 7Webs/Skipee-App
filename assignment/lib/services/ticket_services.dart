@@ -37,12 +37,9 @@ class TicketServices {
       if (response.statusCode == 200) {
         log("Successfully Scanned");
         return true;
-      }
-      if (response.statusCode == 409) {
+      } else if (response.statusCode == 409) {
         log("Already Used Ticket");
         return false;
-      } else {
-        log("Server Error");
       }
     } catch (e) {
       log("error");
