@@ -48,7 +48,7 @@ flutter_barcode_scanner: ^2.0.0
 image_gallery_saver: ^2.0.3
 <br>
 # Video Demo
-A video demonstrating the working app is available on Google Drive. Watch Video Demo [here]()
+A video demonstrating the working app is available on Google Drive. Watch Video Demo [here](https://drive.google.com/drive/folders/1oEuaWxgfelcAb9WJnGs7Flh1nG3yKx9Q)
 
-Contributors
+# Contributors
 Dinesh Jumani (@dineshjumani)
