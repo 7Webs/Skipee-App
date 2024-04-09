@@ -65,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             },
           );
-        } else {
+        } else if (!isScanned) {
           showDialog(
             context: context,
             builder: (context) {
@@ -83,6 +83,8 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             },
           );
+        } else {
+          return;
         }
       }
     } on PlatformException {
