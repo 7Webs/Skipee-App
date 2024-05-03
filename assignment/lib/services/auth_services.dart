@@ -31,6 +31,7 @@ class AuthServices {
       log("logged in successfully");
       return UserModel.fromJson(jsonDecode(response.body));
     } else {
+      log("DID NOT LOGIN");
       throw Exception("Failed to login");
     }
   }
