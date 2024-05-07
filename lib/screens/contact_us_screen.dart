@@ -1,11 +1,19 @@
 import 'dart:developer';
-
+import 'package:assignment/screens/login_screen.dart';
 import 'package:assignment/screens/report_incident_form_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class ContactUsScreen extends StatelessWidget {
+class ContactUsScreen extends StatefulWidget {
   const ContactUsScreen({super.key});
+
+  @override
+  State<ContactUsScreen> createState() => _ContactUsScreenState();
+}
+
+class _ContactUsScreenState extends State<ContactUsScreen> {
+  String userName = "User";
   Future<void> _launchUrl(String url) async {
     if (await canLaunchUrl(Uri.parse(url))) {
       await launchUrl(Uri.parse(url));
@@ -16,56 +24,139 @@ class ContactUsScreen extends StatelessWidget {
   }
 
   @override
+  void initState() {
+    getValue();
+    super.initState();
+  }
+
+  void getValue() async {
+    var pref = await SharedPreferences.getInstance();
+    userName = pref.getString("name")!;
+    setState(() {});
+  }
+
+  void logout() async {
+    var pref = await SharedPreferences.getInstance();
+    pref.setBool("login", false);
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (_) => const LoginScreen(),
+      ),
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
+    List<IconData> icons = [
+      Icons.call,
+      Icons.email,
+      Icons.report,
+      Icons.support_agent,
+      Icons.logout,
+    ];
+
+    List<String> headline = [
+      "CALL US",
+      "EMAIL US",
+      "REPORT INCIDENT",
+      "ABOUT US",
+      "LOG OUT"
+    ];
+
+    void onClick(int index) {
+      if (index == 0) {
+        _launchUrl('tel:9377403463');
+      } else if (index == 1) {
+        _launchUrl('mailto:support@example.com');
+      } else if (index == 2) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => const ReportIncidentFormScreen(),
+          ),
+        );
+      } else if (index == 3) {
+      } else if (index == 4) {
+        logout();
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('Contact Us'),
+        title: const Text("Report"),
+        titleTextStyle: const TextStyle(
+            fontWeight: FontWeight.bold, color: Colors.black, fontSize: 20),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: GridView.count(
-          crossAxisCount: 2,
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            ElevatedButton(
-              onPressed: () {
-                _launchUrl('tel:9377403463');
-              },
-              child: const Column(
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.green.shade100,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              height: MediaQuery.of(context).size.height * .25,
+              width: MediaQuery.of(context).size.width,
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.phone),
-                  Text("Call Us"),
+                  const CircleAvatar(
+                    radius: 30,
+                    child: Icon(
+                      Icons.person,
+                      size: 40,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    userName,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 25),
+                  ),
                 ],
               ),
             ),
-            ElevatedButton(
-              onPressed: () {
-                _launchUrl('mailto:support@example.com');
-              },
-              child: const Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.email),
-                  Text("Email Us"),
-                ],
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (_) => const ReportIncidentFormScreen()));
-              },
-              child: const Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.report),
-                  Text("Report Incident"),
-                ],
+            const SizedBox(height: 30),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.green.shade100,
+                    borderRadius: BorderRadius.circular(10)),
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                child: ListView.separated(
+                  itemCount: headline.length,
+                  separatorBuilder: (context, index) => const Divider(),
+                  itemBuilder: ((context, index) {
+                    return ListTile(
+                      onTap: () => onClick(index),
+                      title: Row(
+                        children: [
+                          CircleAvatar(
+                            maxRadius: 30,
+                            foregroundColor: Colors.green,
+                            backgroundColor: Colors.white,
+                            child: Icon(
+                              icons[index],
+                              size: 30,
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Text(
+                            headline[index],
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                          )
+                        ],
+                      ),
+                    );
+                  }),
+                ),
               ),
             ),
           ],

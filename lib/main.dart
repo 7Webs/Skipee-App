@@ -1,5 +1,4 @@
-import 'package:assignment/screens/home_screen.dart';
-import 'package:assignment/screens/login_screen.dart';
+import 'package:assignment/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,13 +11,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: '7 Webs',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const LoginScreen(),
-    );
+        debugShowCheckedModeBanner: false,
+        title: '7 Webs',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
+          useMaterial3: true,
+        ),
+        home: const SplashScreen());
   }
 }

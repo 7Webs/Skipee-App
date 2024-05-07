@@ -17,7 +17,7 @@ class TicketServices {
       "isScaned": "false",
       "isActive": "true"
     };
-    final url = Uri.parse("https://skipee-backend.onrender.com/tickets");
+    final url = Uri.parse("https://squid-app-xxu6w.ondigitalocean.app/tickets");
     final response = await http.post(url, body: request);
     if (response.statusCode == 201) {
       final data = jsonDecode(response.body);
@@ -30,7 +30,8 @@ class TicketServices {
   }
 
   Future<bool> getTicket(String id) async {
-    final url = Uri.parse("https://skipee-backend.onrender.com/tickets/$id");
+    final url =
+        Uri.parse("https://squid-app-xxu6w.ondigitalocean.app/tickets/$id");
     try {
       final response = await http.get(url);
       log(response.statusCode.toString());

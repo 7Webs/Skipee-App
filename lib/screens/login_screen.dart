@@ -2,10 +2,10 @@
 
 import 'package:assignment/models/user_model.dart';
 import 'package:assignment/screens/home_screen.dart';
-import 'package:assignment/screens/registration_screen.dart';
 import 'package:assignment/services/auth_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -45,6 +45,10 @@ class _LoginScreenState extends State<LoginScreen>
           behavior: SnackBarBehavior.fixed,
         ),
       );
+      var pref = await SharedPreferences.getInstance();
+      pref.setBool("login", true);
+      pref.setString("name", userData.user!.name!);
+
       Navigator.pushReplacement(
         context,
         PageRouteBuilder(
@@ -106,9 +110,9 @@ class _LoginScreenState extends State<LoginScreen>
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.blue, Colors.purple],
+            colors: [Colors.white, Colors.green.shade500],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -163,29 +167,29 @@ class _LoginScreenState extends State<LoginScreen>
                   ),
                 ),
                 const SizedBox(height: 20),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        PageRouteBuilder(
-                          pageBuilder:
-                              (context, animation, secondaryAnimation) {
-                            return SlideTransition(
-                              position: Tween<Offset>(
-                                begin: const Offset(1, 0),
-                                end: const Offset(0, 0),
-                              ).animate(animation),
-                              child: const RegistrationScreen(),
-                            );
-                          },
-                        ),
-                      );
-                    },
-                    child: const Text("Not Registered? Register here"),
-                  ),
-                ),
+                // SizedBox(
+                //   width: MediaQuery.of(context).size.width,
+                //   child: ElevatedButton(
+                //     onPressed: () {
+                //       Navigator.push(
+                //         context,
+                //         PageRouteBuilder(
+                //           pageBuilder:
+                //               (context, animation, secondaryAnimation) {
+                //             return SlideTransition(
+                //               position: Tween<Offset>(
+                //                 begin: const Offset(1, 0),
+                //                 end: const Offset(0, 0),
+                //               ).animate(animation),
+                //               child: const RegistrationScreen(),
+                //             );
+                //           },
+                //         ),
+                //       );
+                //     },
+                //     child: const Text("Not Registered? Register here"),
+                //   ),
+                // ),
               ],
             ),
           ),

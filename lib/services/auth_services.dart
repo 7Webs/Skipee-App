@@ -13,7 +13,8 @@ class AuthServices {
       "role": "user",
       "isActive": "true"
     };
-    final url = Uri.parse("https://skipee-backend.onrender.com/auth/register");
+    final url =
+        Uri.parse("https://squid-app-xxu6w.ondigitalocean.app/auth/register");
     final response = await http.post(url, body: request);
     if (response.statusCode == 201) {
       log("registered Successfully");
@@ -25,7 +26,8 @@ class AuthServices {
 
   Future<UserModel> loginUser(String email, String password) async {
     Map<String, dynamic> request = {"email": email, "password": password};
-    final url = Uri.parse("https://skipee-backend.onrender.com/auth/login");
+    final url =
+        Uri.parse("https://squid-app-xxu6w.ondigitalocean.app/auth/login");
     final response = await http.post(url, body: request);
     if (response.statusCode == 201) {
       log("logged in successfully");

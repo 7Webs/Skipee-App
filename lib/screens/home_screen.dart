@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+  
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -11,13 +12,15 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
-  final List<Widget> _screens = [
-    const ScannerScreen(),
-    const ContactUsScreen(),
-  ];
 
   @override
   Widget build(BuildContext context) {
+    final List<Widget> _screens = [
+      const ScannerScreen(),
+      ContactUsScreen(
+        
+      ),
+    ];
     return Scaffold(
       body: _screens[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
@@ -30,11 +33,11 @@ class _HomeScreenState extends State<HomeScreen> {
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.camera),
-            label: 'Scan',
+            label: 'Verify',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.contact_mail),
-            label: 'Contact Us',
+            label: 'Report',
           ),
         ],
       ),
