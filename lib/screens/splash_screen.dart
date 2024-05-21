@@ -56,28 +56,24 @@ class _SplashScreenState extends State<SplashScreen> {
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              Colors.white,
-              Colors.green.shade400
-            ], 
+            colors: [Colors.white, Colors.green.shade200],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
         ),
         child: Center(
           child: TweenAnimationBuilder<double>(
-            tween: Tween<double>(
-                begin: 0.5, end: 1.0), 
-            duration: const Duration(seconds: 3), 
-            curve: Curves.easeInOut, 
+            tween: Tween<double>(begin: 0.5, end: 1.0),
+            duration: const Duration(seconds: 3),
+            curve: Curves.easeInOut,
             builder: (context, scale, child) {
               return Transform.scale(
                 scale: scale,
-                child: child, 
+                child: child,
               );
             },
             child: Image.asset(
-              'assets/images/skipee.png',
+              'assets/images/logo.png',
               width: 150,
               height: 150,
             ),

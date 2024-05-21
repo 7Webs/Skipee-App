@@ -5,6 +5,7 @@ import 'package:assignment/screens/home_screen.dart';
 import 'package:assignment/services/auth_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -112,7 +113,7 @@ class _LoginScreenState extends State<LoginScreen>
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.white, Colors.green.shade500],
+            colors: [Colors.white, Colors.green.shade200],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -127,9 +128,13 @@ class _LoginScreenState extends State<LoginScreen>
                 Hero(
                   tag: 'logo',
                   child: Image.asset(
-                    'assets/images/skipee.png',
+                    'assets/images/logo.png',
                     height: 100,
                   ),
+                ),
+                const Text(
+                  "Entrance supervisor",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
                 ),
                 const SizedBox(height: 40),
                 TextField(
@@ -158,11 +163,28 @@ class _LoginScreenState extends State<LoginScreen>
                     ),
                   ),
                 ),
-                const SizedBox(height: 40),
+                const SizedBox(height: 5),
+                TextButton(
+                    onPressed: () {},
+                    child: const Text(
+                      "Forgotten password?",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.green,
+                        decoration: TextDecoration.underline,
+                        decorationColor: Colors.green,
+                      ),
+                    )),
+                const SizedBox(height: 10),
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: ElevatedButton(
                     onPressed: loginButton,
+                    style: const ButtonStyle(
+                        backgroundColor: MaterialStatePropertyAll(Colors.green),
+                        foregroundColor:
+                            MaterialStatePropertyAll(Colors.white)),
                     child: const Text("Login"),
                   ),
                 ),

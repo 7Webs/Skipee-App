@@ -1,10 +1,11 @@
 import 'package:assignment/screens/contact_us_screen.dart';
+import 'package:assignment/screens/metrices_screen.dart';
 import 'package:assignment/screens/scanner_screen.dart';
+import 'package:assignment/screens/search_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
-  
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -15,15 +16,18 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> _screens = [
+    final List<Widget> screens = [
       const ScannerScreen(),
-      ContactUsScreen(
-        
-      ),
+      const SearchScreen(),
+      const MetricesScreen(),
+      const ContactUsScreen(),
     ];
     return Scaffold(
-      body: _screens[_currentIndex],
+      body: screens[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
+        showUnselectedLabels: true,
+        unselectedItemColor: Colors.black,
+        selectedItemColor: Colors.green,
         currentIndex: _currentIndex,
         onTap: (index) {
           setState(() {
@@ -32,12 +36,20 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.camera),
-            label: 'Verify',
+            icon: Icon(Icons.home),
+            label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.contact_mail),
-            label: 'Report',
+            icon: Icon(Icons.search),
+            label: 'Search',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.bar_chart),
+            label: 'Metrics',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
           ),
         ],
       ),
