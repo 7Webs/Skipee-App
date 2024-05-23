@@ -1,4 +1,4 @@
-import 'package:assignment/screens/login_screen.dart';
+import 'package:assignment/screens/login/login_screen.dart';
 import 'package:assignment/services/auth_services.dart';
 import 'package:flutter/material.dart';
 

@@ -1,18 +1,17 @@
 import 'dart:developer';
-import 'package:assignment/screens/login_screen.dart';
-import 'package:assignment/screens/report_incident_form_screen.dart';
+import 'package:assignment/screens/login/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class ContactUsScreen extends StatefulWidget {
-  const ContactUsScreen({super.key});
+class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({super.key});
 
   @override
-  State<ContactUsScreen> createState() => _ContactUsScreenState();
+  State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ContactUsScreenState extends State<ContactUsScreen> {
+class _ProfileScreenState extends State<ProfileScreen> {
   String userName = "User";
   Future<void> _launchUrl(String url) async {
     if (await canLaunchUrl(Uri.parse(url))) {
@@ -51,18 +50,11 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
     List<IconData> icons = [
       Icons.call,
       Icons.email,
-      Icons.report,
       Icons.support_agent,
       Icons.logout,
     ];
 
-    List<String> headline = [
-      "CALL US",
-      "EMAIL US",
-      "REPORT INCIDENT",
-      "ABOUT US",
-      "LOG OUT"
-    ];
+    List<String> headline = ["CALL US", "EMAIL US", "ABOUT US", "LOG OUT"];
 
     void onClick(int index) {
       if (index == 0) {
@@ -70,14 +62,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
       } else if (index == 1) {
         _launchUrl('mailto:support@example.com');
       } else if (index == 2) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => const ReportIncidentFormScreen(),
-          ),
-        );
       } else if (index == 3) {
-      } else if (index == 4) {
         logout();
       }
     }

@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
-class ScannerScreen extends StatefulWidget {
-  const ScannerScreen({super.key});
+class ScannerScreen1 extends StatefulWidget {
+  const ScannerScreen1({super.key});
 
   @override
-  State<ScannerScreen> createState() => _ScannerScreenState();
+  State<ScannerScreen1> createState() => _ScannerScreenState();
 }
 
-class _ScannerScreenState extends State<ScannerScreen> {
+class _ScannerScreenState extends State<ScannerScreen1> {
   String? qrData;
   void scanQrCode() async {
     try {

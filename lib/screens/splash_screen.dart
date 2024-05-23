@@ -1,7 +1,6 @@
 import 'dart:async';
-
-import 'package:assignment/screens/home_screen.dart';
-import 'package:assignment/screens/login_screen.dart';
+import 'package:assignment/screens/login/login_screen.dart';
+import 'package:assignment/screens/home/home_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -28,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (_) => const HomeScreen(),
+              builder: (_) => const HomeBottomBar(),
             ),
           );
         } else {
@@ -53,30 +52,21 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.white, Colors.green.shade200],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
-        child: Center(
-          child: TweenAnimationBuilder<double>(
-            tween: Tween<double>(begin: 0.5, end: 1.0),
-            duration: const Duration(seconds: 3),
-            curve: Curves.easeInOut,
-            builder: (context, scale, child) {
-              return Transform.scale(
-                scale: scale,
-                child: child,
-              );
-            },
-            child: Image.asset(
-              'assets/images/logo.png',
-              width: 150,
-              height: 150,
-            ),
+      body: Center(
+        child: TweenAnimationBuilder<double>(
+          tween: Tween<double>(begin: 0.0, end: 2.5),
+          duration: const Duration(seconds: 5),
+          curve: Curves.easeInOut,
+          builder: (context, scale, child) {
+            return Transform.scale(
+              scale: scale,
+              child: child,
+            );
+          },
+          child: Image.asset(
+            'assets/images/logo.png',
+            width: 150,
+            height: 150,
           ),
         ),
       ),

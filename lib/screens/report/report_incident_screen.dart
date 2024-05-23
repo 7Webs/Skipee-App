@@ -4,15 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
-class ReportIncidentFormScreen extends StatefulWidget {
-  const ReportIncidentFormScreen({super.key});
+class ReportIncidentScreen extends StatefulWidget {
+  const ReportIncidentScreen({super.key});
 
   @override
-  State<ReportIncidentFormScreen> createState() =>
-      _ReportIncidentFormScreenState();
+  State<ReportIncidentScreen> createState() => _ReportIncidentScreenState();
 }
 
-class _ReportIncidentFormScreenState extends State<ReportIncidentFormScreen> {
+class _ReportIncidentScreenState extends State<ReportIncidentScreen> {
   void onSubmit() {
     if (_formKey.currentState!.validate() &&
         _incidentDate != null &&
