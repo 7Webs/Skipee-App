@@ -1,8 +1,6 @@
-import 'dart:developer';
 import 'package:assignment/screens/login/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -12,28 +10,6 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  String userName = "User";
-  Future<void> _launchUrl(String url) async {
-    if (await canLaunchUrl(Uri.parse(url))) {
-      await launchUrl(Uri.parse(url));
-    } else {
-      log("here");
-      throw 'Could not launch $url';
-    }
-  }
-
-  @override
-  void initState() {
-    getValue();
-    super.initState();
-  }
-
-  void getValue() async {
-    var pref = await SharedPreferences.getInstance();
-    userName = pref.getString("name")!;
-    setState(() {});
-  }
-
   void logout() async {
     var pref = await SharedPreferences.getInstance();
     pref.setBool("login", false);
@@ -47,105 +23,107 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    List<IconData> icons = [
-      Icons.call,
-      Icons.email,
-      Icons.support_agent,
-      Icons.logout,
-    ];
-
-    List<String> headline = ["CALL US", "EMAIL US", "ABOUT US", "LOG OUT"];
-
-    void onClick(int index) {
-      if (index == 0) {
-        _launchUrl('tel:9377403463');
-      } else if (index == 1) {
-        _launchUrl('mailto:support@example.com');
-      } else if (index == 2) {
-      } else if (index == 3) {
-        logout();
-      }
-    }
-
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text("Report"),
-        titleTextStyle: const TextStyle(
-            fontWeight: FontWeight.bold, color: Colors.black, fontSize: 20),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.green.shade100,
-                borderRadius: BorderRadius.circular(10),
+      body: Column(
+        children: [
+          Stack(
+            clipBehavior: Clip
+                .none, // Allows overflow of children outside the parent stack
+            alignment: Alignment.topCenter,
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                height: 150,
+                width: MediaQuery.of(context).size.width,
+                decoration: const BoxDecoration(
+                  color: Colors.green,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(40),
+                    bottomRight: Radius.circular(40),
+                  ),
+                ),
               ),
-              height: MediaQuery.of(context).size.height * .25,
-              width: MediaQuery.of(context).size.width,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+              const Positioned(
+                top: 100, // Positioning it to overlap half of the circle avatar
+                child: CircleAvatar(
+                  radius: 50,
+                  backgroundImage: AssetImage('assets/images/icon.png'),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 90),
+          Card(
+            color: Colors.grey.shade100,
+            child: const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const CircleAvatar(
-                    radius: 30,
-                    child: Icon(
-                      Icons.person,
-                      size: 40,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Text(
-                    userName,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 25),
-                  ),
+                  Text('Name:'),
+                  Text('Holly'),
+                  SizedBox(),
                 ],
               ),
             ),
-            const SizedBox(height: 30),
-            Expanded(
+          ),
+          Card(
+            color: Colors.grey.shade100,
+            child: const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('User Name:'),
+                  Text('holly232h'),
+                  SizedBox(),
+                ],
+              ),
+            ),
+          ),
+          Card(
+            color: Colors.grey.shade100,
+            child: const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Phone Number:'),
+                  Text('989898989'),
+                  SizedBox(),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 60),
+          Center(
+            child: InkWell(
+              onTap: logout,
               child: Container(
+                width: MediaQuery.of(context).size.width * 0.5,
+                height: 50,
                 decoration: BoxDecoration(
-                    color: Colors.green.shade100,
-                    borderRadius: BorderRadius.circular(10)),
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                child: ListView.separated(
-                  itemCount: headline.length,
-                  separatorBuilder: (context, index) => const Divider(),
-                  itemBuilder: ((context, index) {
-                    return ListTile(
-                      onTap: () => onClick(index),
-                      title: Row(
-                        children: [
-                          CircleAvatar(
-                            maxRadius: 30,
-                            foregroundColor: Colors.green,
-                            backgroundColor: Colors.white,
-                            child: Icon(
-                              icons[index],
-                              size: 30,
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          Text(
-                            headline[index],
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black),
-                          )
-                        ],
-                      ),
-                    );
-                  }),
+                  color: Colors.white,
+                  border: Border.all(color: Colors.green),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'SIGN OUT',
+                      style: TextStyle(fontSize: 20, color: Colors.green),
+                    ),
+                    Icon(
+                      Icons.exit_to_app,
+                      color: Colors.green,
+                    ),
+                  ],
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

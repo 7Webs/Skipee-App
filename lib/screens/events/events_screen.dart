@@ -91,7 +91,7 @@ class _EventsScreenState extends State<EventsScreen> {
                   children: [
                     // Top curved image container
                     Container(
-                      height: 250,
+                      height: 220,
                       decoration: const BoxDecoration(
                         image: DecorationImage(
                           filterQuality: FilterQuality.high,
@@ -121,9 +121,18 @@ class _EventsScreenState extends State<EventsScreen> {
                     Positioned(
                       top: 40,
                       right: 16,
-                      child: IconButton(
-                        icon: const Icon(Icons.refresh, color: Colors.white),
-                        onPressed: _refreshScreen,
+                      child: Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                          color: Colors.green,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: IconButton(
+                          iconSize: 24, // Reduced icon size
+                          icon: const Icon(Icons.refresh, color: Colors.white),
+                          onPressed: _refreshScreen,
+                        ),
                       ),
                     ),
                     // Event description and other details

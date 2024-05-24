@@ -1,7 +1,7 @@
 import 'package:assignment/screens/events/events_screen.dart';
 import 'package:assignment/screens/home/home_screen.dart';
-import 'package:assignment/screens/report/report_incident_screen.dart';
 import 'package:assignment/screens/profile/profile_screen.dart';
+import 'package:assignment/screens/report/report_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomeBottomBar extends StatefulWidget {
@@ -26,12 +26,13 @@ class _HomeBottomBarState extends State<HomeBottomBar> {
     final List<Widget> screens = [
       const HomeScreen(),
       const EventsScreen(),
-      const ReportIncidentScreen(),
+      const ReportScreen(),
       const ProfileScreen(),
     ];
     return Scaffold(
       body: screens[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         showUnselectedLabels: true,
         unselectedItemColor: Colors.black,
         selectedItemColor: Colors.green,
@@ -51,7 +52,7 @@ class _HomeBottomBarState extends State<HomeBottomBar> {
             label: 'Events',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.report),
+            icon: Icon(Icons.phone_android),
             label: 'Report',
           ),
           BottomNavigationBarItem(

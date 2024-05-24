@@ -1,4 +1,4 @@
-import 'package:assignment/screens/splash_screen.dart';
+import 'package:assignment/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -14,8 +14,13 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: '7 Webs',
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.green,
+            background: Colors.grey.shade300,
+          ),
           useMaterial3: true,
+          fontFamily:
+              'Roboto',
         ),
         home: const SplashScreen());
   }
