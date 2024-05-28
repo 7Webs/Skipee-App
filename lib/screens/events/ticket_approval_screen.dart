@@ -36,7 +36,7 @@ class _TicketApprovalScreenState extends State<TicketApprovalScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.green,
+      backgroundColor: const Color(0xFF1eb953),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -49,7 +49,7 @@ class _TicketApprovalScreenState extends State<TicketApprovalScreen> {
                 width: 50,
                 height: 50,
                 decoration: BoxDecoration(
-                  color: Colors.green,
+                  color: const Color(0xFF1eb953),
                   shape: BoxShape.circle,
                   border: Border.all(color: Colors.white, width: 2),
                 ),
@@ -58,11 +58,12 @@ class _TicketApprovalScreenState extends State<TicketApprovalScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text('$_counter',
+                      Text('$_counter ',
                           style: const TextStyle(
                               fontSize: 20, color: Colors.white)),
-                      const Text('Sec',
-                          style: TextStyle(fontSize: 12, color: Colors.white)),
+                      const Text('SEC',
+                          style:
+                              TextStyle(fontSize: 12, color: Colors.white70)),
                     ],
                   ),
                 ),
@@ -88,7 +89,7 @@ class _TicketApprovalScreenState extends State<TicketApprovalScreen> {
             padding: const EdgeInsets.all(16.0),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.green,
+                foregroundColor: const Color(0xFF1eb953),
                 backgroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -97,7 +98,8 @@ class _TicketApprovalScreenState extends State<TicketApprovalScreen> {
                     60), // Increased width using MediaQuery
               ),
               onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Done', style: TextStyle(fontSize: 16)),
+              child: const Text('DONE',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             ),
           ),
         ],

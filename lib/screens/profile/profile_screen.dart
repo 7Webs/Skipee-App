@@ -36,7 +36,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 height: 150,
                 width: MediaQuery.of(context).size.width,
                 decoration: const BoxDecoration(
-                  color: Colors.green,
+                  color: Color(0xFF1eb953),
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(40),
                     bottomRight: Radius.circular(40),
@@ -55,42 +55,60 @@ class _ProfileScreenState extends State<ProfileScreen> {
           const SizedBox(height: 90),
           Card(
             color: Colors.grey.shade100,
-            child: const Padding(
-              padding: EdgeInsets.all(8.0),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Name:'),
-                  Text('Holly'),
-                  SizedBox(),
+                  Text('Name:',
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleMedium
+                          ?.copyWith(color: Colors.grey)),
+                  Text('Holly',
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Colors.black, fontWeight: FontWeight.bold)),
+                  const SizedBox(),
                 ],
               ),
             ),
           ),
           Card(
             color: Colors.grey.shade100,
-            child: const Padding(
-              padding: EdgeInsets.all(8.0),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('User Name:'),
-                  Text('holly232h'),
-                  SizedBox(),
+                  Text('User Name:',
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleMedium
+                          ?.copyWith(color: Colors.grey)),
+                  Text('holly232h',
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Colors.black, fontWeight: FontWeight.bold)),
+                  const SizedBox(),
                 ],
               ),
             ),
           ),
           Card(
             color: Colors.grey.shade100,
-            child: const Padding(
-              padding: EdgeInsets.all(8.0),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Phone Number:'),
-                  Text('989898989'),
-                  SizedBox(),
+                  Text('Phone Number:',
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleMedium
+                          ?.copyWith(color: Colors.grey)),
+                  Text('989898989',
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Colors.black, fontWeight: FontWeight.bold)),
+                  const SizedBox(),
                 ],
               ),
             ),
@@ -104,19 +122,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 height: 50,
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  border: Border.all(color: Colors.green),
+                  border: Border.all(color: Color(0xFF1eb953)),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: const Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       'SIGN OUT',
-                      style: TextStyle(fontSize: 20, color: Colors.green),
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleMedium
+                          ?.copyWith(color: Color(0xFF1eb953)),
                     ),
                     Icon(
                       Icons.exit_to_app,
-                      color: Colors.green,
+                      color: Color(0xFF1eb953),
                     ),
                   ],
                 ),

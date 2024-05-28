@@ -1,6 +1,7 @@
 import 'package:assignment/screens/events/events_screen.dart';
 import 'package:assignment/screens/events/widgets/event_card.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -22,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: const <Widget>[
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.green,
+                color: Color(0xFF1eb953),
               ),
               child: Text(
                 'Drawer Header',
@@ -52,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             decoration: const BoxDecoration(
-              color: Colors.green,
+              color: Color(0xFF1eb953),
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(40),
                 bottomRight: Radius.circular(40),
@@ -105,12 +106,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   child: const Row(
                     children: [
-                      Icon(Icons.search, color: Colors.grey),
+                      Icon(FontAwesomeIcons.magnifyingGlass,
+                          color: Color(0xFF1eb953)),
                       SizedBox(width: 8),
                       Expanded(
                         child: TextField(
                           decoration: InputDecoration(
-                            hintText: 'Search',
+                            hintStyle: TextStyle(color: Colors.grey),
+                            hintText: 'Search...',
                             border: InputBorder.none,
                           ),
                         ),
@@ -128,17 +131,24 @@ class _HomeScreenState extends State<HomeScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const Text(
-                  'My Events',
+                  'My Supervisor Events',
                   style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
                 ),
                 TextButton(
                   onPressed: () {},
-                  child: const Text(
-                    'See All',
-                    style: TextStyle(color: Colors.green),
+                  child: const Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text(
+                        'See All',
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                      Icon(Icons.arrow_right, color: Colors.grey),
+                    ],
                   ),
                 ),
               ],

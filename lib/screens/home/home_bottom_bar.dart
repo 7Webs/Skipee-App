@@ -3,6 +3,7 @@ import 'package:assignment/screens/home/home_screen.dart';
 import 'package:assignment/screens/profile/profile_screen.dart';
 import 'package:assignment/screens/report/report_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HomeBottomBar extends StatefulWidget {
   const HomeBottomBar({super.key, this.index});
@@ -32,10 +33,12 @@ class _HomeBottomBarState extends State<HomeBottomBar> {
     return Scaffold(
       body: screens[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.white,
         type: BottomNavigationBarType.fixed,
         showUnselectedLabels: true,
-        unselectedItemColor: Colors.black,
-        selectedItemColor: Colors.green,
+        unselectedItemColor: Colors.grey,
+        selectedItemColor: const Color(
+            0xFF1eb953), // Changed from Colors.green to Color(0xFF1eb953)
         currentIndex: _currentIndex,
         onTap: (index) {
           setState(() {
@@ -44,11 +47,11 @@ class _HomeBottomBarState extends State<HomeBottomBar> {
         },
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(FontAwesomeIcons.houseChimney),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_month),
+            icon: Icon(FontAwesomeIcons.calendarDays),
             label: 'Events',
           ),
           BottomNavigationBarItem(
@@ -56,7 +59,7 @@ class _HomeBottomBarState extends State<HomeBottomBar> {
             label: 'Report',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
+            icon: Icon(Icons.person_2_sharp),
             label: 'Profile',
           ),
         ],

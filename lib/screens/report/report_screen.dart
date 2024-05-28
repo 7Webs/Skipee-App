@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:assignment/screens/home/home_bottom_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ReportScreen extends StatefulWidget {
   const ReportScreen({Key? key}) : super(key: key);
@@ -13,10 +14,6 @@ class ReportScreen extends StatefulWidget {
 class _ReportScreenState extends State<ReportScreen> {
   bool _isLoading = false;
   List<String> incidentTypes = [
-    'Assault',
-    'Abuse',
-    'Shoving',
-    'Others',
     'Assault',
     'Abuse',
     'Shoving',
@@ -48,6 +45,7 @@ class _ReportScreenState extends State<ReportScreen> {
                 children: [
                   Stack(
                     children: [
+                      // Top curved image container
                       Container(
                         height: 220,
                         decoration: const BoxDecoration(
@@ -84,7 +82,7 @@ class _ReportScreenState extends State<ReportScreen> {
                           height: 40,
                           width: 40,
                           decoration: BoxDecoration(
-                            color: Colors.green,
+                            color: Color(0xFF1eb953),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: IconButton(
@@ -103,13 +101,14 @@ class _ReportScreenState extends State<ReportScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
+                            Text(
                               'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
                             ),
                             const SizedBox(height: 16),
                             Row(
@@ -120,42 +119,45 @@ class _ReportScreenState extends State<ReportScreen> {
                                     color: Colors.white,
                                     shape: BoxShape.circle,
                                   ),
-                                  child: const Icon(Icons.calendar_today,
-                                      color: Colors.green),
+                                  child: Icon(FontAwesomeIcons.calendarDays,
+                                      color: Color(0xFF1eb953)),
                                 ),
                                 const SizedBox(width: 8),
-                                const Column(
+                                Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       '10 JUNE 2024',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium!
+                                          .copyWith(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold),
                                     ),
                                     Text(
                                       'Tuesday, 6:30PM - 9:00PM',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 14,
-                                      ),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium!
+                                          .copyWith(color: Colors.white),
                                     ),
                                   ],
                                 ),
                                 const Spacer(),
-                                const Row(
+                                Row(
                                   children: [
-                                    Icon(Icons.flash_on, color: Colors.green),
-                                    SizedBox(width: 4),
+                                    Icon(Icons.flash_on,
+                                        color: Color(0xFF1eb953)),
+                                    const SizedBox(width: 4),
                                     Text(
                                       '50',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleLarge!
+                                          .copyWith(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold),
                                     ),
                                   ],
                                 ),
@@ -171,10 +173,12 @@ class _ReportScreenState extends State<ReportScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
+                        Text(
                           'Incident Report',
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleLarge!
+                              .copyWith(fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(height: 16),
                         Container(
@@ -189,11 +193,12 @@ class _ReportScreenState extends State<ReportScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text(
+                                Text(
                                   "Type",
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleMedium!
+                                      .copyWith(fontWeight: FontWeight.bold),
                                 ),
                                 const SizedBox(height: 5),
                                 Wrap(
@@ -226,7 +231,7 @@ class _ReportScreenState extends State<ReportScreen> {
                                                 }
                                               });
                                             },
-                                            selectedColor: Colors.green,
+                                            selectedColor: Color(0xFF1eb953),
                                           ))
                                       .toList(),
                                 ),
@@ -235,21 +240,38 @@ class _ReportScreenState extends State<ReportScreen> {
                           ),
                         ),
                         const SizedBox(height: 16),
-                        const Text(
+                        Text(
                           'Brief Introduction',
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleLarge!
+                              .copyWith(fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(height: 16),
                         TextField(
                           keyboardType: TextInputType.multiline,
                           maxLines: null,
-                          minLines: 3,
+                          minLines: 6,
                           decoration: InputDecoration(
-                            labelText: 'Message',
-                            border: InputBorder.none,
+                            labelText: 'Messages',
+                            labelStyle: Theme.of(context)
+                                .textTheme
+                                .titleMedium!
+                                .copyWith(color: Colors.grey),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(5.0),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(5.0),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(5.0),
+                            ),
                             filled: true,
-                            fillColor: Colors.grey.shade200,
+                            fillColor: Color(0xFFE1E7ED),
                             contentPadding: EdgeInsets.symmetric(
                                 vertical: 20.0, horizontal: 10.0),
                           ),
@@ -260,17 +282,19 @@ class _ReportScreenState extends State<ReportScreen> {
                           child: ElevatedButton(
                             onPressed: () {},
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.green,
+                              backgroundColor: Color(0xFF1eb953),
                               padding: const EdgeInsets.symmetric(vertical: 16),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(
                                     20), // Rectangle shape
                               ),
                             ),
-                            child: const Text(
+                            child: Text(
                               'Report',
-                              style:
-                                  TextStyle(fontSize: 18, color: Colors.white),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium!
+                                  .copyWith(color: Colors.white),
                             ),
                           ),
                         ),

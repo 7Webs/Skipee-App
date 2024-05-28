@@ -15,12 +15,28 @@ class MyApp extends StatelessWidget {
         title: '7 Webs',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.green,
-            background: Colors.grey.shade300,
+            seedColor: Color(0xFF1eb953),
+            background: Color(0xFFe1e7ed),
+            onBackground: Colors.white, // Text color set to white
           ),
           useMaterial3: true,
-          fontFamily:
-              'Roboto',
+          fontFamily: 'Pippins',
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Color(0xFF1eb953),
+            ),
+          ),
+          scaffoldBackgroundColor: Color(0xFFe1e7ed), // Page background color
+          textTheme: TextTheme(
+            bodyText1: TextStyle(
+                color: Colors.white,
+                fontFamily:
+                    'Pippins'), // Default text color for body text with Pippins font
+            bodyText2: TextStyle(
+                color: Colors.white,
+                fontFamily:
+                    'Pippins'), // Default text color for body text with Pippins font
+          ),
         ),
         home: const SplashScreen());
   }

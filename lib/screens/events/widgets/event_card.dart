@@ -34,17 +34,18 @@ class EventCard extends StatelessWidget {
             top: 16,
             left: 16,
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
               decoration: BoxDecoration(
-                color: Colors.green,
-                borderRadius: BorderRadius.circular(8),
+                color: Color(0xFF1eb953), // Changed green to #1eb953
+                borderRadius: BorderRadius.circular(12),
               ),
               child: Text(
-                date,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
+                textAlign: TextAlign.center,
+                "${date.split(' ')[0]}\n${date.split(' ')[1].toUpperCase()}",
+                style: Theme.of(context)
+                    .textTheme
+                    .titleSmall!
+                    .copyWith(color: Colors.white, fontWeight: FontWeight.bold),
               ),
             ),
           ),
@@ -57,40 +58,42 @@ class EventCard extends StatelessWidget {
             ),
           ),
           Positioned(
+            top: 25,
+            left: 75,
+            child: Text(
+              time,
+              style: Theme.of(context)
+                  .textTheme
+                  .titleLarge!
+                  .copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Positioned(
             bottom: 16,
             left: 16,
             right: 16,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  time,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
-                ),
                 const SizedBox(height: 35),
                 Text(
                   description,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
-                  ),
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      color: Colors.white, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 8),
                 Row(
                   children: [
-                    const Icon(Icons.location_on, color: Colors.green),
+                    const Icon(Icons.location_on,
+                        color: Color(0xFF1eb953)), // Changed green to #1eb953
                     const SizedBox(width: 4),
                     Expanded(
                       child: Text(
                         location,
-                        style: const TextStyle(
-                          color: Colors.green,
-                          fontSize: 14,
-                        ),
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium!
+                            .copyWith(color: Color(0xFF1eb953)),
                       ),
                     ),
                   ],

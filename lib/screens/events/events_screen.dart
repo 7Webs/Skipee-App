@@ -2,11 +2,13 @@
 
 import 'package:assignment/screens/events/ticket_approval_screen.dart';
 import 'package:assignment/screens/home/home_bottom_bar.dart';
+import 'package:assignment/screens/tickets/ticket_list_screen.dart';
 import 'package:assignment/services/ticket_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class EventsScreen extends StatefulWidget {
   const EventsScreen({super.key});
@@ -38,22 +40,25 @@ class _EventsScreenState extends State<EventsScreen> {
             context: context,
             builder: (context) {
               return AlertDialog(
-                backgroundColor: Colors.green.shade300,
-                content: const Text(
+                backgroundColor: Color(0xFF1eb953),
+                content: Text(
                   'NO TICKET FOUND',
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleLarge!
+                      .copyWith(color: Colors.white),
                 ),
                 actions: [
                   TextButton(
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
-                    child: const Text(
+                    child: Text(
                       'OK',
-                      style: TextStyle(color: Colors.white),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge!
+                          .copyWith(color: Colors.white),
                     ),
                   ),
                 ],
@@ -125,7 +130,7 @@ class _EventsScreenState extends State<EventsScreen> {
                         height: 40,
                         width: 40,
                         decoration: BoxDecoration(
-                          color: Colors.green,
+                          color: Color(0xFF1eb953),
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: IconButton(
@@ -143,13 +148,14 @@ class _EventsScreenState extends State<EventsScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
+                          Text(
                             'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
                           ),
                           const SizedBox(height: 16),
                           Row(
@@ -160,42 +166,45 @@ class _EventsScreenState extends State<EventsScreen> {
                                   color: Colors.white,
                                   shape: BoxShape.circle,
                                 ),
-                                child: const Icon(Icons.calendar_today,
-                                    color: Colors.green),
+                                child: Icon(FontAwesomeIcons.calendarDays,
+                                    color: Color(0xFF1eb953)),
                               ),
                               const SizedBox(width: 8),
-                              const Column(
+                              Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     '10 JUNE 2024',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium!
+                                        .copyWith(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold),
                                   ),
                                   Text(
                                     'Tuesday, 6:30PM - 9:00PM',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 14,
-                                    ),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(color: Colors.white),
                                   ),
                                 ],
                               ),
                               const Spacer(),
-                              const Row(
+                              Row(
                                 children: [
-                                  Icon(Icons.flash_on, color: Colors.green),
-                                  SizedBox(width: 4),
+                                  Icon(Icons.flash_on,
+                                      color: Color(0xFF1eb953)),
+                                  const SizedBox(width: 4),
                                   Text(
                                     '50',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleLarge!
+                                        .copyWith(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold),
                                   ),
                                 ],
                               ),
@@ -211,119 +220,165 @@ class _EventsScreenState extends State<EventsScreen> {
                   child: ListView(
                     padding: const EdgeInsets.all(16),
                     children: [
-                      Container(
-                        height: MediaQuery.of(context).size.height / 5,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Colors.purple.shade800,
-                              Colors.purple.shade300
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (_) =>
+                                  const TicketListScreen(isTickets: false)));
+                        },
+                        child: Container(
+                          height: MediaQuery.of(context).size.height / 5,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                Colors.purple.shade800,
+                                Colors.purple.shade300
+                              ],
+                            ),
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Queue Skips',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleLarge!
+                                    .copyWith(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(height: 12),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Remaining',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge!
+                                        .copyWith(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    '50',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleLarge!
+                                        .copyWith(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 8),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text('Admitted',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge!
+                                          .copyWith(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold)),
+                                  Text('20',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleLarge!
+                                          .copyWith(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold)),
+                                ],
+                              ),
                             ],
                           ),
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        padding: const EdgeInsets.all(16),
-                        child: const Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Queue Skips',
-                              style: TextStyle(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                            SizedBox(height: 12),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Remaining',
-                                  style: TextStyle(
-                                      fontSize: 18, color: Colors.white),
-                                ),
-                                Text(
-                                  '50',
-                                  style: TextStyle(
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 8),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('Admitted',
-                                    style: TextStyle(
-                                        fontSize: 18, color: Colors.white)),
-                                Text('20',
-                                    style: TextStyle(
-                                        fontSize: 22,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white)),
-                              ],
-                            ),
-                          ],
                         ),
                       ),
                       const SizedBox(height: 16),
-                      Container(
-                        height: MediaQuery.of(context).size.height / 5,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Colors.green.shade800,
-                              Colors.green.shade300
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (_) =>
+                                  const TicketListScreen(isTickets: true)));
+                        },
+                        child: Container(
+                          height: MediaQuery.of(context).size.height / 5,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                Color(0xFF1eb953),
+                                Colors.green.shade300
+                              ],
+                            ),
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Entry Tickets',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleLarge!
+                                    .copyWith(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(height: 12),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Remaining',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge!
+                                        .copyWith(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    '45',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleLarge!
+                                        .copyWith(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 8),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text('Admitted',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge!
+                                          .copyWith(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold)),
+                                  Text('22',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleLarge!
+                                          .copyWith(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold)),
+                                ],
+                              ),
                             ],
                           ),
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        padding: const EdgeInsets.all(16),
-                        child: const Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Entry Tickets',
-                              style: TextStyle(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                            SizedBox(height: 12),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Remaining',
-                                  style: TextStyle(
-                                      fontSize: 18, color: Colors.white),
-                                ),
-                                Text(
-                                  '45',
-                                  style: TextStyle(
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 8),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('Admitted',
-                                    style: TextStyle(
-                                        fontSize: 18, color: Colors.white)),
-                                Text('22',
-                                    style: TextStyle(
-                                        fontSize: 22,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white)),
-                              ],
-                            ),
-                          ],
                         ),
                       ),
                       const SizedBox(height: 20), // Increased space
@@ -352,8 +407,11 @@ class _EventsScreenState extends State<EventsScreen> {
                               ),
                             ),
                             const SizedBox(height: 8),
-                            const Text('VERIFY TICKET',
-                                style: TextStyle(fontSize: 16)),
+                            Text('VERIFY TICKET',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleSmall!
+                                    .copyWith(color: Colors.grey)),
                           ],
                         ),
                       ),
