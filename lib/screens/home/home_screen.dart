@@ -154,23 +154,22 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
-          Expanded(
+          Expanded( 
             child: ListView.builder(
-              padding: const EdgeInsets.all(8),
-              itemCount: 5,
+              itemCount: 3,
               itemBuilder: (BuildContext context, int index) {
                 return GestureDetector(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (_) => const EventsScreen()));
                   },
-                  child: const EventCard(
+                  child: EventCard(
                     date: '10 June',
                     time: '6:30PM',
                     description:
                         'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
                     location: '36 Guild Street London, UK',
-                    imageUrl: 'assets/images/event_image.jpg',
+                    imageUrl: 'assets/images/event${index + 1}.png',
                   ),
                 );
               },

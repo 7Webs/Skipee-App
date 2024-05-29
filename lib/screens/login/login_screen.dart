@@ -71,6 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
     }
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: ConstrainedBox(
           constraints: BoxConstraints(
@@ -80,21 +81,16 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Stack(
               children: [
                 // Background image with a custom shape and blur effect
-                ClipPath(
-                  clipper: CustomShapeClipper(),
-                  child: Container(
-                    height:
-                        220, // Increased height for more coverage on the left
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: const AssetImage('assets/images/login_top.jpg'),
-                        fit: BoxFit.cover,
-                        colorFilter: ColorFilter.mode(
-                            Colors.black.withOpacity(0.6), BlendMode.darken),
-                      ),
+                Container(
+                  height: 220, // Increased height for more coverage on the left
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/login_top.png'),
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
+
                 // Main content
                 Padding(
                   padding: const EdgeInsets.all(16.0),
@@ -107,8 +103,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       Padding(
                         padding: const EdgeInsets.only(
                             top: 90.0), // Increased top padding
-                        child:
-                            Image.asset('assets/images/logo.png', height: 80),
+                        child: Image.asset('assets/images/full_logo.png',
+                            height: 80),
                       ),
                       const SizedBox(height: 16),
                       // Subtitle
@@ -116,6 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         'Entrance supervisor',
                         style: TextStyle(
                           fontSize: 24,
+                          color: Colors.black,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -125,9 +122,15 @@ class _LoginScreenState extends State<LoginScreen> {
                         width: 300,
                         child: TextField(
                           controller: emailController,
+                          style: TextStyle(
+                            color: Colors.black, // Changed text color to black
+                          ),
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             labelText: 'Email',
+                            labelStyle: TextStyle(
+                              color: Colors.grey,
+                            ),
                           ),
                         ),
                       ),
@@ -137,13 +140,15 @@ class _LoginScreenState extends State<LoginScreen> {
                         width: 300,
                         child: TextField(
                           controller: passwordController,
+                          style: TextStyle(
+                            color: Colors.black, // Changed text color to black
+                          ),
                           obscureText: true,
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             labelText: 'Password',
                             labelStyle: TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
+                              color: Colors.grey,
                             ),
                           ),
                         ),
@@ -178,7 +183,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           child: const Text(
                             'Login',
-                            style: TextStyle(fontSize: 18, color: Colors.white),
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),
@@ -192,26 +201,5 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
-  }
-}
-
-class CustomShapeClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    var path = Path();
-    path.lineTo(0, size.height - 30); // Left side made longer
-    var firstControlPoint = Offset(size.width / 2, size.height + 20);
-    var firstEndPoint =
-        Offset(size.width, size.height - 70); // Right side made shorter
-    path.quadraticBezierTo(firstControlPoint.dx, firstControlPoint.dy,
-        firstEndPoint.dx, firstEndPoint.dy);
-    path.lineTo(size.width, 0);
-    path.close();
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) {
-    return false;
   }
 }

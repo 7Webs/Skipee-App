@@ -33,7 +33,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             children: [
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                height: 150,
+                height: 200,
                 width: MediaQuery.of(context).size.width,
                 decoration: const BoxDecoration(
                   color: Color(0xFF1eb953),
@@ -43,11 +43,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
               ),
-              const Positioned(
-                top: 100, // Positioning it to overlap half of the circle avatar
+              Positioned(
+                top: 150, // Positioning it to overlap half of the circle avatar
                 child: CircleAvatar(
-                  radius: 50,
-                  backgroundImage: AssetImage('assets/images/icon.png'),
+                  backgroundColor: Colors.white,
+                  radius: 40,
+                  child: Image.asset(
+                    'assets/images/icon.png',
+                  ),
                 ),
               ),
             ],
