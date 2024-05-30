@@ -1,6 +1,5 @@
 import 'package:assignment/screens/tickets/widgets/ticket_detail_bottom_sheet.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class TicketListCardWidget extends StatelessWidget {
   final String imageUrl;
@@ -23,16 +22,17 @@ class TicketListCardWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () => _showTicketDetail(context),
       child: Card(
-        margin: EdgeInsets.symmetric(vertical: 8.0),
+        margin: const EdgeInsets.symmetric(vertical: 8.0),
         child: Padding(
           padding: const EdgeInsets.all(12.0),
           child: Row(
             children: [
               CircleAvatar(
+                backgroundColor: Colors.black,
                 backgroundImage: AssetImage(imageUrl),
                 radius: 30,
               ),
-              SizedBox(width: 16),
+              const SizedBox(width: 16),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -49,14 +49,17 @@ class TicketListCardWidget extends StatelessWidget {
                   ),
                 ],
               ),
-              Spacer(),
+              const Spacer(),
               Row(
                 children: [
-                  Icon(
-                      size: 20,
-                      isTicket ? FontAwesomeIcons.ticket : Icons.flash_on,
-                      color: Colors.grey),
-                  SizedBox(width: 4),
+                  Image.asset(
+                    isTicket
+                        ? "assets/images/ticket.png"
+                        : "assets/images/flash.png",
+                    color: Colors.grey,
+                    width: 30,
+                    height: 30,
+                  ),
                   CircleAvatar(
                     radius: 15,
                     backgroundColor: Theme.of(context).colorScheme.background,

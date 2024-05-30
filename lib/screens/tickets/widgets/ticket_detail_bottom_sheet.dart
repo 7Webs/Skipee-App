@@ -48,6 +48,7 @@ class _TicketDetailBottomSheetState extends State<TicketDetailBottomSheet> {
             child: Row(
               children: [
                 CircleAvatar(
+                  backgroundColor: Colors.black,
                   backgroundImage: AssetImage(widget.imageUrl),
                   radius: 30,
                 ),
@@ -192,7 +193,9 @@ class _TicketDetailBottomSheetState extends State<TicketDetailBottomSheet> {
                 child: Text(
                   'ADMIT',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      color: Colors.white, fontWeight: FontWeight.bold),
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20),
                 ),
               ),
             ),

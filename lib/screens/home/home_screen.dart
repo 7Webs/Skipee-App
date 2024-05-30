@@ -1,5 +1,5 @@
-import 'package:assignment/screens/events/events_screen.dart';
 import 'package:assignment/screens/events/widgets/event_card.dart';
+import 'package:assignment/screens/home/home_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -73,12 +73,19 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     const Column(
                       children: [
-                        Text(
-                          'Current Location',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14,
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Current Location',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                              ),
+                            ),
+                            Icon(Icons.arrow_drop_down, color: Colors.white),
+                          ],
                         ),
                         Text(
                           'New York, USA',
@@ -90,10 +97,19 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ],
                     ),
-                    IconButton(
-                      icon:
-                          const Icon(Icons.notifications, color: Colors.white),
-                      onPressed: () {},
+                    Container(
+                      height: 40,
+                      width: 40,
+                      decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 29, 168, 78),
+                        borderRadius: BorderRadius.circular(40),
+                      ),
+                      child: IconButton(
+                        iconSize: 24,
+                        icon: const Icon(Icons.notifications,
+                            color: Colors.white),
+                        onPressed: () {},
+                      ),
                     ),
                   ],
                 ),
@@ -154,14 +170,14 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
-          Expanded( 
+          Expanded(
             child: ListView.builder(
               itemCount: 3,
               itemBuilder: (BuildContext context, int index) {
                 return GestureDetector(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (_) => const EventsScreen()));
+                        builder: (_) => const HomeBottomBar(index: 1)));
                   },
                   child: EventCard(
                     date: '10 June',

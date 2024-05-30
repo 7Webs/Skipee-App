@@ -74,13 +74,20 @@ class _TicketApprovalScreenState extends State<TicketApprovalScreen> {
             child: Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Image.asset(
-                    'assets/images/approve_logo.png',
-                    height: 120,
-                  ), // Made logo background transparent
-                  const Text('Approved',
-                      style: TextStyle(color: Colors.white, fontSize: 24)),
+                    'assets/images/approve.png',
+                    height: 180,
+                  ),
+                  const SizedBox(height: 20),
+                  const Text(
+                    'Approved',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold),
+                  ),
                 ],
               ),
             ),
@@ -97,9 +104,12 @@ class _TicketApprovalScreenState extends State<TicketApprovalScreen> {
                 minimumSize: Size(MediaQuery.of(context).size.width * 0.85,
                     60), // Increased width using MediaQuery
               ),
-              onPressed: () => Navigator.of(context).pop(),
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              },
               child: const Text('DONE',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             ),
           ),
         ],

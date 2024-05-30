@@ -43,21 +43,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
               ),
-              Positioned(
+              const Positioned(
                 top: 150, // Positioning it to overlap half of the circle avatar
                 child: CircleAvatar(
-                  backgroundColor: Colors.white,
-                  radius: 40,
-                  child: Image.asset(
-                    'assets/images/icon.png',
-                  ),
+                  backgroundColor: Colors.black,
+                  backgroundImage: AssetImage('assets/images/event3.png'),
+                  radius: 50,
                 ),
               ),
             ],
           ),
           const SizedBox(height: 90),
           Card(
-            color: Colors.grey.shade100,
+            color: const Color(0xFFECEEED),
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Row(
@@ -77,7 +75,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
           Card(
-            color: Colors.grey.shade100,
+            color: const Color(0xFFECEEED),
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Row(
@@ -97,7 +95,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
           Card(
-            color: Colors.grey.shade100,
+            color: const Color(0xFFECEEED),
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Row(
@@ -125,7 +123,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 height: 50,
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  border: Border.all(color: Color(0xFF1eb953)),
+                  border: Border.all(color: const Color(0xFF1eb953)),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Row(
@@ -136,9 +134,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       style: Theme.of(context)
                           .textTheme
                           .titleMedium
-                          ?.copyWith(color: Color(0xFF1eb953)),
+                          ?.copyWith(color: const Color(0xFF1eb953)),
                     ),
-                    Icon(
+                    const Icon(
                       Icons.exit_to_app,
                       color: Color(0xFF1eb953),
                     ),

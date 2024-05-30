@@ -3,6 +3,7 @@
 import 'package:assignment/screens/events/ticket_approval_screen.dart';
 import 'package:assignment/screens/home/home_bottom_bar.dart';
 import 'package:assignment/screens/tickets/ticket_list_screen.dart';
+import 'package:assignment/screens/tickets/widgets/ticket_radio_button._bottom_sheet.dart';
 import 'package:assignment/services/ticket_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -26,6 +27,7 @@ class _EventsScreenState extends State<EventsScreen> {
           '#ff6666', 'Cancel', true, ScanMode.QR);
       if (!mounted) return;
       qrData = qrCode;
+      _showRadio(context);
       if (qrData != null) {
         bool isScanned = await TicketServices().getTicket(qrData!);
         if (isScanned) {
@@ -92,6 +94,7 @@ class _EventsScreenState extends State<EventsScreen> {
           : Column(
               children: [
                 Container(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
                   decoration: const BoxDecoration(
                     color: Colors.black,
                     image: DecorationImage(
@@ -123,10 +126,10 @@ class _EventsScreenState extends State<EventsScreen> {
                             },
                           ),
                           Container(
-                            height: 40,
-                            width: 40,
+                            height: 37,
+                            width: 37,
                             decoration: BoxDecoration(
-                              color: const Color(0xFF1eb953),
+                              color: const Color.fromARGB(255, 29, 168, 78),
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: IconButton(
@@ -192,9 +195,11 @@ class _EventsScreenState extends State<EventsScreen> {
                                 const Spacer(),
                                 Row(
                                   children: [
-                                    const Icon(Icons.flash_on,
-                                        color: Color(0xFF1eb953)),
-                                    const SizedBox(width: 4),
+                                    Image.asset(
+                                      "assets/images/flash.png",
+                                      width: 30,
+                                      height: 30,
+                                    ),
                                     Text(
                                       '50',
                                       style: Theme.of(context)
@@ -235,7 +240,7 @@ class _EventsScreenState extends State<EventsScreen> {
                             ),
                             borderRadius: BorderRadius.circular(16),
                           ),
-                          padding: const EdgeInsets.all(16),
+                          padding: const EdgeInsets.all(30),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
@@ -314,7 +319,7 @@ class _EventsScreenState extends State<EventsScreen> {
                             ),
                             borderRadius: BorderRadius.circular(16),
                           ),
-                          padding: const EdgeInsets.all(16),
+                          padding: const EdgeInsets.all(30),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
@@ -419,4 +424,11 @@ class _EventsScreenState extends State<EventsScreen> {
             ),
     );
   }
+}
+
+void _showRadio(BuildContext context) {
+  showModalBottomSheet(
+    context: context,
+    builder: (context) => const TicketRadioBottomSheet(),
+  );
 }

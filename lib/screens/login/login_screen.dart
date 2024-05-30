@@ -36,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: const Text("Logged in Successfully"),
-            backgroundColor: Colors.green.shade400,
+            backgroundColor: Color(0xFF1eb953),
             behavior: SnackBarBehavior.fixed,
           ),
         );
@@ -160,7 +160,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: const Text(
                           'Forgotten password?',
                           style: TextStyle(
-                            color: Colors.green,
+                            color: Color(0xFF1eb953),
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
                             decoration: TextDecoration.underline,
@@ -174,7 +174,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: ElevatedButton(
                           onPressed: loginButton,
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.green,
+                            backgroundColor: Color(0xFF1eb953),
                             padding: const EdgeInsets.symmetric(vertical: 16),
                             shape: RoundedRectangleBorder(
                               borderRadius:
@@ -184,7 +184,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: const Text(
                             'Login',
                             style: TextStyle(
-                              fontSize: 18,
+                              fontSize: 20,
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
                             ),

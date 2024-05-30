@@ -43,6 +43,7 @@ class _ReportScreenState extends State<ReportScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
                     decoration: const BoxDecoration(
                       color: Colors.black,
                       image: DecorationImage(
@@ -74,10 +75,10 @@ class _ReportScreenState extends State<ReportScreen> {
                               },
                             ),
                             Container(
-                              height: 40,
-                              width: 40,
+                              height: 37,
+                              width: 37,
                               decoration: BoxDecoration(
-                                color: const Color(0xFF1eb953),
+                                color: const Color.fromARGB(255, 29, 168, 78),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: IconButton(
@@ -144,9 +145,11 @@ class _ReportScreenState extends State<ReportScreen> {
                                   const Spacer(),
                                   Row(
                                     children: [
-                                      const Icon(Icons.flash_on,
-                                          color: Color(0xFF1eb953)),
-                                      const SizedBox(width: 4),
+                                      Image.asset(
+                                        "assets/images/flash.png",
+                                        width: 30,
+                                        height: 30,
+                                      ),
                                       Text(
                                         '50',
                                         style: Theme.of(context)
@@ -193,6 +196,7 @@ class _ReportScreenState extends State<ReportScreen> {
                               children: [
                                 Text(
                                   "Type",
+                                  textAlign: TextAlign.start,
                                   style: Theme.of(context)
                                       .textTheme
                                       .titleMedium!
@@ -201,7 +205,7 @@ class _ReportScreenState extends State<ReportScreen> {
                                 const SizedBox(height: 5),
                                 Wrap(
                                   spacing: 8,
-                                  runSpacing: 4,
+                                  runSpacing: 0,
                                   children: incidentTypes
                                       .map((type) => ChoiceChip(
                                             showCheckmark: false,
@@ -229,7 +233,8 @@ class _ReportScreenState extends State<ReportScreen> {
                                                 }
                                               });
                                             },
-                                            selectedColor: Color(0xFF1eb953),
+                                            selectedColor:
+                                                const Color(0xFF1eb953),
                                           ))
                                       .toList(),
                                 ),
@@ -257,42 +262,43 @@ class _ReportScreenState extends State<ReportScreen> {
                                 .titleMedium!
                                 .copyWith(color: Colors.grey),
                             border: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white),
+                              borderSide: const BorderSide(color: Colors.white),
                               borderRadius: BorderRadius.circular(5.0),
                             ),
                             enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white),
+                              borderSide: const BorderSide(color: Colors.white),
                               borderRadius: BorderRadius.circular(5.0),
                             ),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white),
+                              borderSide: const BorderSide(color: Colors.white),
                               borderRadius: BorderRadius.circular(5.0),
                             ),
                             filled: true,
-                            fillColor: Color(0xFFE1E7ED),
-                            contentPadding: EdgeInsets.symmetric(
+                            fillColor: const Color(0xFFE1E7ED),
+                            contentPadding: const EdgeInsets.symmetric(
                                 vertical: 20.0, horizontal: 10.0),
                           ),
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 20),
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
                             onPressed: () {},
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xFF1eb953),
+                              backgroundColor: const Color(0xFF1eb953),
                               padding: const EdgeInsets.symmetric(vertical: 16),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(
-                                    20), // Rectangle shape
+                                    12), // Rectangle shape
                               ),
                             ),
-                            child: Text(
-                              'Report',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleMedium!
-                                  .copyWith(color: Colors.white),
+                            child: const Text(
+                              'REPORT',
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),

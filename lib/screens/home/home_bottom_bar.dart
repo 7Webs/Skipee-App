@@ -3,7 +3,6 @@ import 'package:assignment/screens/home/home_screen.dart';
 import 'package:assignment/screens/profile/profile_screen.dart';
 import 'package:assignment/screens/report/report_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HomeBottomBar extends StatefulWidget {
   const HomeBottomBar({super.key, this.index});
@@ -47,19 +46,47 @@ class _HomeBottomBarState extends State<HomeBottomBar> {
         },
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.houseChimney),
+            activeIcon: Image(
+              image: AssetImage("assets/images/home.png"),
+              color: Color(0xFF1eb953),
+            ),
+            icon: Image(
+              image: AssetImage("assets/images/home.png"),
+              color: Colors.grey,
+            ),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.calendarDays),
+            activeIcon: Image(
+              image: AssetImage("assets/images/calendar.png"),
+              color: Color(0xFF1eb953),
+            ),
+            icon: Image(
+              image: AssetImage("assets/images/calendar.png"),
+              color: Colors.grey,
+            ),
             label: 'Events',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.phone_android),
+            activeIcon: Image(
+              image: AssetImage("assets/images/report.png"),
+              color: Color(0xFF1eb953),
+            ),
+            icon: Image(
+              image: AssetImage("assets/images/report.png"),
+              color: Colors.grey,
+            ),
             label: 'Report',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person_2_sharp),
+            activeIcon: Image(
+              image: AssetImage("assets/images/profile.png"),
+              color: Color(0xFF1eb953),
+            ),
+            icon: Image(
+              image: AssetImage("assets/images/profile.png"),
+              color: Colors.grey,
+            ),
             label: 'Profile',
           ),
         ],
