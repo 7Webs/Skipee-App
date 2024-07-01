@@ -29,11 +29,12 @@ class AuthServices {
     final url =
         Uri.parse("https://squid-app-xxu6w.ondigitalocean.app/auth/login");
     final response = await http.post(url, body: request);
+    final data = jsonDecode(response.body);
     if (response.statusCode == 201) {
       log("logged in successfully");
-      return UserModel.fromJson(jsonDecode(response.body));
+      return UserModel.fromJson(data);
     } else {
-      log("DID NOT LOGIN");
+      log(data["message"].toString() + " " + password);
       throw Exception("Failed to login");
     }
   }

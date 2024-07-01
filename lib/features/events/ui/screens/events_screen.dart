@@ -1,5 +1,5 @@
-// ignore_for_file: use_build_context_synchronously
-
+import 'package:assignment/features/events/model/events.dart';
+import 'package:assignment/features/events/repo/events_repo.dart';
 import 'package:assignment/features/events/ui/screens/ticket_approval_screen.dart';
 import 'package:assignment/features/home/ui/screens/home_bottom_bar.dart';
 import 'package:assignment/features/tickets/ui/screens/ticket_list_screen.dart';
@@ -9,9 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:intl/intl.dart';
 
+// ignore: must_be_immutable
 class EventsScreen extends StatefulWidget {
-  const EventsScreen({super.key});
+  EventsScreen({super.key, this.event});
+  Events? event;
 
   @override
   State<EventsScreen> createState() => _EventsScreenState();
@@ -20,6 +23,28 @@ class EventsScreen extends StatefulWidget {
 class _EventsScreenState extends State<EventsScreen> {
   bool _isLoading = false;
   String? qrData;
+  List<Events> events = [];
+  late Events localEvent;
+
+  @override
+  void initState() {
+    _refreshScreen();
+    if (widget.event == null) {
+      getEvents();
+    } else {
+      setState(() {
+        localEvent = widget.event!;
+      });
+    }
+    super.initState();
+  }
+
+  void getEvents() async {
+    events = await EventsRepo().getEvents();
+    setState(() {
+      localEvent = events[0];
+    });
+  }
 
   void scanQrCode() async {
     try {
@@ -94,14 +119,14 @@ class _EventsScreenState extends State<EventsScreen> {
           : Column(
               children: [
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  decoration: const BoxDecoration(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  decoration: BoxDecoration(
                     color: Colors.black,
                     image: DecorationImage(
-                      image: AssetImage('assets/images/event1.png'),
-                      fit: BoxFit.cover,
-                    ),
-                    borderRadius: BorderRadius.only(
+                        image: NetworkImage(localEvent.image!),
+                        fit: BoxFit.cover,
+                        opacity: 0.5),
+                    borderRadius: const BorderRadius.only(
                       bottomLeft: Radius.circular(40),
                       bottomRight: Radius.circular(40),
                     ),
@@ -147,7 +172,7 @@ class _EventsScreenState extends State<EventsScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+                              localEvent.description!,
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyLarge!
@@ -175,7 +200,9 @@ class _EventsScreenState extends State<EventsScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      '10 JUNE 2024',
+                                      DateFormat('dd MMMM yyyy').format(
+                                          DateTime.parse(
+                                              localEvent.date.toString())),
                                       style: Theme.of(context)
                                           .textTheme
                                           .titleMedium!
@@ -184,10 +211,10 @@ class _EventsScreenState extends State<EventsScreen> {
                                               fontWeight: FontWeight.bold),
                                     ),
                                     Text(
-                                      'Tuesday, 6:30PM - 9:00PM',
+                                      '${DateFormat('EEEE').format(DateTime.parse(localEvent.date.toString()))}, ${DateFormat('h:mm a').format(DateTime.parse(localEvent.startTime.toString()))} - ${DateFormat('h:mm a').format(DateTime.parse(localEvent.endTime.toString()))}',
                                       style: Theme.of(context)
                                           .textTheme
-                                          .bodyMedium!
+                                          .bodySmall!
                                           .copyWith(color: Colors.white),
                                     ),
                                   ],
@@ -201,7 +228,7 @@ class _EventsScreenState extends State<EventsScreen> {
                                       height: 30,
                                     ),
                                     Text(
-                                      '50',
+                                      localEvent.tickets.length.toString(),
                                       style: Theme.of(context)
                                           .textTheme
                                           .titleLarge!
@@ -268,7 +295,7 @@ class _EventsScreenState extends State<EventsScreen> {
                                             fontWeight: FontWeight.bold),
                                   ),
                                   Text(
-                                    '50',
+                                    localEvent.tickets.length.toString(),
                                     style: Theme.of(context)
                                         .textTheme
                                         .titleLarge!
@@ -290,7 +317,7 @@ class _EventsScreenState extends State<EventsScreen> {
                                           .copyWith(
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold)),
-                                  Text('20',
+                                  Text(localEvent.tickets.length.toString(),
                                       style: Theme.of(context)
                                           .textTheme
                                           .titleLarge!
@@ -312,7 +339,7 @@ class _EventsScreenState extends State<EventsScreen> {
                         child: Container(
                           height: MediaQuery.of(context).size.height / 4,
                           decoration: BoxDecoration(
-                            image: DecorationImage(
+                            image: const DecorationImage(
                               image:
                                   AssetImage('assets/images/ticket_card.png'),
                               fit: BoxFit.cover,
@@ -347,7 +374,7 @@ class _EventsScreenState extends State<EventsScreen> {
                                             fontWeight: FontWeight.bold),
                                   ),
                                   Text(
-                                    '45',
+                                    localEvent.tickets.length.toString(),
                                     style: Theme.of(context)
                                         .textTheme
                                         .titleLarge!
@@ -369,7 +396,7 @@ class _EventsScreenState extends State<EventsScreen> {
                                           .copyWith(
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold)),
-                                  Text('22',
+                                  Text(localEvent.tickets.length.toString(),
                                       style: Theme.of(context)
                                           .textTheme
                                           .titleLarge!

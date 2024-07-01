@@ -1,17 +1,45 @@
 import 'dart:async';
 
+import 'package:assignment/features/events/model/events.dart';
+import 'package:assignment/features/events/repo/events_repo.dart';
 import 'package:assignment/features/home/ui/screens/home_bottom_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
+// ignore: must_be_immutable
 class ReportScreen extends StatefulWidget {
-  const ReportScreen({Key? key}) : super(key: key);
+  ReportScreen({super.key, this.event});
+  Events? event;
 
   @override
-  _ReportScreenState createState() => _ReportScreenState();
+  State<ReportScreen> createState() => _ReportScreenState();
 }
 
 class _ReportScreenState extends State<ReportScreen> {
   bool _isLoading = false;
+  List<Events> events = [];
+  late Events localEvent;
+
+  @override
+  void initState() {
+    _refreshScreen();
+    if (widget.event == null) {
+      getEvents();
+    } else {
+      setState(() {
+        localEvent = widget.event!;
+      });
+    }
+    super.initState();
+  }
+
+  void getEvents() async {
+    events = await EventsRepo().getEvents();
+    setState(() {
+      localEvent = events[0];
+    });
+  }
+
   List<String> incidentTypes = [
     'Assault',
     'Abuse',
@@ -44,12 +72,12 @@ class _ReportScreenState extends State<ReportScreen> {
                 children: [
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 16),
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       color: Colors.black,
                       image: DecorationImage(
-                        image: AssetImage('assets/images/event1.png'),
-                        fit: BoxFit.cover,
-                      ),
+                          image: NetworkImage(localEvent.image!),
+                          fit: BoxFit.cover,
+                          opacity: 0.5),
                       borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(40),
                         bottomRight: Radius.circular(40),
@@ -96,7 +124,7 @@ class _ReportScreenState extends State<ReportScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+                                localEvent.description!,
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyLarge!
@@ -125,7 +153,9 @@ class _ReportScreenState extends State<ReportScreen> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        '10 JUNE 2024',
+                                        DateFormat('dd MMMM yyyy').format(
+                                            DateTime.parse(
+                                                localEvent.date.toString())),
                                         style: Theme.of(context)
                                             .textTheme
                                             .titleMedium!
@@ -134,10 +164,10 @@ class _ReportScreenState extends State<ReportScreen> {
                                                 fontWeight: FontWeight.bold),
                                       ),
                                       Text(
-                                        'Tuesday, 6:30PM - 9:00PM',
+                                        '${DateFormat('EEEE').format(DateTime.parse(localEvent.date.toString()))}, ${DateFormat('h:mm a').format(DateTime.parse(localEvent.startTime.toString()))} - ${DateFormat('h:mm a').format(DateTime.parse(localEvent.endTime.toString()))}',
                                         style: Theme.of(context)
                                             .textTheme
-                                            .bodyMedium!
+                                            .bodySmall!
                                             .copyWith(color: Colors.white),
                                       ),
                                     ],
@@ -151,7 +181,7 @@ class _ReportScreenState extends State<ReportScreen> {
                                         height: 30,
                                       ),
                                       Text(
-                                        '50',
+                                        localEvent.tickets.length.toString(),
                                         style: Theme.of(context)
                                             .textTheme
                                             .titleLarge!
@@ -216,7 +246,7 @@ class _ReportScreenState extends State<ReportScreen> {
                                                   color: selectedIncidents
                                                           .contains(type)
                                                       ? Colors.white
-                                                      : null), // Text color changes to white when selected
+                                                      : null),
                                             ),
                                             side: BorderSide.none,
                                             selected: selectedIncidents

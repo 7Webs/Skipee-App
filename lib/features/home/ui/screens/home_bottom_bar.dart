@@ -25,8 +25,8 @@ class _HomeBottomBarState extends State<HomeBottomBar> {
   Widget build(BuildContext context) {
     final List<Widget> screens = [
       const HomeScreen(),
-      const EventsScreen(),
-      const ReportScreen(),
+      EventsScreen(),
+      ReportScreen(),
       const ProfileScreen(),
     ];
     return Scaffold(

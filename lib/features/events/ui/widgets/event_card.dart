@@ -21,12 +21,13 @@ class EventCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
       child: Container(
-        height: MediaQuery.of(context).size.height * 0.25,
+        height: MediaQuery.of(context).size.height * 0.30,
         decoration: BoxDecoration(
           color: Colors.black,
           borderRadius: BorderRadius.circular(16),
           image: DecorationImage(
-            image: AssetImage(imageUrl),
+            opacity: 0.5,
+            image: NetworkImage(imageUrl),
             fit: BoxFit.cover,
           ),
         ),
@@ -34,6 +35,7 @@ class EventCard extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -72,32 +74,28 @@ class EventCard extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 8),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [],
-              ),
               const SizedBox(height: 16),
-              Text(
-                description,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyLarge!
-                    .copyWith(color: Colors.white, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 8),
-              Row(
+              Column(
                 children: [
-                  const Icon(Icons.location_on, color: Color(0xFF1eb953)),
-                  const SizedBox(width: 4),
-                  Expanded(
-                    child: Text(
-                      location,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium!
-                          .copyWith(color: const Color(0xFF1eb953)),
-                    ),
+                  Text(
+                    description,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge!
+                        .copyWith(fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      const Icon(Icons.location_on, color: Color(0xFF1eb953)),
+                      const SizedBox(width: 4),
+                      Expanded(
+                        child: Text(
+                          location,
+                          style: Theme.of(context).textTheme.bodyMedium!,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

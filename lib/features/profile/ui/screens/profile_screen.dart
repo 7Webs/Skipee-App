@@ -13,6 +13,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void logout() async {
     var pref = await SharedPreferences.getInstance();
     pref.setBool("login", false);
+    Navigator.pop(context);
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
