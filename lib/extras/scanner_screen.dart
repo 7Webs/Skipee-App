@@ -1,5 +1,5 @@
 import 'package:assignment/extras/list_tickets_screen.dart';
-import 'package:assignment/services/ticket_services.dart';
+import 'package:assignment/features/tickets/repo/ticket_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -156,7 +156,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
                             textAlign: TextAlign.center,
                             style: Theme.of(context)
                                 .textTheme
-                                .headline4!
+                                .headlineMedium!
                                 .copyWith(color: Colors.white),
                           ),
                           const SizedBox(height: 5),
@@ -194,7 +194,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
                             textAlign: TextAlign.center,
                             style: Theme.of(context)
                                 .textTheme
-                                .headline4!
+                                .headlineMedium!
                                 .copyWith(color: Colors.white),
                           ),
                           const SizedBox(height: 5),

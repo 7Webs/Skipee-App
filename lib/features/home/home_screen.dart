@@ -1,5 +1,5 @@
-import 'package:assignment/screens/events/widgets/event_card.dart';
-import 'package:assignment/screens/home/home_bottom_bar.dart';
+import 'package:assignment/features/events/ui/widgets/event_card.dart';
+import 'package:assignment/features/home/ui/screens/home_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 

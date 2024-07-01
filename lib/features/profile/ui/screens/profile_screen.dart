@@ -1,4 +1,4 @@
-import 'package:assignment/screens/login/login_screen.dart';
+import 'package:assignment/features/login/ui/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:assignment/screens/home/home_bottom_bar.dart';
-import 'package:assignment/screens/tickets/data/ticket_data.dart';
-import 'package:assignment/screens/tickets/widgets/ticket_card.dart';
+import 'package:assignment/features/home/ui/screens/home_bottom_bar.dart';
+import 'package:assignment/features/tickets/data/ticket_data.dart';
+import 'package:assignment/features/tickets/ui/widgets/ticket_card.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 

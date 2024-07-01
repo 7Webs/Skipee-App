@@ -1,6 +1,6 @@
-import 'package:assignment/models/user_model.dart';
-import 'package:assignment/screens/home/home_bottom_bar.dart';
-import 'package:assignment/services/auth_services.dart';
+import 'package:assignment/features/login/models/user_model.dart';
+import 'package:assignment/features/home/ui/screens/home_bottom_bar.dart';
+import 'package:assignment/features/login/repo/auth_services.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

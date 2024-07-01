@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:assignment/screens/home/home_bottom_bar.dart';
+import 'package:assignment/features/home/ui/screens/home_bottom_bar.dart';
 import 'package:flutter/material.dart';
 
 class ReportScreen extends StatefulWidget {

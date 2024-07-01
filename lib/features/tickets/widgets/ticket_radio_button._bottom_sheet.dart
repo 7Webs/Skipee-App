@@ -1,4 +1,4 @@
-import 'package:assignment/screens/tickets/ticket_list_screen.dart';
+import 'package:assignment/features/tickets/ui/screens/ticket_list_screen.dart';
 import 'package:flutter/material.dart';
 
 class TicketRadioBottomSheet extends StatefulWidget {

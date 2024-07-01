@@ -1,10 +1,10 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:assignment/screens/events/ticket_approval_screen.dart';
-import 'package:assignment/screens/home/home_bottom_bar.dart';
-import 'package:assignment/screens/tickets/ticket_list_screen.dart';
-import 'package:assignment/screens/tickets/widgets/ticket_radio_button._bottom_sheet.dart';
-import 'package:assignment/services/ticket_services.dart';
+import 'package:assignment/features/events/ui/screens/ticket_approval_screen.dart';
+import 'package:assignment/features/home/ui/screens/home_bottom_bar.dart';
+import 'package:assignment/features/tickets/ui/screens/ticket_list_screen.dart';
+import 'package:assignment/features/tickets/ui/widgets/ticket_radio_button._bottom_sheet.dart';
+import 'package:assignment/features/tickets/repo/ticket_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
