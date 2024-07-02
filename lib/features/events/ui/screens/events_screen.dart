@@ -1,7 +1,6 @@
 import 'package:assignment/features/events/model/events.dart';
-import 'package:assignment/features/events/repo/events_repo.dart';
 import 'package:assignment/features/events/ui/screens/ticket_approval_screen.dart';
-import 'package:assignment/features/home/ui/screens/home_bottom_bar.dart';
+import 'package:assignment/features/report/ui/screens/report_screen.dart';
 import 'package:assignment/features/tickets/ui/screens/ticket_list_screen.dart';
 import 'package:assignment/features/tickets/ui/widgets/ticket_radio_button._bottom_sheet.dart';
 import 'package:assignment/features/tickets/repo/ticket_services.dart';
@@ -11,10 +10,9 @@ import 'dart:async';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:intl/intl.dart';
 
-// ignore: must_be_immutable
 class EventsScreen extends StatefulWidget {
-  EventsScreen({super.key, this.event});
-  Events? event;
+  const EventsScreen({super.key, required this.event});
+  final Events event;
 
   @override
   State<EventsScreen> createState() => _EventsScreenState();
@@ -23,28 +21,6 @@ class EventsScreen extends StatefulWidget {
 class _EventsScreenState extends State<EventsScreen> {
   bool _isLoading = false;
   String? qrData;
-  List<Events> events = [];
-  late Events localEvent;
-
-  @override
-  void initState() {
-    _refreshScreen();
-    if (widget.event == null) {
-      getEvents();
-    } else {
-      setState(() {
-        localEvent = widget.event!;
-      });
-    }
-    super.initState();
-  }
-
-  void getEvents() async {
-    events = await EventsRepo().getEvents();
-    setState(() {
-      localEvent = events[0];
-    });
-  }
 
   void scanQrCode() async {
     try {
@@ -123,7 +99,7 @@ class _EventsScreenState extends State<EventsScreen> {
                   decoration: BoxDecoration(
                     color: Colors.black,
                     image: DecorationImage(
-                        image: NetworkImage(localEvent.image!),
+                        image: NetworkImage(widget.event.image!),
                         fit: BoxFit.cover,
                         opacity: 0.5),
                     borderRadius: const BorderRadius.only(
@@ -145,9 +121,7 @@ class _EventsScreenState extends State<EventsScreen> {
                             icon: const Icon(Icons.arrow_back,
                                 color: Colors.white),
                             onPressed: () {
-                              Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(
-                                      builder: (_) => const HomeBottomBar()));
+                              Navigator.of(context).pop();
                             },
                           ),
                           Container(
@@ -172,7 +146,7 @@ class _EventsScreenState extends State<EventsScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              localEvent.description!,
+                              widget.event.description!,
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyLarge!
@@ -202,7 +176,7 @@ class _EventsScreenState extends State<EventsScreen> {
                                     Text(
                                       DateFormat('dd MMMM yyyy').format(
                                           DateTime.parse(
-                                              localEvent.date.toString())),
+                                              widget.event.date.toString())),
                                       style: Theme.of(context)
                                           .textTheme
                                           .titleMedium!
@@ -211,7 +185,7 @@ class _EventsScreenState extends State<EventsScreen> {
                                               fontWeight: FontWeight.bold),
                                     ),
                                     Text(
-                                      '${DateFormat('EEEE').format(DateTime.parse(localEvent.date.toString()))}, ${DateFormat('h:mm a').format(DateTime.parse(localEvent.startTime.toString()))} - ${DateFormat('h:mm a').format(DateTime.parse(localEvent.endTime.toString()))}',
+                                      '${DateFormat('EEEE').format(DateTime.parse(widget.event.date.toString()))}, ${DateFormat('h:mm a').format(DateTime.parse(widget.event.startTime.toString()))} - ${DateFormat('h:mm a').format(DateTime.parse(widget.event.endTime.toString()))}',
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodySmall!
@@ -228,7 +202,7 @@ class _EventsScreenState extends State<EventsScreen> {
                                       height: 30,
                                     ),
                                     Text(
-                                      localEvent.tickets.length.toString(),
+                                      widget.event.tickets.length.toString(),
                                       style: Theme.of(context)
                                           .textTheme
                                           .titleLarge!
@@ -254,9 +228,14 @@ class _EventsScreenState extends State<EventsScreen> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (_) =>
-                                  const TicketListScreen(isTickets: false)));
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => TicketListScreen(
+                                isTickets: false,
+                                event: widget.event,
+                              ),
+                            ),
+                          );
                         },
                         child: Container(
                           height: MediaQuery.of(context).size.height / 4,
@@ -295,7 +274,7 @@ class _EventsScreenState extends State<EventsScreen> {
                                             fontWeight: FontWeight.bold),
                                   ),
                                   Text(
-                                    localEvent.tickets.length.toString(),
+                                    widget.event.tickets.length.toString(),
                                     style: Theme.of(context)
                                         .textTheme
                                         .titleLarge!
@@ -317,7 +296,7 @@ class _EventsScreenState extends State<EventsScreen> {
                                           .copyWith(
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold)),
-                                  Text(localEvent.tickets.length.toString(),
+                                  Text(widget.event.tickets.length.toString(),
                                       style: Theme.of(context)
                                           .textTheme
                                           .titleLarge!
@@ -332,9 +311,14 @@ class _EventsScreenState extends State<EventsScreen> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (_) =>
-                                  const TicketListScreen(isTickets: true)));
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => TicketListScreen(
+                                isTickets: true,
+                                event: widget.event,
+                              ),
+                            ),
+                          );
                         },
                         child: Container(
                           height: MediaQuery.of(context).size.height / 4,
@@ -374,7 +358,7 @@ class _EventsScreenState extends State<EventsScreen> {
                                             fontWeight: FontWeight.bold),
                                   ),
                                   Text(
-                                    localEvent.tickets.length.toString(),
+                                    widget.event.tickets.length.toString(),
                                     style: Theme.of(context)
                                         .textTheme
                                         .titleLarge!
@@ -396,13 +380,15 @@ class _EventsScreenState extends State<EventsScreen> {
                                           .copyWith(
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold)),
-                                  Text(localEvent.tickets.length.toString(),
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleLarge!
-                                          .copyWith(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold)),
+                                  Text(
+                                    widget.event.tickets.length.toString(),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleLarge!
+                                        .copyWith(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold),
+                                  ),
                                 ],
                               ),
                             ],
@@ -410,37 +396,87 @@ class _EventsScreenState extends State<EventsScreen> {
                         ),
                       ),
                       Center(
-                        child: Column(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            GestureDetector(
-                              onTap: scanQrCode,
-                              child: Container(
-                                padding: const EdgeInsets.all(16),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  shape: BoxShape.circle,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.5),
-                                      spreadRadius: 2,
-                                      blurRadius: 5,
-                                      offset: const Offset(0, 3),
+                            Column(
+                              children: [
+                                GestureDetector(
+                                  onTap: scanQrCode,
+                                  child: Container(
+                                    padding: const EdgeInsets.all(16),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      shape: BoxShape.circle,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.withOpacity(0.5),
+                                          spreadRadius: 2,
+                                          blurRadius: 5,
+                                          offset: const Offset(0, 3),
+                                        ),
+                                      ],
                                     ),
-                                  ],
+                                    child: Image.asset(
+                                      'assets/images/scanner.png',
+                                      width: 30,
+                                      height: 30,
+                                    ),
+                                  ),
                                 ),
-                                child: Image.asset(
-                                  'assets/images/scanner.png',
-                                  width: 30,
-                                  height: 30,
+                                const SizedBox(height: 8),
+                                Text(
+                                  'VERIFY TICKET',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleSmall!
+                                      .copyWith(color: Colors.grey),
                                 ),
-                              ),
+                              ],
                             ),
-                            const SizedBox(height: 8),
-                            Text('VERIFY TICKET',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleSmall!
-                                    .copyWith(color: Colors.grey)),
+                            const SizedBox(width: 20),
+                            Column(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (_) => ReportScreen(
+                                          event: widget.event,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.all(16),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      shape: BoxShape.circle,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.withOpacity(0.5),
+                                          spreadRadius: 2,
+                                          blurRadius: 5,
+                                          offset: const Offset(0, 3),
+                                        ),
+                                      ],
+                                    ),
+                                    child: Icon(
+                                      Icons.report,
+                                      size: 30,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  'REPORT',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleSmall!
+                                      .copyWith(color: Colors.grey),
+                                ),
+                              ],
+                            ),
                           ],
                         ),
                       ),

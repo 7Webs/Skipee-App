@@ -34,8 +34,8 @@ class _LoginScreenState extends State<LoginScreen> {
             .loginUser(emailController.text, passwordController.text);
         ScaffoldMessenger.of(context).clearSnackBars();
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text("Logged in Successfully"),
+          const SnackBar(
+            content: Text("Logged in Successfully"),
             backgroundColor: Color(0xFF1eb953),
             behavior: SnackBarBehavior.fixed,
           ),
@@ -43,6 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
         var pref = await SharedPreferences.getInstance();
         pref.setBool("login", true);
         pref.setString("name", userData.user!.name!);
+        pref.setString("token", userData.token!);
 
         Navigator.pushReplacement(
           context,
@@ -62,7 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ScaffoldMessenger.of(context).clearSnackBars();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text("Some Error occured"),
+            content: Text(e.toString()),
             backgroundColor: Colors.red.shade400,
             behavior: SnackBarBehavior.fixed,
           ),
@@ -122,7 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         width: 300,
                         child: TextField(
                           controller: emailController,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.black, // Changed text color to black
                           ),
                           decoration: const InputDecoration(
@@ -140,7 +141,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         width: 300,
                         child: TextField(
                           controller: passwordController,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.black, // Changed text color to black
                           ),
                           obscureText: true,
@@ -167,14 +168,14 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                       ),
-                      const Spacer(),
+                      const SizedBox(height: 16),
                       // Login button styled as rectangle with white text color
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: loginButton,
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xFF1eb953),
+                            backgroundColor: const Color(0xFF1eb953),
                             padding: const EdgeInsets.symmetric(vertical: 16),
                             shape: RoundedRectangleBorder(
                               borderRadius:

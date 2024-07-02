@@ -49,7 +49,7 @@ class _TicketDetailBottomSheetState extends State<TicketDetailBottomSheet> {
               children: [
                 CircleAvatar(
                   backgroundColor: Colors.black,
-                  backgroundImage: AssetImage(widget.imageUrl),
+                  backgroundImage: NetworkImage(widget.imageUrl),
                   radius: 30,
                 ),
                 const SizedBox(width: 16),

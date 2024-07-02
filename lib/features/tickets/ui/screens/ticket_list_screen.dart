@@ -1,14 +1,16 @@
 import 'dart:async';
-
-import 'package:assignment/features/home/ui/screens/home_bottom_bar.dart';
+import 'package:assignment/features/events/model/events.dart';
 import 'package:assignment/features/tickets/data/ticket_data.dart';
 import 'package:assignment/features/tickets/ui/widgets/ticket_card.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 
 class TicketListScreen extends StatefulWidget {
-  const TicketListScreen({super.key, required this.isTickets});
+  const TicketListScreen(
+      {super.key, required this.isTickets, required this.event});
   final bool isTickets;
+  final Events event;
 
   @override
   State<TicketListScreen> createState() => _TicketListScreenState();
@@ -40,12 +42,12 @@ class _TicketListScreenState extends State<TicketListScreen> {
               children: [
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 8),
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     color: Colors.black,
                     image: DecorationImage(
-                      image: AssetImage('assets/images/event1.png'),
-                      fit: BoxFit.cover,
-                    ),
+                        image: NetworkImage(widget.event.image!),
+                        fit: BoxFit.cover,
+                        opacity: 0.5),
                     borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(40),
                       bottomRight: Radius.circular(40),
@@ -65,11 +67,7 @@ class _TicketListScreenState extends State<TicketListScreen> {
                             icon: const Icon(Icons.arrow_back,
                                 color: Colors.white),
                             onPressed: () {
-                              Navigator.of(context)
-                                  .pushReplacement(MaterialPageRoute(
-                                      builder: (_) => const HomeBottomBar(
-                                            index: 1,
-                                          )));
+                              Navigator.of(context).pop();
                             },
                           ),
                           Container(
@@ -94,7 +92,7 @@ class _TicketListScreenState extends State<TicketListScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+                              widget.event.description!,
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyLarge!
@@ -122,7 +120,9 @@ class _TicketListScreenState extends State<TicketListScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      '10 JUNE 2024',
+                                      DateFormat('dd MMMM yyyy').format(
+                                          DateTime.parse(
+                                              widget.event.date.toString())),
                                       style: Theme.of(context)
                                           .textTheme
                                           .titleMedium!
@@ -131,10 +131,10 @@ class _TicketListScreenState extends State<TicketListScreen> {
                                               fontWeight: FontWeight.bold),
                                     ),
                                     Text(
-                                      'Tuesday, 6:30PM - 9:00PM',
+                                      '${DateFormat('EEEE').format(DateTime.parse(widget.event.date.toString()))}, ${DateFormat('h:mm a').format(DateTime.parse(widget.event.startTime.toString()))} - ${DateFormat('h:mm a').format(DateTime.parse(widget.event.endTime.toString()))}',
                                       style: Theme.of(context)
                                           .textTheme
-                                          .bodyMedium!
+                                          .bodySmall!
                                           .copyWith(color: Colors.white),
                                     ),
                                   ],
@@ -143,14 +143,12 @@ class _TicketListScreenState extends State<TicketListScreen> {
                                 Row(
                                   children: [
                                     Image.asset(
-                                      widget.isTickets
-                                          ? "assets/images/ticket.png"
-                                          : "assets/images/flash.png",
+                                      "assets/images/flash.png",
                                       width: 30,
                                       height: 30,
                                     ),
                                     Text(
-                                      '50',
+                                      widget.event.tickets.length.toString(),
                                       style: Theme.of(context)
                                           .textTheme
                                           .titleLarge!

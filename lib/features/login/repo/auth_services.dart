@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:assignment/features/login/models/user_data_model.dart';
 import 'package:assignment/features/login/models/user_model.dart';
 import 'package:http/http.dart' as http;
 
@@ -34,7 +35,21 @@ class AuthServices {
       log("logged in successfully");
       return UserModel.fromJson(data);
     } else {
-      log(data["message"].toString() + " " + password);
+      log("${data["message"]} $password");
+      throw Exception("${data["message"]}");
+    }
+  }
+
+  Future<UserData> getUser(String token) async {
+    final url = Uri.parse("https://squid-app-xxu6w.ondigitalocean.app/auth");
+    final response =
+        await http.get(url, headers: {"Authorization": "Bearer $token"});
+    final data = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      log("logged in successfully");
+      return UserData.fromJson(data);
+    } else {
+      log(data.toString());
       throw Exception("Failed to login");
     }
   }

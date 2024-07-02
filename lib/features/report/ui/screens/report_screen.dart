@@ -1,15 +1,11 @@
 import 'dart:async';
-
 import 'package:assignment/features/events/model/events.dart';
-import 'package:assignment/features/events/repo/events_repo.dart';
-import 'package:assignment/features/home/ui/screens/home_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-// ignore: must_be_immutable
 class ReportScreen extends StatefulWidget {
-  ReportScreen({super.key, this.event});
-  Events? event;
+  const ReportScreen({super.key, required this.event});
+  final Events event;
 
   @override
   State<ReportScreen> createState() => _ReportScreenState();
@@ -17,28 +13,6 @@ class ReportScreen extends StatefulWidget {
 
 class _ReportScreenState extends State<ReportScreen> {
   bool _isLoading = false;
-  List<Events> events = [];
-  late Events localEvent;
-
-  @override
-  void initState() {
-    _refreshScreen();
-    if (widget.event == null) {
-      getEvents();
-    } else {
-      setState(() {
-        localEvent = widget.event!;
-      });
-    }
-    super.initState();
-  }
-
-  void getEvents() async {
-    events = await EventsRepo().getEvents();
-    setState(() {
-      localEvent = events[0];
-    });
-  }
 
   List<String> incidentTypes = [
     'Assault',
@@ -75,7 +49,7 @@ class _ReportScreenState extends State<ReportScreen> {
                     decoration: BoxDecoration(
                       color: Colors.black,
                       image: DecorationImage(
-                          image: NetworkImage(localEvent.image!),
+                          image: NetworkImage(widget.event.image!),
                           fit: BoxFit.cover,
                           opacity: 0.5),
                       borderRadius: BorderRadius.only(
@@ -97,9 +71,7 @@ class _ReportScreenState extends State<ReportScreen> {
                               icon: const Icon(Icons.arrow_back,
                                   color: Colors.white),
                               onPressed: () {
-                                Navigator.of(context).pushReplacement(
-                                    MaterialPageRoute(
-                                        builder: (_) => const HomeBottomBar()));
+                                Navigator.of(context).pop();
                               },
                             ),
                             Container(
@@ -124,7 +96,7 @@ class _ReportScreenState extends State<ReportScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                localEvent.description!,
+                                widget.event.description!,
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyLarge!
@@ -154,8 +126,10 @@ class _ReportScreenState extends State<ReportScreen> {
                                     children: [
                                       Text(
                                         DateFormat('dd MMMM yyyy').format(
-                                            DateTime.parse(
-                                                localEvent.date.toString())),
+                                          DateTime.parse(
+                                            widget.event.date.toString(),
+                                          ),
+                                        ),
                                         style: Theme.of(context)
                                             .textTheme
                                             .titleMedium!
@@ -164,7 +138,19 @@ class _ReportScreenState extends State<ReportScreen> {
                                                 fontWeight: FontWeight.bold),
                                       ),
                                       Text(
-                                        '${DateFormat('EEEE').format(DateTime.parse(localEvent.date.toString()))}, ${DateFormat('h:mm a').format(DateTime.parse(localEvent.startTime.toString()))} - ${DateFormat('h:mm a').format(DateTime.parse(localEvent.endTime.toString()))}',
+                                        '${DateFormat('EEEE').format(
+                                          DateTime.parse(
+                                            widget.event.date.toString(),
+                                          ),
+                                        )}, ${DateFormat('h:mm a').format(
+                                          DateTime.parse(
+                                            widget.event.startTime.toString(),
+                                          ),
+                                        )} - ${DateFormat('h:mm a').format(
+                                          DateTime.parse(
+                                            widget.event.endTime.toString(),
+                                          ),
+                                        )}',
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodySmall!
@@ -181,7 +167,7 @@ class _ReportScreenState extends State<ReportScreen> {
                                         height: 30,
                                       ),
                                       Text(
-                                        localEvent.tickets.length.toString(),
+                                        widget.event.tickets.length.toString(),
                                         style: Theme.of(context)
                                             .textTheme
                                             .titleLarge!
@@ -282,6 +268,8 @@ class _ReportScreenState extends State<ReportScreen> {
                         ),
                         const SizedBox(height: 16),
                         TextField(
+                          style: const TextStyle(color: Colors.black),
+                          cursorColor: Colors.black,
                           keyboardType: TextInputType.multiline,
                           maxLines: null,
                           minLines: 6,
@@ -318,8 +306,7 @@ class _ReportScreenState extends State<ReportScreen> {
                               backgroundColor: const Color(0xFF1eb953),
                               padding: const EdgeInsets.symmetric(vertical: 16),
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                    12), // Rectangle shape
+                                borderRadius: BorderRadius.circular(12),
                               ),
                             ),
                             child: const Text(

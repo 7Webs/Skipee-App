@@ -44,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
     bool isLocationServiceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!isLocationServiceEnabled) {
       setState(() {
-        _location = 'Location services are disabled.';
+        _location = 'Services are disabled.';
       });
       return;
     }
@@ -55,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
         setState(() {
-          _location = 'Location permissions are denied';
+          _location = 'Give Location Permission';
         });
         return;
       }
@@ -63,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     if (permission == LocationPermission.deniedForever) {
       setState(() {
-        _location = 'Location permissions are permanently denied';
+        _location = 'Give Location Permission';
       });
       return;
     }
@@ -103,8 +103,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             ListTile(
-              leading: Icon(Icons.message),
-              title: Text('Messages'),
+              leading: Icon(Icons.save),
+              title: Text('Saved Events'),
             ),
             ListTile(
               leading: Icon(Icons.account_circle),
@@ -118,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       body: _isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : Column(
               children: [
                 Container(
@@ -144,19 +144,23 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           Column(
                             children: [
-                              const Row(
+                              Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Text(
+                                  const Text(
                                     'Current Location',
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 14,
                                     ),
                                   ),
-                                  Icon(Icons.arrow_drop_down,
-                                      color: Colors.white),
+                                  IconButton(
+                                    iconSize: 24,
+                                    color: Colors.white,
+                                    icon: const Icon(Icons.arrow_drop_down),
+                                    onPressed: _getCurrentLocation,
+                                  ),
                                 ],
                               ),
                               Text(_location),
@@ -166,7 +170,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             height: 40,
                             width: 40,
                             decoration: BoxDecoration(
-                              color: const Color.fromARGB(255, 29, 168, 78),
+                              color: const Color(0xFF1eb953),
                               borderRadius: BorderRadius.circular(40),
                             ),
                             child: IconButton(
@@ -235,33 +239,55 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                 ),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: events.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (_) => EventsScreen(
-                                event: events[index],
-                              ),
+                events.isEmpty
+                    ? Center(
+                        child: Column(
+                          children: [
+                            Image.asset(
+                              'assets/images/no_events.png',
+                              fit: BoxFit.cover,
+                              width: 300,
+                              color: const Color(0xFF1eb953),
                             ),
-                          );
-                        },
-                        child: EventCard(
-                          date: DateFormat('dd MMMM').format(
-                              DateTime.parse(events[index].date.toString())),
-                          time: DateFormat('h:mm a').format(DateTime.parse(
-                              events[index].startTime.toString())),
-                          description: events[index].description!,
-                          location: events[index].location!,
-                          imageUrl: events[index].image!,
+                            Text(
+                              "No Events Found",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .displaySmall!
+                                  .copyWith(color: Colors.green),
+                            ),
+                          ],
                         ),
-                      );
-                    },
-                  ),
-                ),
+                      )
+                    : Expanded(
+                        child: ListView.builder(
+                          itemCount: events.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (_) => EventsScreen(
+                                      event: events[index],
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: EventCard(
+                                date: DateFormat('dd MMMM').format(
+                                    DateTime.parse(
+                                        events[index].date.toString())),
+                                time: DateFormat('h:mm a').format(
+                                    DateTime.parse(
+                                        events[index].startTime.toString())),
+                                description: events[index].description!,
+                                location: events[index].location!,
+                                imageUrl: events[index].image!,
+                              ),
+                            );
+                          },
+                        ),
+                      ),
               ],
             ),
     );

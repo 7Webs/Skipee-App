@@ -29,7 +29,7 @@ class TicketListCardWidget extends StatelessWidget {
             children: [
               CircleAvatar(
                 backgroundColor: Colors.black,
-                backgroundImage: AssetImage(imageUrl),
+                backgroundImage: NetworkImage(imageUrl),
                 radius: 30,
               ),
               const SizedBox(width: 16),

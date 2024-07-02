@@ -12,43 +12,50 @@ class TicketData {
   });
   static List<TicketData> dummyData = [
     TicketData(
-      imageUrl: 'assets/images/event1.png',
+      imageUrl:
+          'https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg',
       name: 'Dinesh Sharma',
       username: 'dineshsharma785',
       tickets: 10,
     ),
     TicketData(
-      imageUrl: 'assets/images/event2.png',
+      imageUrl:
+          'https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg',
       name: 'Holly',
       username: 'holly654354',
       tickets: 4,
     ),
     TicketData(
-      imageUrl: 'assets/images/event3.png',
+      imageUrl:
+          'https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg',
       name: 'Henry',
       username: 'Henry25121326',
       tickets: 5,
     ),
     TicketData(
-      imageUrl: 'assets/images/event1.png',
+      imageUrl:
+          'https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg',
       name: 'Imogen',
       username: 'Imogen9878',
       tickets: 8,
     ),
     TicketData(
-      imageUrl: 'assets/images/event2.png',
+      imageUrl:
+          'https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg',
       name: 'Thomas',
       username: 'thomas66936',
       tickets: 10,
     ),
     TicketData(
-      imageUrl: 'assets/images/event3.png',
+      imageUrl:
+          'https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg',
       name: 'Jacqueline',
       username: 'Jacqueline6545454',
       tickets: 12,
     ),
     TicketData(
-      imageUrl: 'assets/images/event1.png',
+      imageUrl:
+          'https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg',
       name: 'Katherine',
       username: 'Katherine65965',
       tickets: 15,

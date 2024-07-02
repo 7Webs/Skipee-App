@@ -1,4 +1,3 @@
-import 'package:assignment/features/tickets/ui/screens/ticket_list_screen.dart';
 import 'package:flutter/material.dart';
 
 class TicketRadioBottomSheet extends StatefulWidget {
@@ -83,14 +82,7 @@ class _TicketRadioBottomSheetState extends State<TicketRadioBottomSheet> {
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (_) => TicketListScreen(
-                              isTickets: _selectedTicketType == 'Entry Tickets',
-                            )));
-              },
+              onPressed: () {},
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF1eb953),
                 padding: const EdgeInsets.symmetric(vertical: 16),
