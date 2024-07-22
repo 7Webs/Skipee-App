@@ -1,12 +1,13 @@
-import 'package:assignment/features/events/model/events.dart';
-import 'package:assignment/features/events/repo/events_repo.dart';
-import 'package:assignment/features/events/ui/screens/events_screen.dart';
-import 'package:assignment/features/events/ui/widgets/event_card.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
+
+import 'package:assignment/models/events.dart';
+import 'package:assignment/repository/events_repo.dart';
+import 'package:assignment/screens/events/events_screen.dart';
+import 'package:assignment/screens/events/widgets/event_card.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -89,28 +90,29 @@ class _HomeScreenState extends State<HomeScreen> {
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
-          children: const <Widget>[
+          children: [
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Color(0xFF1eb953),
+                color: const Color(0xFF1eb953).withOpacity(0.5),
               ),
-              child: Text(
-                'Drawer Header',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset("assets/images/full_logo.png"),
+                ],
               ),
             ),
-            ListTile(
+            const ListTile(
               leading: Icon(Icons.save),
               title: Text('Saved Events'),
             ),
-            ListTile(
-              leading: Icon(Icons.account_circle),
-              title: Text('Profile'),
-            ),
-            ListTile(
+            // ListTile(
+            //   leading: Icon(Icons.account_circle),
+            //   title: Text('Profile'),
+            //   onTap: () => Navigator.of(context).push(
+            //       MaterialPageRoute(builder: (_) => const ProfileScreen())),
+            // ),
+            const ListTile(
               leading: Icon(Icons.settings),
               title: Text('Settings'),
             ),
@@ -196,6 +198,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             SizedBox(width: 8),
                             Expanded(
                               child: TextField(
+                                style: TextStyle(color: Colors.black),
                                 decoration: InputDecoration(
                                   hintStyle: TextStyle(color: Colors.grey),
                                   hintText: 'Search...',
@@ -210,31 +213,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                const SizedBox(height: 10),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
+                      Text(
                         'My Supervisor Events',
                         style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                             color: Colors.black),
-                      ),
-                      TextButton(
-                        onPressed: () {},
-                        child: const Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Text(
-                              'See All',
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                            Icon(Icons.arrow_right, color: Colors.grey),
-                          ],
-                        ),
                       ),
                     ],
                   ),

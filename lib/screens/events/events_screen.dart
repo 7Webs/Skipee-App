@@ -1,9 +1,9 @@
-import 'package:assignment/features/events/model/events.dart';
-import 'package:assignment/features/events/ui/screens/ticket_approval_screen.dart';
-import 'package:assignment/features/report/ui/screens/report_screen.dart';
-import 'package:assignment/features/tickets/ui/screens/ticket_list_screen.dart';
-import 'package:assignment/features/tickets/ui/widgets/ticket_radio_button._bottom_sheet.dart';
-import 'package:assignment/features/tickets/repo/ticket_services.dart';
+import 'package:assignment/models/events.dart';
+import 'package:assignment/screens/events/ticket_approval_screen.dart';
+import 'package:assignment/screens/report/report_screen.dart';
+import 'package:assignment/screens/tickets/ticket_list_screen.dart';
+import 'package:assignment/screens/tickets/widgets/ticket_radio_button._bottom_sheet.dart';
+import 'package:assignment/repository/ticket_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
@@ -28,7 +28,7 @@ class _EventsScreenState extends State<EventsScreen> {
           '#ff6666', 'Cancel', true, ScanMode.QR);
       if (!mounted) return;
       qrData = qrCode;
-      _showRadio(context);
+      //_showRadio(context);
       if (qrData != null) {
         bool isScanned = await TicketServices().getTicket(qrData!);
         if (isScanned) {

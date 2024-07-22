@@ -1,5 +1,5 @@
 import 'package:analog_clock/analog_clock.dart';
-import 'package:assignment/features/tickets/repo/ticket_services.dart';
+import 'package:assignment/repository/ticket_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';

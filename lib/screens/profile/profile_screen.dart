@@ -1,7 +1,7 @@
-import 'package:assignment/features/login/models/user_data_model.dart';
-import 'package:assignment/features/login/repo/auth_services.dart';
-import 'package:assignment/features/login/ui/login_screen.dart';
-import 'package:assignment/features/profile/ui/widgets/profile_card.dart';
+import 'package:assignment/models/user_data_model.dart';
+import 'package:assignment/repository/auth_repo.dart';
+import 'package:assignment/screens/login/login_screen.dart';
+import 'package:assignment/screens/profile/widgets/profile_card.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

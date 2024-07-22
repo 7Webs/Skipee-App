@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:assignment/features/events/model/events.dart';
+import 'package:assignment/models/events.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

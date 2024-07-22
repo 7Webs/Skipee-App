@@ -1,6 +1,6 @@
 //import 'package:assignment/features/events/ui/screens/events_screen.dart';
-import 'package:assignment/features/home/home_screen.dart';
-import 'package:assignment/features/profile/ui/screens/profile_screen.dart';
+import 'package:assignment/screens/home/home_screen.dart';
+import 'package:assignment/screens/profile/profile_screen.dart';
 //import 'package:assignment/features/report/ui/screens/report_screen.dart';
 import 'package:flutter/material.dart';
 

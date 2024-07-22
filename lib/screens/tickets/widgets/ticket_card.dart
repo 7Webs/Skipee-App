@@ -1,4 +1,4 @@
-import 'package:assignment/features/tickets/ui/widgets/ticket_detail_bottom_sheet.dart';
+import 'package:assignment/screens/tickets/widgets/ticket_detail_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
 class TicketListCardWidget extends StatelessWidget {

@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:assignment/features/login/ui/login_screen.dart';
-import 'package:assignment/features/home/ui/screens/home_bottom_bar.dart';
+import 'package:assignment/screens/login/login_screen.dart';
+import 'package:assignment/screens/home/home_bottom_bar.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

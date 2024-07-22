@@ -1,7 +1,7 @@
 import 'dart:async';
-import 'package:assignment/features/events/model/events.dart';
-import 'package:assignment/features/tickets/data/ticket_data.dart';
-import 'package:assignment/features/tickets/ui/widgets/ticket_card.dart';
+import 'package:assignment/models/events.dart';
+import 'package:assignment/models/ticket_data.dart';
+import 'package:assignment/screens/tickets/widgets/ticket_card.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
@@ -41,14 +41,14 @@ class _TicketListScreenState extends State<TicketListScreen> {
           : Column(
               children: [
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 8),
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
                   decoration: BoxDecoration(
                     color: Colors.black,
                     image: DecorationImage(
                         image: NetworkImage(widget.event.image!),
                         fit: BoxFit.cover,
                         opacity: 0.5),
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                       bottomLeft: Radius.circular(40),
                       bottomRight: Radius.circular(40),
                     ),

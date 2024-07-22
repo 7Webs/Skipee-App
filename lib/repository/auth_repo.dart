@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:assignment/features/login/models/user_data_model.dart';
-import 'package:assignment/features/login/models/user_model.dart';
+import 'package:assignment/models/user_data_model.dart';
+import 'package:assignment/models/user_model.dart';
 import 'package:http/http.dart' as http;
 
 class AuthServices {

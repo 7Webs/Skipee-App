@@ -1,5 +1,5 @@
 import 'package:assignment/extras/list_tickets_screen.dart';
-import 'package:assignment/features/tickets/repo/ticket_services.dart';
+import 'package:assignment/repository/ticket_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';

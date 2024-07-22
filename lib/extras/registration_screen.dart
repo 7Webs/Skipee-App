@@ -1,5 +1,5 @@
-import 'package:assignment/features/login/ui/login_screen.dart';
-import 'package:assignment/features/login/repo/auth_services.dart';
+import 'package:assignment/screens/login/login_screen.dart';
+import 'package:assignment/repository/auth_repo.dart';
 import 'package:flutter/material.dart';
 
 class RegistrationScreen extends StatefulWidget {

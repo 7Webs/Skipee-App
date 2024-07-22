@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:assignment/features/events/model/events.dart';
+import 'package:assignment/models/events.dart';
 import 'package:http/http.dart' as http;
 
 class EventsRepo {
