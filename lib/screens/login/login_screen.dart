@@ -1,4 +1,4 @@
-import 'package:assignment/models/user_model.dart';
+import 'package:assignment/models/login_user_model.dart';
 import 'package:assignment/screens/home/home_bottom_bar.dart';
 import 'package:assignment/repository/auth_repo.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
         return;
       }
       try {
-        UserModel userData = await AuthServices()
+        LoginUserModel userData = await AuthServices()
             .loginUser(emailController.text, passwordController.text);
         ScaffoldMessenger.of(context).clearSnackBars();
         ScaffoldMessenger.of(context).showSnackBar(

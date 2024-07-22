@@ -1,4 +1,4 @@
-class UserData {
+class GetUserModel {
   String? sId;
   String? name;
   String? email;
@@ -13,7 +13,7 @@ class UserData {
   WorksIn? worksIn;
   String? birthDate;
 
-  UserData(
+  GetUserModel(
       {this.sId,
       this.name,
       this.email,
@@ -28,7 +28,7 @@ class UserData {
       this.worksIn,
       this.birthDate});
 
-  UserData.fromJson(Map<String, dynamic> json) {
+  GetUserModel.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     name = json['name'];
     email = json['email'];

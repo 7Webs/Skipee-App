@@ -1,4 +1,4 @@
-import 'package:assignment/models/events.dart';
+import 'package:assignment/models/get_events_model.dart';
 import 'package:assignment/screens/events/ticket_approval_screen.dart';
 import 'package:assignment/screens/report/report_screen.dart';
 import 'package:assignment/screens/tickets/ticket_list_screen.dart';
@@ -12,7 +12,7 @@ import 'package:intl/intl.dart';
 
 class EventsScreen extends StatefulWidget {
   const EventsScreen({super.key, required this.event});
-  final Events event;
+  final GetEventsModel event;
 
   @override
   State<EventsScreen> createState() => _EventsScreenState();
@@ -30,7 +30,7 @@ class _EventsScreenState extends State<EventsScreen> {
       qrData = qrCode;
       //_showRadio(context);
       if (qrData != null) {
-        bool isScanned = await TicketServices().getTicket(qrData!);
+        bool isScanned = await TicketRepo().getTicket(qrData!);
         if (isScanned) {
           Navigator.of(context).push(
             MaterialPageRoute(

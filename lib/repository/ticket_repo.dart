@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:assignment/common/constants.dart';
 import 'package:http/http.dart' as http;
 
-class TicketServices {
+class TicketRepo {
   Future<String> generateTicket(
     String name,
     String email,
@@ -31,7 +32,7 @@ class TicketServices {
 
   Future<bool> getTicket(String id) async {
     final url =
-        Uri.parse("https://squid-app-xxu6w.ondigitalocean.app/tickets/$id");
+        Uri.parse("$URL/tickets/$id");
     try {
       final response = await http.get(url);
       log(response.statusCode.toString());

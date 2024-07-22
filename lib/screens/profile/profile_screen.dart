@@ -1,4 +1,4 @@
-import 'package:assignment/models/user_data_model.dart';
+import 'package:assignment/models/get_user_model.dart';
 import 'package:assignment/repository/auth_repo.dart';
 import 'package:assignment/screens/login/login_screen.dart';
 import 'package:assignment/screens/profile/widgets/profile_card.dart';
@@ -13,7 +13,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  late UserData userData;
+  late GetUserModel userData;
   bool isLoading = false;
 
   @override

@@ -1,4 +1,4 @@
-import 'package:assignment/models/events.dart';
+import 'package:assignment/models/get_events_model.dart';
 import 'package:assignment/providers/saved_events_provider.dart';
 import 'package:assignment/repository/events_repo.dart';
 import 'package:assignment/screens/events/events_screen.dart';
@@ -15,7 +15,7 @@ class SavedEventsScreen extends ConsumerStatefulWidget {
 
 class _SavedEventsScreenState extends ConsumerState<SavedEventsScreen> {
   bool _isLoading = false;
-  List<Events> events = [];
+  List<GetEventsModel> events = [];
   @override
   void initState() {
     _getEvents();

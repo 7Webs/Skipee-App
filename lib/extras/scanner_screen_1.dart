@@ -20,7 +20,7 @@ class _ScannerScreenState extends State<ScannerScreen1> {
       if (!mounted) return;
       qrData = qrCode;
       if (qrData != null) {
-        bool isScanned = await TicketServices().getTicket(qrData!);
+        bool isScanned = await TicketRepo().getTicket(qrData!);
         if (isScanned) {
           showDialog(
             context: context,

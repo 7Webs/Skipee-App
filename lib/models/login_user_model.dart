@@ -1,20 +1,20 @@
-class UserModel {
+class LoginUserModel {
   User? user;
   String? token;
 
-  UserModel({this.user, this.token});
+  LoginUserModel({this.user, this.token});
 
-  UserModel.fromJson(Map<String, dynamic> json) {
-    user = json['user'] != null ? User.fromJson(json['user']) : null;
+  LoginUserModel.fromJson(Map<String, dynamic> json) {
+    user = json['user'] != null ? new User.fromJson(json['user']) : null;
     token = json['token'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    if (user != null) {
-      data['user'] = user!.toJson();
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.user != null) {
+      data['user'] = this.user!.toJson();
     }
-    data['token'] = token;
+    data['token'] = this.token;
     return data;
   }
 }
@@ -60,18 +60,18 @@ class User {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['_id'] = sId;
-    data['name'] = name;
-    data['email'] = email;
-    data['password'] = password;
-    data['role'] = role;
-    data['isActive'] = isActive;
-    data['lastSeen'] = lastSeen;
-    data['gender'] = gender;
-    data['createdAt'] = createdAt;
-    data['updatedAt'] = updatedAt;
-    data['__v'] = iV;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.sId;
+    data['name'] = this.name;
+    data['email'] = this.email;
+    data['password'] = this.password;
+    data['role'] = this.role;
+    data['isActive'] = this.isActive;
+    data['lastSeen'] = this.lastSeen;
+    data['gender'] = this.gender;
+    data['createdAt'] = this.createdAt;
+    data['updatedAt'] = this.updatedAt;
+    data['__v'] = this.iV;
     return data;
   }
 }

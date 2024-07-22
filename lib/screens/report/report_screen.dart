@@ -1,11 +1,11 @@
 import 'dart:async';
-import 'package:assignment/models/events.dart';
+import 'package:assignment/models/get_events_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class ReportScreen extends StatefulWidget {
   const ReportScreen({super.key, required this.event});
-  final Events event;
+  final GetEventsModel event;
 
   @override
   State<ReportScreen> createState() => _ReportScreenState();

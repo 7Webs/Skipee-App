@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:assignment/extras/ticket_data.dart';
-import 'package:assignment/models/events.dart';
+import 'package:assignment/models/get_events_model.dart';
 import 'package:assignment/screens/tickets/widgets/ticket_card.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -10,7 +10,7 @@ class TicketListScreen extends StatefulWidget {
   const TicketListScreen(
       {super.key, required this.isTickets, required this.event});
   final bool isTickets;
-  final Events event;
+  final GetEventsModel event;
 
   @override
   State<TicketListScreen> createState() => _TicketListScreenState();

@@ -5,7 +5,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 
-import 'package:assignment/models/events.dart';
+import 'package:assignment/models/get_events_model.dart';
 import 'package:assignment/repository/events_repo.dart';
 import 'package:assignment/screens/events/events_screen.dart';
 import 'package:assignment/screens/events/widgets/event_card.dart';
@@ -20,7 +20,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool _isLoading = false;
-  List<Events> events = [];
+  List<GetEventsModel> events = [];
   String _location = "";
 
   @override

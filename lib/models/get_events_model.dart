@@ -1,5 +1,5 @@
-class Events {
-  Events({
+class GetEventsModel {
+  GetEventsModel({
     required this.id,
     required this.name,
     required this.description,
@@ -37,8 +37,8 @@ class Events {
   final DateTime? updatedAt;
   final int? v;
 
-  factory Events.fromJson(Map<String, dynamic> json) {
-    return Events(
+  factory GetEventsModel.fromJson(Map<String, dynamic> json) {
+    return GetEventsModel(
       id: json["_id"],
       name: json["name"],
       description: json["description"],
