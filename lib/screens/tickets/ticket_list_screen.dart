@@ -1,6 +1,6 @@
 import 'dart:async';
+import 'package:assignment/extras/ticket_data.dart';
 import 'package:assignment/models/events.dart';
-import 'package:assignment/models/ticket_data.dart';
 import 'package:assignment/screens/tickets/widgets/ticket_card.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

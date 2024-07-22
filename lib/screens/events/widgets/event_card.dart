@@ -1,11 +1,14 @@
+import 'package:assignment/providers/saved_events_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class EventCard extends StatelessWidget {
+class EventCard extends ConsumerWidget {
   final String date;
   final String time;
   final String description;
   final String location;
   final String imageUrl;
+  final String id;
 
   const EventCard({
     super.key,
@@ -14,10 +17,12 @@ class EventCard extends StatelessWidget {
     required this.description,
     required this.location,
     required this.imageUrl,
+    required this.id,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final savedEvents = ref.watch(savedEventsProvider);
     return Padding(
       padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
       child: Container(
@@ -68,9 +73,16 @@ class EventCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const Icon(
-                    Icons.bookmark_border,
+                  IconButton(
+                    icon: savedEvents.contains(id)
+                        ? const Icon(Icons.bookmark)
+                        : const Icon(Icons.bookmark_border),
                     color: Colors.white,
+                    onPressed: () {
+                      ref
+                          .read(savedEventsProvider.notifier)
+                          .toggleSavedEvents(id);
+                    },
                   ),
                 ],
               ),

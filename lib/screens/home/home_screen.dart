@@ -1,3 +1,4 @@
+import 'package:assignment/screens/events/saved_events_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geocoding/geocoding.dart';
@@ -24,12 +25,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    getEvents();
+    _getEvents();
     _getCurrentLocation();
     super.initState();
   }
 
-  void getEvents() async {
+  void _getEvents() async {
     setState(() {
       _isLoading = true;
     });
@@ -102,9 +103,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-            const ListTile(
-              leading: Icon(Icons.save),
-              title: Text('Saved Events'),
+            ListTile(
+              leading: const Icon(Icons.save),
+              title: const Text('Saved Events'),
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => const SavedEventsScreen()),
+              ),
             ),
             // ListTile(
             //   leading: Icon(Icons.account_circle),
@@ -272,6 +276,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 description: events[index].description!,
                                 location: events[index].location!,
                                 imageUrl: events[index].image!,
+                                id: events[index].id!,
                               ),
                             );
                           },
