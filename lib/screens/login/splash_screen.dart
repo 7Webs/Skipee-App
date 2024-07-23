@@ -22,11 +22,11 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     super.initState();
     _controller1 = AnimationController(
-      duration: const Duration(seconds: 2),
+      duration: const Duration(seconds: 1),
       vsync: this,
     );
     _controller2 = AnimationController(
-      duration: const Duration(seconds: 2),
+      duration: const Duration(seconds: 1),
       vsync: this,
     );
 
@@ -48,7 +48,7 @@ class _SplashScreenState extends State<SplashScreen>
 
     _controller1.forward().then((_) {
       _controller2.forward().then((_) {
-        Timer(const Duration(seconds: 2), () {
+        Timer(const Duration(seconds: 1), () {
           whereToGo();
         });
       });

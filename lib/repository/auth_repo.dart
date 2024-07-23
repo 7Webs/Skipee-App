@@ -52,17 +52,12 @@ class AuthServices {
     }
   }
 
-  Future<GetUserModel> updateUser(String name, String password, String token,
-      String gender, String birthDate, String email) async {
+  Future<GetUserModel> updateUser(
+      String name, String password, String token, String email) async {
     final url = Uri.parse("$URL/users");
-    Map<String, dynamic> request = {
-      "name": name,
-      "email": email,
-      "password": password,
-      "isActive": "true",
-      "gender": gender,
-      "birthDate": birthDate
-    };
+    Map<String, dynamic> request = password.isNotEmpty
+        ? {"name": name, "email": email, "password": password}
+        : {"name": name, "email": email};
     final response = await http.patch(url,
         headers: {"Authorization": "Bearer $token"}, body: request);
     final data = jsonDecode(response.body);

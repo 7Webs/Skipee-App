@@ -21,6 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool _isLoading = false;
   List<GetEventsModel> events = [];
+  List<GetEventsModel> filterEvents = [];
   String _location = "";
 
   @override
@@ -36,6 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
     events = await EventsRepo().getEvents();
     setState(() {
+      filterEvents = events;
       _isLoading = false;
     });
   }
@@ -84,8 +86,25 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  void _filterEvents(String query) {
+    if (query.isEmpty) {
+      setState(() {
+        filterEvents = events;
+      });
+    } else {
+      setState(() {
+        filterEvents = events
+            .where((event) =>
+                event.name!.toLowerCase().contains(query.toLowerCase()))
+            .toList();
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final TextEditingController searchController = TextEditingController();
+
     return Scaffold(
       key: _scaffoldKey,
       drawer: Drawer(
@@ -195,20 +214,27 @@ class _HomeScreenState extends State<HomeScreen> {
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(24),
                         ),
-                        child: const Row(
+                        child: Row(
                           children: [
-                            Icon(FontAwesomeIcons.magnifyingGlass,
+                            const Icon(FontAwesomeIcons.magnifyingGlass,
                                 color: Color(0xFF1eb953)),
-                            SizedBox(width: 8),
+                            const SizedBox(width: 8),
                             Expanded(
                               child: TextField(
-                                style: TextStyle(color: Colors.black),
-                                decoration: InputDecoration(
+                                controller: searchController,
+                                style: const TextStyle(color: Colors.black),
+                                decoration: const InputDecoration(
                                   hintStyle: TextStyle(color: Colors.grey),
                                   hintText: 'Search...',
                                   border: InputBorder.none,
                                 ),
                               ),
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.arrow_forward,
+                                  color: Color(0xFF1eb953)),
+                              onPressed: () =>
+                                  _filterEvents(searchController.text),
                             ),
                           ],
                         ),
@@ -232,36 +258,36 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                 ),
-                events.isEmpty
+                filterEvents.isEmpty
                     ? Center(
                         child: Column(
                           children: [
                             Image.asset(
                               'assets/images/no_events.png',
-                              fit: BoxFit.cover,
-                              width: 300,
+                              width: 200,
+                              height: 300,
                               color: const Color(0xFF1eb953),
                             ),
-                            Text(
-                              "No Events Found",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .displaySmall!
-                                  .copyWith(color: Colors.green),
+                            const Text(
+                              "No Available Events",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ],
                         ),
                       )
                     : Expanded(
                         child: ListView.builder(
-                          itemCount: events.length,
+                          itemCount: filterEvents.length,
                           itemBuilder: (BuildContext context, int index) {
                             return GestureDetector(
                               onTap: () {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (_) => EventsScreen(
-                                      event: events[index],
+                                      event: filterEvents[index],
                                     ),
                                   ),
                                 );
@@ -269,14 +295,15 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: EventCard(
                                 date: DateFormat('dd MMMM').format(
                                     DateTime.parse(
-                                        events[index].date.toString())),
+                                        filterEvents[index].date.toString())),
                                 time: DateFormat('h:mm a').format(
-                                    DateTime.parse(
-                                        events[index].startTime.toString())),
-                                description: events[index].description!,
-                                location: events[index].location!,
-                                imageUrl: events[index].image!,
-                                id: events[index].id!,
+                                    DateTime.parse(filterEvents[index]
+                                        .startTime
+                                        .toString())),
+                                description: filterEvents[index].description!,
+                                location: filterEvents[index].location!,
+                                imageUrl: filterEvents[index].image!,
+                                id: filterEvents[index].id!,
                               ),
                             );
                           },

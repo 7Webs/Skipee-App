@@ -1,3 +1,4 @@
+import 'package:assignment/common/widgets/event_appbar.dart';
 import 'package:assignment/models/get_events_model.dart';
 import 'package:assignment/screens/events/ticket_approval_screen.dart';
 import 'package:assignment/screens/report/report_screen.dart';
@@ -8,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:intl/intl.dart';
 
 class EventsScreen extends StatefulWidget {
   const EventsScreen({super.key, required this.event});
@@ -28,9 +28,8 @@ class _EventsScreenState extends State<EventsScreen> {
           '#ff6666', 'Cancel', true, ScanMode.QR);
       if (!mounted) return;
       qrData = qrCode;
-      //_showRadio(context);
       if (qrData != null) {
-        bool isScanned = await TicketRepo().getTicket(qrData!);
+        bool isScanned = await TicketRepo().scanTicket(qrData!);
         if (isScanned) {
           Navigator.of(context).push(
             MaterialPageRoute(
@@ -94,134 +93,11 @@ class _EventsScreenState extends State<EventsScreen> {
           ? const Center(child: CircularProgressIndicator())
           : Column(
               children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                    image: DecorationImage(
-                        image: NetworkImage(widget.event.image!),
-                        fit: BoxFit.cover,
-                        opacity: 0.5),
-                    borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(40),
-                      bottomRight: Radius.circular(40),
-                    ),
-                  ),
-                  constraints: BoxConstraints(
-                    maxHeight: 230,
-                    maxWidth: MediaQuery.of(context).size.width,
-                  ),
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 30),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.arrow_back,
-                                color: Colors.white),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                          Container(
-                            height: 37,
-                            width: 37,
-                            decoration: BoxDecoration(
-                              color: const Color.fromARGB(255, 29, 168, 78),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: IconButton(
-                              iconSize: 24,
-                              icon: const Icon(Icons.refresh,
-                                  color: Colors.white),
-                              onPressed: _refreshScreen,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              widget.event.description!,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge!
-                                  .copyWith(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold),
-                            ),
-                            const SizedBox(height: 16),
-                            Row(
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.all(8),
-                                  decoration: const BoxDecoration(
-                                    color: Colors.white,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: Image.asset(
-                                    'assets/images/calendar.png',
-                                    width: 30,
-                                    height: 30,
-                                  ),
-                                ),
-                                const SizedBox(width: 8),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      DateFormat('dd MMMM yyyy').format(
-                                          DateTime.parse(
-                                              widget.event.date.toString())),
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium!
-                                          .copyWith(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      '${DateFormat('EEEE').format(DateTime.parse(widget.event.date.toString()))}, ${DateFormat('h:mm a').format(DateTime.parse(widget.event.startTime.toString()))} - ${DateFormat('h:mm a').format(DateTime.parse(widget.event.endTime.toString()))}',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodySmall!
-                                          .copyWith(color: Colors.white),
-                                    ),
-                                  ],
-                                ),
-                                const Spacer(),
-                                Row(
-                                  children: [
-                                    Image.asset(
-                                      "assets/images/flash.png",
-                                      width: 30,
-                                      height: 30,
-                                    ),
-                                    Text(
-                                      widget.event.tickets.length.toString(),
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleLarge!
-                                          .copyWith(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                EventAppbar(
+                  event: widget.event,
+                  onPressed: _refreshScreen,
+                  haveSearch: false,
                 ),
-
-                // Other content goes here
                 Expanded(
                   child: ListView(
                     padding: const EdgeInsets.all(16),
