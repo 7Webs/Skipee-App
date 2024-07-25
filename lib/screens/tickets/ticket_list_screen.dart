@@ -1,15 +1,14 @@
 import 'dart:async';
 import 'package:assignment/common/widgets/event_appbar.dart';
-import 'package:assignment/extras/ticket_data.dart';
+import 'package:assignment/screens/tickets/widgets/ticket_data.dart';
 import 'package:assignment/models/get_events_model.dart';
 import 'package:assignment/screens/tickets/widgets/ticket_card.dart';
 import 'package:flutter/material.dart';
 
-
 class TicketListScreen extends StatefulWidget {
   const TicketListScreen(
-      {super.key, required this.isTickets, required this.event});
-  final bool isTickets;
+      {super.key, required this.ticketIndex, required this.event});
+  final int ticketIndex;
   final GetEventsModel event;
 
   @override
@@ -52,22 +51,21 @@ class _TicketListScreenState extends State<TicketListScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        widget.isTickets ? 'Entry Tickets' : 'Queue Skips',
+                        widget.event.tickets![widget.ticketIndex].name!,
                         style: Theme.of(context).textTheme.titleLarge!.copyWith(
                             color: Colors.black, fontWeight: FontWeight.bold),
                       ),
                       Row(
                         children: [
                           Image.asset(
-                            widget.isTickets
-                                ? "assets/images/ticket.png"
-                                : "assets/images/flash.png",
+                            "assets/images/ticket.png",
                             color: Colors.black,
                             width: 30,
                             height: 30,
                           ),
                           Text(
-                            '50',
+                            widget.event.tickets![widget.ticketIndex]
+                                .totalQuantity!,
                             style: Theme.of(context).textTheme.titleLarge,
                           ),
                         ],
@@ -84,7 +82,7 @@ class _TicketListScreenState extends State<TicketListScreen> {
                         name: data.name,
                         username: data.username,
                         tickets: data.tickets,
-                        isTicket: widget.isTickets,
+                        ticketIndex: widget.ticketIndex,
                       );
                     }).toList(),
                   ),

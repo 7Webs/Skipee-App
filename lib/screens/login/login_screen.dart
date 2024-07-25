@@ -1,3 +1,4 @@
+import 'package:assignment/common/constants.dart';
 import 'package:assignment/models/login_user_model.dart';
 import 'package:assignment/screens/home/home_bottom_bar.dart';
 import 'package:assignment/repository/auth_repo.dart';
@@ -18,27 +19,14 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     void loginButton() async {
       if (emailController.text.isEmpty || passwordController.text.isEmpty) {
-        ScaffoldMessenger.of(context).clearSnackBars();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text("Enter the required fields"),
-            backgroundColor: Colors.red.shade400,
-            behavior: SnackBarBehavior.fixed,
-          ),
-        );
+        showSnackBar(context, "Please Enter your Email and Password",
+            Colors.red.shade400);
         return;
       }
       try {
         LoginUserModel userData = await AuthServices()
             .loginUser(emailController.text, passwordController.text);
-        ScaffoldMessenger.of(context).clearSnackBars();
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Logged in Successfully"),
-            backgroundColor: Color(0xFF1eb953),
-            behavior: SnackBarBehavior.fixed,
-          ),
-        );
+        showSnackBar(context, "Logged in successfully`", Colors.green.shade400);
         var pref = await SharedPreferences.getInstance();
         pref.setBool("login", true);
         pref.setString("email", userData.user!.email!);
@@ -59,14 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         );
       } catch (e) {
-        ScaffoldMessenger.of(context).clearSnackBars();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(e.toString()),
-            backgroundColor: Colors.red.shade400,
-            behavior: SnackBarBehavior.fixed,
-          ),
-        );
+        showSnackBar(context, e.toString(), Colors.red.shade400);
       }
     }
 

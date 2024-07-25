@@ -1,203 +1,270 @@
 class GetEventsModel {
-  GetEventsModel({
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.image,
-    required this.date,
-    required this.startTime,
-    required this.endTime,
-    required this.location,
-    required this.site,
-    required this.lastEntryTime,
-    required this.minAgeLimit,
-    required this.tickets,
-    required this.owner,
-    required this.status,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.v,
-  });
+  String? sId;
+  String? name;
+  String? description;
+  String? image;
+  String? date;
+  String? startTime;
+  String? endTime;
+  String? location;
+  Site? site;
+  String? lastEntryTime;
+  int? minAgeLimit;
+  List<Tickets>? tickets;
+  Owner? owner;
+  String? status;
+  String? createdAt;
+  String? updatedAt;
+  int? iV;
 
-  final String? id;
-  final String? name;
-  final String? description;
-  final String? image;
-  final DateTime? date;
-  final DateTime? startTime;
-  final DateTime? endTime;
-  final String? location;
-  final Site? site;
-  final DateTime? lastEntryTime;
-  final int? minAgeLimit;
-  final List<dynamic> tickets;
-  final Owner? owner;
-  final String? status;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
-  final int? v;
+  GetEventsModel(
+      {this.sId,
+      this.name,
+      this.description,
+      this.image,
+      this.date,
+      this.startTime,
+      this.endTime,
+      this.location,
+      this.site,
+      this.lastEntryTime,
+      this.minAgeLimit,
+      this.tickets,
+      this.owner,
+      this.status,
+      this.createdAt,
+      this.updatedAt,
+      this.iV});
 
-  factory GetEventsModel.fromJson(Map<String, dynamic> json) {
-    return GetEventsModel(
-      id: json["_id"],
-      name: json["name"],
-      description: json["description"],
-      image: json["image"],
-      date: DateTime.tryParse(json["date"] ?? ""),
-      startTime: DateTime.tryParse(json["startTime"] ?? ""),
-      endTime: DateTime.tryParse(json["endTime"] ?? ""),
-      location: json["location"],
-      site: json["site"] == null ? null : Site.fromJson(json["site"]),
-      lastEntryTime: DateTime.tryParse(json["lastEntryTime"] ?? ""),
-      minAgeLimit: json["minAgeLimit"],
-      tickets: json["tickets"] == null
-          ? []
-          : List<dynamic>.from(json["tickets"]!.map((x) => x)),
-      owner: json["owner"] == null ? null : Owner.fromJson(json["owner"]),
-      status: json["status"],
-      createdAt: DateTime.tryParse(json["createdAt"] ?? ""),
-      updatedAt: DateTime.tryParse(json["updatedAt"] ?? ""),
-      v: json["__v"],
-    );
+  GetEventsModel.fromJson(Map<String, dynamic> json) {
+    sId = json['_id'];
+    name = json['name'];
+    description = json['description'];
+    image = json['image'];
+    date = json['date'];
+    startTime = json['startTime'];
+    endTime = json['endTime'];
+    location = json['location'];
+    site = json['site'] != null ? new Site.fromJson(json['site']) : null;
+    lastEntryTime = json['lastEntryTime'];
+    minAgeLimit = json['minAgeLimit'];
+    if (json['tickets'] != null) {
+      tickets = <Tickets>[];
+      json['tickets'].forEach((v) {
+        tickets!.add(new Tickets.fromJson(v));
+      });
+    }
+    owner = json['owner'] != null ? new Owner.fromJson(json['owner']) : null;
+    status = json['status'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+    iV = json['__v'];
   }
 
-  Map<String, dynamic> toJson() => {
-        "_id": id,
-        "name": name,
-        "description": description,
-        "image": image,
-        "date": date?.toIso8601String(),
-        "startTime": startTime?.toIso8601String(),
-        "endTime": endTime?.toIso8601String(),
-        "location": location,
-        "site": site?.toJson(),
-        "lastEntryTime": lastEntryTime?.toIso8601String(),
-        "minAgeLimit": minAgeLimit,
-        "tickets": tickets.map((x) => x).toList(),
-        "owner": owner?.toJson(),
-        "status": status,
-        "createdAt": createdAt?.toIso8601String(),
-        "updatedAt": updatedAt?.toIso8601String(),
-        "__v": v,
-      };
-}
-
-class Owner {
-  Owner({
-    required this.id,
-    required this.name,
-    required this.email,
-    required this.password,
-    required this.role,
-    required this.isActive,
-    required this.lastSeen,
-    required this.gender,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.v,
-    required this.worksIn,
-    required this.birthDate,
-  });
-
-  final String? id;
-  final String? name;
-  final String? email;
-  final String? password;
-  final String? role;
-  final bool? isActive;
-  final DateTime? lastSeen;
-  final String? gender;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
-  final int? v;
-  final String? worksIn;
-  final DateTime? birthDate;
-
-  factory Owner.fromJson(Map<String, dynamic> json) {
-    return Owner(
-      id: json["_id"],
-      name: json["name"],
-      email: json["email"],
-      password: json["password"],
-      role: json["role"],
-      isActive: json["isActive"],
-      lastSeen: DateTime.tryParse(json["lastSeen"] ?? ""),
-      gender: json["gender"],
-      createdAt: DateTime.tryParse(json["createdAt"] ?? ""),
-      updatedAt: DateTime.tryParse(json["updatedAt"] ?? ""),
-      v: json["__v"],
-      worksIn: json["worksIn"],
-      birthDate: DateTime.tryParse(json["birthDate"] ?? ""),
-    );
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.sId;
+    data['name'] = this.name;
+    data['description'] = this.description;
+    data['image'] = this.image;
+    data['date'] = this.date;
+    data['startTime'] = this.startTime;
+    data['endTime'] = this.endTime;
+    data['location'] = this.location;
+    if (this.site != null) {
+      data['site'] = this.site!.toJson();
+    }
+    data['lastEntryTime'] = this.lastEntryTime;
+    data['minAgeLimit'] = this.minAgeLimit;
+    if (this.tickets != null) {
+      data['tickets'] = this.tickets!.map((v) => v.toJson()).toList();
+    }
+    if (this.owner != null) {
+      data['owner'] = this.owner!.toJson();
+    }
+    data['status'] = this.status;
+    data['createdAt'] = this.createdAt;
+    data['updatedAt'] = this.updatedAt;
+    data['__v'] = this.iV;
+    return data;
   }
-
-  Map<String, dynamic> toJson() => {
-        "_id": id,
-        "name": name,
-        "email": email,
-        "password": password,
-        "role": role,
-        "isActive": isActive,
-        "lastSeen": lastSeen?.toIso8601String(),
-        "gender": gender,
-        "createdAt": createdAt?.toIso8601String(),
-        "updatedAt": updatedAt?.toIso8601String(),
-        "__v": v,
-        "worksIn": worksIn,
-        "birthDate": birthDate?.toIso8601String(),
-      };
 }
 
 class Site {
-  Site({
-    required this.id,
-    required this.name,
-    required this.email,
-    required this.phone,
-    required this.logo,
-    required this.owner,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.v,
-    required this.approved,
-  });
+  String? sId;
+  String? name;
+  String? email;
+  String? phone;
+  String? logo;
+  String? owner;
+  bool? approved;
+  String? createdAt;
+  String? updatedAt;
+  int? iV;
 
-  final String? id;
-  final String? name;
-  final String? email;
-  final String? phone;
-  final String? logo;
-  final String? owner;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
-  final int? v;
-  final bool? approved;
+  Site(
+      {this.sId,
+      this.name,
+      this.email,
+      this.phone,
+      this.logo,
+      this.owner,
+      this.approved,
+      this.createdAt,
+      this.updatedAt,
+      this.iV});
 
-  factory Site.fromJson(Map<String, dynamic> json) {
-    return Site(
-      id: json["_id"],
-      name: json["name"],
-      email: json["email"],
-      phone: json["phone"],
-      logo: json["logo"],
-      owner: json["owner"],
-      createdAt: DateTime.tryParse(json["createdAt"] ?? ""),
-      updatedAt: DateTime.tryParse(json["updatedAt"] ?? ""),
-      v: json["__v"],
-      approved: json["approved"],
-    );
+  Site.fromJson(Map<String, dynamic> json) {
+    sId = json['_id'];
+    name = json['name'];
+    email = json['email'];
+    phone = json['phone'];
+    logo = json['logo'];
+    owner = json['owner'];
+    approved = json['approved'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+    iV = json['__v'];
   }
 
-  Map<String, dynamic> toJson() => {
-        "_id": id,
-        "name": name,
-        "email": email,
-        "phone": phone,
-        "logo": logo,
-        "owner": owner,
-        "createdAt": createdAt?.toIso8601String(),
-        "updatedAt": updatedAt?.toIso8601String(),
-        "__v": v,
-        "approved": approved,
-      };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.sId;
+    data['name'] = this.name;
+    data['email'] = this.email;
+    data['phone'] = this.phone;
+    data['logo'] = this.logo;
+    data['owner'] = this.owner;
+    data['approved'] = this.approved;
+    data['createdAt'] = this.createdAt;
+    data['updatedAt'] = this.updatedAt;
+    data['__v'] = this.iV;
+    return data;
+  }
+}
+
+class Tickets {
+  String? sId;
+  String? name;
+  String? totalQuantity;
+  String? availableQuantity;
+  String? price;
+  String? type;
+  String? event;
+  String? site;
+  String? saleStartTime;
+  String? saleEndTime;
+  int? iV;
+  String? createdAt;
+  String? updatedAt;
+
+  Tickets(
+      {this.sId,
+      this.name,
+      this.totalQuantity,
+      this.availableQuantity,
+      this.price,
+      this.type,
+      this.event,
+      this.site,
+      this.saleStartTime,
+      this.saleEndTime,
+      this.iV,
+      this.createdAt,
+      this.updatedAt});
+
+  Tickets.fromJson(Map<String, dynamic> json) {
+    sId = json['_id'];
+    name = json['name'];
+    totalQuantity = json['totalQuantity'];
+    availableQuantity = json['availableQuantity'];
+    price = json['price'];
+    type = json['type'];
+    event = json['event'];
+    site = json['site'];
+    saleStartTime = json['saleStartTime'];
+    saleEndTime = json['saleEndTime'];
+    iV = json['__v'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.sId;
+    data['name'] = this.name;
+    data['totalQuantity'] = this.totalQuantity;
+    data['availableQuantity'] = this.availableQuantity;
+    data['price'] = this.price;
+    data['type'] = this.type;
+    data['event'] = this.event;
+    data['site'] = this.site;
+    data['saleStartTime'] = this.saleStartTime;
+    data['saleEndTime'] = this.saleEndTime;
+    data['__v'] = this.iV;
+    data['createdAt'] = this.createdAt;
+    data['updatedAt'] = this.updatedAt;
+    return data;
+  }
+}
+
+class Owner {
+  String? sId;
+  String? name;
+  String? email;
+  String? password;
+  String? role;
+  bool? isActive;
+  String? lastSeen;
+  String? gender;
+  String? createdAt;
+  String? updatedAt;
+  int? iV;
+  String? worksIn;
+
+  Owner(
+      {this.sId,
+      this.name,
+      this.email,
+      this.password,
+      this.role,
+      this.isActive,
+      this.lastSeen,
+      this.gender,
+      this.createdAt,
+      this.updatedAt,
+      this.iV,
+      this.worksIn});
+
+  Owner.fromJson(Map<String, dynamic> json) {
+    sId = json['_id'];
+    name = json['name'];
+    email = json['email'];
+    password = json['password'];
+    role = json['role'];
+    isActive = json['isActive'];
+    lastSeen = json['lastSeen'];
+    gender = json['gender'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+    iV = json['__v'];
+    worksIn = json['worksIn'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.sId;
+    data['name'] = this.name;
+    data['email'] = this.email;
+    data['password'] = this.password;
+    data['role'] = this.role;
+    data['isActive'] = this.isActive;
+    data['lastSeen'] = this.lastSeen;
+    data['gender'] = this.gender;
+    data['createdAt'] = this.createdAt;
+    data['updatedAt'] = this.updatedAt;
+    data['__v'] = this.iV;
+    data['worksIn'] = this.worksIn;
+    return data;
+  }
 }

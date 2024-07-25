@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:assignment/common/constants.dart';
 import 'package:assignment/common/widgets/event_appbar.dart';
 import 'package:assignment/models/get_events_model.dart';
 import 'package:flutter/material.dart';
@@ -165,7 +166,11 @@ class _ReportScreenState extends State<ReportScreen> {
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pop(context);
+                              showSnackBar(context, "Successfully Reported",
+                                  Colors.green.shade400);
+                            },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFF1eb953),
                               padding: const EdgeInsets.symmetric(vertical: 16),

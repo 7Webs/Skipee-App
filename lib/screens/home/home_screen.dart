@@ -292,18 +292,28 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                 );
                               },
+                              // child: EventCard(
+                              //   date: DateFormat('dd MMMM').format(
+                              //       DateTime.parse(
+                              //           filterEvents[index].date.toString())),
+                              //   time: DateFormat('h:mm a').format(
+                              //       DateTime.parse(filterEvents[index]
+                              //           .startTime
+                              //           .toString())),
+                              //   description: filterEvents[index].description!,
+                              //   location: filterEvents[index].location!,
+                              //   imageUrl: filterEvents[index].image!,
+                              //   id: filterEvents[index].sId!,
+                              // ),
                               child: EventCard(
-                                date: DateFormat('dd MMMM').format(
-                                    DateTime.parse(
-                                        filterEvents[index].date.toString())),
-                                time: DateFormat('h:mm a').format(
-                                    DateTime.parse(filterEvents[index]
-                                        .startTime
-                                        .toString())),
+                                date: DateFormat('d MMMM').format(
+                                    DateTime.parse(filterEvents[index].date!)),
+                                startTime: filterEvents[index].startTime!,
+                                endTime: filterEvents[index].endTime!,
                                 description: filterEvents[index].description!,
                                 location: filterEvents[index].location!,
                                 imageUrl: filterEvents[index].image!,
-                                id: filterEvents[index].id!,
+                                id: filterEvents[index].sId!,
                               ),
                             );
                           },

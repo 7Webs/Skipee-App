@@ -80,7 +80,7 @@ class EventAppbar extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          DateFormat('dd MMMM yyyy')
+                          DateFormat('d MMMM yyyy')
                               .format(DateTime.parse(event.date.toString())),
                           style: Theme.of(context)
                               .textTheme
@@ -90,7 +90,7 @@ class EventAppbar extends StatelessWidget {
                                   fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          '${DateFormat('EEEE').format(DateTime.parse(event.date.toString()))}, ${DateFormat('h:mm a').format(DateTime.parse(event.startTime.toString()))} - ${DateFormat('h:mm a').format(DateTime.parse(event.endTime.toString()))}',
+                          '${DateFormat('EEEE').format(DateTime.parse(event.date.toString()))}, ${event.startTime} - ${event.endTime}',
                           style: Theme.of(context)
                               .textTheme
                               .bodySmall!

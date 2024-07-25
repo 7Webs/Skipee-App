@@ -6,7 +6,7 @@ class TicketListCardWidget extends StatelessWidget {
   final String name;
   final String username;
   final int tickets;
-  final bool isTicket;
+  final int ticketIndex;
 
   const TicketListCardWidget({
     super.key,
@@ -14,7 +14,7 @@ class TicketListCardWidget extends StatelessWidget {
     required this.name,
     required this.username,
     required this.tickets,
-    required this.isTicket,
+    required this.ticketIndex,
   });
 
   @override
@@ -53,9 +53,7 @@ class TicketListCardWidget extends StatelessWidget {
               Row(
                 children: [
                   Image.asset(
-                    isTicket
-                        ? "assets/images/ticket.png"
-                        : "assets/images/flash.png",
+                    "assets/images/ticket.png",
                     color: Colors.grey,
                     width: 30,
                     height: 30,

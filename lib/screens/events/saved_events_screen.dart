@@ -52,7 +52,6 @@ class _SavedEventsScreenState extends ConsumerState<SavedEventsScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Image.asset(
-                      
                       "assets/images/no_save.png",
                       color: const Color(0xFF1eb953),
                     ),
@@ -80,18 +79,17 @@ class _SavedEventsScreenState extends ConsumerState<SavedEventsScreen> {
                             ),
                           );
                         },
-                        child: savedEvents.contains(events[index].id)
+                        child: savedEvents.contains(events[index].sId)
                             ? EventCard(
                                 date: DateFormat('dd MMMM').format(
                                     DateTime.parse(
                                         events[index].date.toString())),
-                                time: DateFormat('h:mm a').format(
-                                    DateTime.parse(
-                                        events[index].startTime.toString())),
+                                startTime: events[index].startTime!,
+                                endTime: events[index].endTime!,
                                 description: events[index].description!,
                                 location: events[index].location!,
                                 imageUrl: events[index].image!,
-                                id: events[index].id!,
+                                id: events[index].sId!,
                               )
                             : Container(),
                       );

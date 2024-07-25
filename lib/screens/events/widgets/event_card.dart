@@ -1,10 +1,12 @@
+import 'package:assignment/common/constants.dart';
 import 'package:assignment/providers/saved_events_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class EventCard extends ConsumerWidget {
   final String date;
-  final String time;
+  final String startTime;
+  final String endTime;
   final String description;
   final String location;
   final String imageUrl;
@@ -13,7 +15,8 @@ class EventCard extends ConsumerWidget {
   const EventCard({
     super.key,
     required this.date,
-    required this.time,
+    required this.startTime,
+    required this.endTime,
     required this.description,
     required this.location,
     required this.imageUrl,
@@ -67,7 +70,7 @@ class EventCard extends ConsumerWidget {
                       ),
                       const SizedBox(width: 10),
                       Text(
-                        time,
+                        '$startTime - $endTime',
                         style: Theme.of(context).textTheme.titleLarge!.copyWith(
                             color: Colors.white, fontWeight: FontWeight.bold),
                       ),
@@ -79,6 +82,11 @@ class EventCard extends ConsumerWidget {
                         : const Icon(Icons.bookmark_border),
                     color: Colors.white,
                     onPressed: () {
+                      !savedEvents.contains(id)
+                          ? showSnackBar(context, "Event Added to WishList",
+                              Colors.green.shade400)
+                          : showSnackBar(context, "Event Removed from WishList",
+                              Colors.green.shade400);
                       ref
                           .read(savedEventsProvider.notifier)
                           .toggleSavedEvents(id);

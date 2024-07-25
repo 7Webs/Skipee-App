@@ -39,12 +39,12 @@ class AuthServices {
   }
 
   Future<GetUserModel> getUser(String token) async {
-    final url = Uri.parse("$URL/auth");
+    final url = Uri.parse("$URL/users");
     final response =
         await http.get(url, headers: {"Authorization": "Bearer $token"});
     final data = jsonDecode(response.body);
     if (response.statusCode == 200) {
-      log("logged in successfully");
+      log(data.toString());
       return GetUserModel.fromJson(data);
     } else {
       log(data.toString());

@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:assignment/common/constants.dart';
 import 'package:assignment/models/get_user_model.dart';
 import 'package:assignment/repository/auth_repo.dart';
 import 'package:assignment/screens/login/login_screen.dart';
@@ -39,9 +40,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     String token = pref.getString("token")!;
     log(token);
     userData = await AuthServices().getUser(token);
+
     setState(() {
-      nameController.text = userData.name!;
-      emailController.text = userData.email!;
+      nameController.text = userData.name ?? "Name";
+      emailController.text = userData.email ?? "Email";
       isLoading = false;
     });
   }
@@ -58,6 +60,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         builder: (_) => const LoginScreen(),
       ),
     );
+    showSnackBar(context, "Logged out successfully", Colors.green.shade400);
   }
 
   @override

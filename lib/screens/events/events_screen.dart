@@ -1,9 +1,10 @@
+import 'package:assignment/common/constants.dart';
 import 'package:assignment/common/widgets/event_appbar.dart';
 import 'package:assignment/models/get_events_model.dart';
-import 'package:assignment/screens/events/ticket_approval_screen.dart';
+import 'package:assignment/models/get_ticket_model.dart';
 import 'package:assignment/screens/report/report_screen.dart';
 import 'package:assignment/screens/tickets/ticket_list_screen.dart';
-import 'package:assignment/screens/tickets/widgets/ticket_radio_button._bottom_sheet.dart';
+import 'package:assignment/screens/tickets/widgets/ticket_qr_details_bottom_sheet.dart';
 import 'package:assignment/repository/ticket_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,6 +23,15 @@ class _EventsScreenState extends State<EventsScreen> {
   bool _isLoading = false;
   String? qrData;
 
+  void showticketDetails(
+      BuildContext context, GetTicketModel ticket, GetEventsModel event) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) =>
+          TicketQrDetailsBottomSheet(ticket: ticket, event: event),
+    );
+  }
+
   void scanQrCode() async {
     try {
       final qrCode = await FlutterBarcodeScanner.scanBarcode(
@@ -29,43 +39,14 @@ class _EventsScreenState extends State<EventsScreen> {
       if (!mounted) return;
       qrData = qrCode;
       if (qrData != null) {
-        bool isScanned = await TicketRepo().scanTicket(qrData!);
-        if (isScanned) {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (_) => const TicketApprovalScreen(),
-            ),
-          );
+        GetTicketModel ticket = await TicketRepo().scanTicket(qrData!);
+
+        if (ticket.isScaned!) {
+          showticketDetails(context, ticket, widget.event);
+        } else if (ticket.isScaned!) {
+          showAlertDialog(context, "TICKET ALREADY SCANNED");
         } else {
-          showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                backgroundColor: const Color(0xFF1eb953),
-                content: Text(
-                  'NO TICKET FOUND',
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleLarge!
-                      .copyWith(color: Colors.white),
-                ),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Text(
-                      'OK',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyLarge!
-                          .copyWith(color: Colors.white),
-                    ),
-                  ),
-                ],
-              );
-            },
-          );
+          showAlertDialog(context, "NO TICKET FOUND");
         }
       }
     } on PlatformException {
@@ -88,6 +69,8 @@ class _EventsScreenState extends State<EventsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    bool isGreen = true;
     return Scaffold(
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
@@ -99,275 +82,189 @@ class _EventsScreenState extends State<EventsScreen> {
                   haveSearch: false,
                 ),
                 Expanded(
-                  child: ListView(
-                    padding: const EdgeInsets.all(16),
+                  child: ListView.builder(
+                    itemCount: widget.event.tickets!.length,
+                    itemBuilder: (context, index) {
+                      isGreen = !isGreen;
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => TicketListScreen(
+                                event: widget.event,
+                                ticketIndex: index,
+                              ),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          height: MediaQuery.of(context).size.height / 4,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: isGreen
+                                  ? const AssetImage(
+                                      'assets/images/ticket_card.png')
+                                  : const AssetImage(
+                                      'assets/images/queue_card.png'),
+                              fit: BoxFit.cover,
+                            ),
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                widget.event.tickets![index].name!,
+                                style: theme.textTheme.headlineMedium!.copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(height: 20),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const SizedBox(),
+                                  Text(
+                                    'Remaining',
+                                    style: theme.textTheme.titleLarge!
+                                        .copyWith(color: Colors.white),
+                                  ),
+                                  const SizedBox(),
+                                  const SizedBox(),
+                                  Text(
+                                    widget
+                                        .event.tickets![index].availableQuantity
+                                        .toString(),
+                                    style: theme.textTheme.headlineMedium!
+                                        .copyWith(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(),
+                                ],
+                              ),
+                              const SizedBox(height: 10),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const SizedBox(),
+                                  Text(
+                                    'Admitted',
+                                    style: theme.textTheme.titleLarge!
+                                        .copyWith(color: Colors.white),
+                                  ),
+                                  const SizedBox(),
+                                  const SizedBox(),
+                                  Text(
+                                    '${int.parse(widget.event.tickets![index].totalQuantity!) - int.parse(widget.event.tickets![index].availableQuantity!)}',
+                                    style: theme.textTheme.headlineMedium!
+                                        .copyWith(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(),
+                                ],
+                              ),
+                              const SizedBox(height: 10),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (_) => TicketListScreen(
-                                isTickets: false,
-                                event: widget.event,
-                              ),
-                            ),
-                          );
-                        },
-                        child: Container(
-                          height: MediaQuery.of(context).size.height / 4,
-                          decoration: BoxDecoration(
-                            image: const DecorationImage(
-                              image: AssetImage('assets/images/queue_card.png'),
-                              fit: BoxFit.cover,
-                            ),
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          padding: const EdgeInsets.all(30),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Queue Skips',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleLarge!
-                                    .copyWith(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold),
-                              ),
-                              const SizedBox(height: 12),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Remaining',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge!
-                                        .copyWith(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    widget.event.tickets.length.toString(),
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleLarge!
-                                        .copyWith(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold),
+                      Column(
+                        children: [
+                          GestureDetector(
+                            onTap: scanQrCode,
+                            child: Container(
+                              padding: const EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 2,
+                                    blurRadius: 5,
+                                    offset: const Offset(0, 3),
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 8),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text('Admitted',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge!
-                                          .copyWith(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold)),
-                                  Text(widget.event.tickets.length.toString(),
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleLarge!
-                                          .copyWith(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold)),
-                                ],
+                              child: Image.asset(
+                                'assets/images/scanner.png',
+                                width: 30,
+                                height: 30,
                               ),
-                            ],
+                            ),
                           ),
-                        ),
+                          const SizedBox(height: 8),
+                          Text(
+                            'VERIFY TICKET',
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleSmall!
+                                .copyWith(color: Colors.grey),
+                          ),
+                        ],
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (_) => TicketListScreen(
-                                isTickets: true,
-                                event: widget.event,
-                              ),
-                            ),
-                          );
-                        },
-                        child: Container(
-                          height: MediaQuery.of(context).size.height / 4,
-                          decoration: BoxDecoration(
-                            image: const DecorationImage(
-                              image:
-                                  AssetImage('assets/images/ticket_card.png'),
-                              fit: BoxFit.cover,
-                            ),
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          padding: const EdgeInsets.all(30),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Entry Tickets',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleLarge!
-                                    .copyWith(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold),
-                              ),
-                              const SizedBox(height: 12),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Remaining',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge!
-                                        .copyWith(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold),
+                      const SizedBox(width: 20),
+                      Column(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (_) => ReportScreen(
+                                    event: widget.event,
                                   ),
-                                  Text(
-                                    widget.event.tickets.length.toString(),
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleLarge!
-                                        .copyWith(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold),
+                                ),
+                              );
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 2,
+                                    blurRadius: 5,
+                                    offset: const Offset(0, 3),
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 8),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text('Admitted',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge!
-                                          .copyWith(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold)),
-                                  Text(
-                                    widget.event.tickets.length.toString(),
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleLarge!
-                                        .copyWith(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold),
-                                  ),
-                                ],
+                              child: const Icon(
+                                Icons.report,
+                                size: 30,
                               ),
-                            ],
+                            ),
                           ),
-                        ),
-                      ),
-                      Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Column(
-                              children: [
-                                GestureDetector(
-                                  onTap: scanQrCode,
-                                  child: Container(
-                                    padding: const EdgeInsets.all(16),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      shape: BoxShape.circle,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          spreadRadius: 2,
-                                          blurRadius: 5,
-                                          offset: const Offset(0, 3),
-                                        ),
-                                      ],
-                                    ),
-                                    child: Image.asset(
-                                      'assets/images/scanner.png',
-                                      width: 30,
-                                      height: 30,
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  'VERIFY TICKET',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleSmall!
-                                      .copyWith(color: Colors.grey),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(width: 20),
-                            Column(
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (_) => ReportScreen(
-                                          event: widget.event,
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                  child: Container(
-                                    padding: const EdgeInsets.all(16),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      shape: BoxShape.circle,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          spreadRadius: 2,
-                                          blurRadius: 5,
-                                          offset: const Offset(0, 3),
-                                        ),
-                                      ],
-                                    ),
-                                    child: Icon(
-                                      Icons.report,
-                                      size: 30,
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  'REPORT',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleSmall!
-                                      .copyWith(color: Colors.grey),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
+                          const SizedBox(height: 8),
+                          Text(
+                            'REPORT',
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleSmall!
+                                .copyWith(color: Colors.grey),
+                          ),
+                        ],
                       ),
                     ],
                   ),
                 ),
+                const SizedBox(height: 25),
               ],
             ),
     );
   }
-}
-
-void _showRadio(BuildContext context) {
-  showModalBottomSheet(
-    context: context,
-    builder: (context) => const TicketRadioBottomSheet(),
-  );
 }

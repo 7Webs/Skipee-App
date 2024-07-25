@@ -1,4 +1,4 @@
-import 'package:assignment/screens/events/ticket_approval_screen.dart';
+import 'package:assignment/screens/tickets/ticket_approval_screen.dart';
 import 'package:flutter/material.dart';
 
 class TicketDetailBottomSheet extends StatefulWidget {

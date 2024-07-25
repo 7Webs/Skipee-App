@@ -1,3 +1,4 @@
+import 'package:assignment/common/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:assignment/repository/auth_repo.dart';
@@ -40,32 +41,21 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   void submit() async {
     if (nameController.text.isEmpty || emailController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text("Name and Email cannot be empty"),
-          backgroundColor: Colors.red.shade400,
-        ),
-      );
+      showSnackBar(
+          context, "Name and Email cannot be empty", Colors.red.shade400);
+
       return;
     } else {
       try {
         await AuthServices().updateUser(nameController.text,
             newPasswordController.text, token, emailController.text);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text("Profile Updated"),
-            backgroundColor: Colors.green.shade400,
-          ),
-        );
+        showSnackBar(context, "Profile Updated", Colors.green.shade400);
+
         Navigator.of(context).pop();
         return;
       } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text("Some Error Occurred While Updating Profile"),
-            backgroundColor: Colors.red.shade400,
-          ),
-        );
+        showSnackBar(context, "Some Error Occurred While Updating Profile",
+            Colors.red.shade400);
       }
     }
   }
