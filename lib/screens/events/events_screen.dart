@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:assignment/common/constants.dart';
 import 'package:assignment/common/widgets/event_appbar.dart';
 import 'package:assignment/models/get_events_model.dart';
@@ -40,8 +42,9 @@ class _EventsScreenState extends State<EventsScreen> {
       qrData = qrCode;
       if (qrData != null) {
         GetTicketModel ticket = await TicketRepo().scanTicket(qrData!);
-
-        if (ticket.isScaned!) {
+        log(qrData!);
+        if (!ticket.isScaned!) {
+          GetTicketModel ticket = await TicketRepo().approveTicket(qrData!);
           showticketDetails(context, ticket, widget.event);
         } else if (ticket.isScaned!) {
           showAlertDialog(context, "TICKET ALREADY SCANNED");

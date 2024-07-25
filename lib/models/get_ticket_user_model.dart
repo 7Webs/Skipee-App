@@ -1,4 +1,4 @@
-class GetTicketModel {
+class GetTicketUserModel {
   String? sId;
   String? name;
   String? phone;
@@ -11,7 +11,7 @@ class GetTicketModel {
   String? updatedAt;
   int? iV;
 
-  GetTicketModel(
+  GetTicketUserModel(
       {this.sId,
       this.name,
       this.phone,
@@ -24,7 +24,7 @@ class GetTicketModel {
       this.updatedAt,
       this.iV});
 
-  GetTicketModel.fromJson(Map<String, dynamic> json) {
+  GetTicketUserModel.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     name = json['name'];
     phone = json['phone'];

@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:assignment/common/widgets/event_appbar.dart';
+import 'package:assignment/models/get_ticket_user_model.dart';
+import 'package:assignment/repository/ticket_repo.dart';
 import 'package:assignment/screens/tickets/widgets/ticket_data.dart';
 import 'package:assignment/models/get_events_model.dart';
 import 'package:assignment/screens/tickets/widgets/ticket_card.dart';
@@ -16,26 +18,49 @@ class TicketListScreen extends StatefulWidget {
 }
 
 class _TicketListScreenState extends State<TicketListScreen> {
-  bool _isLoading = false;
+  bool isLoading = false;
   List<TicketData> dummyData = TicketData.dummyData;
+  List<GetTicketUserModel> userList = [];
+
+  @override
+  void initState() {
+    getUserList();
+    super.initState();
+  }
+
+  void getUserList() async {
+    setState(() {
+      isLoading = true;
+    });
+    userList = await TicketRepo()
+        .getTicketUser(widget.event.tickets![widget.ticketIndex].sId!);
+
+    setState(() {
+      isLoading = false;
+    });
+  }
 
   void _refreshScreen() {
     setState(() {
-      _isLoading = true;
+      isLoading = true;
     });
 
     // Simulate a network request or other asynchronous operation
     Timer(const Duration(seconds: 2), () {
       setState(() {
-        _isLoading = false;
+        isLoading = false;
       });
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    final ticketType = widget.event.tickets![widget.ticketIndex].name ?? "";
+    final totalTicketQuantity =
+        widget.event.tickets![widget.ticketIndex].totalQuantity ?? "";
+    final ticketId = widget.event.tickets![widget.ticketIndex].sId ?? "";
     return Scaffold(
-      body: _isLoading
+      body: isLoading
           ? const Center(child: CircularProgressIndicator())
           : Column(
               children: [
@@ -51,7 +76,7 @@ class _TicketListScreenState extends State<TicketListScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        widget.event.tickets![widget.ticketIndex].name!,
+                        ticketType,
                         style: Theme.of(context).textTheme.titleLarge!.copyWith(
                             color: Colors.black, fontWeight: FontWeight.bold),
                       ),
@@ -64,8 +89,7 @@ class _TicketListScreenState extends State<TicketListScreen> {
                             height: 30,
                           ),
                           Text(
-                            widget.event.tickets![widget.ticketIndex]
-                                .totalQuantity!,
+                            totalTicketQuantity,
                             style: Theme.of(context).textTheme.titleLarge,
                           ),
                         ],
@@ -74,17 +98,25 @@ class _TicketListScreenState extends State<TicketListScreen> {
                   ),
                 ),
                 Expanded(
-                  child: ListView(
+                  child: ListView.builder(
                     padding: const EdgeInsets.all(16.0),
-                    children: dummyData.map((data) {
-                      return TicketListCardWidget(
-                        imageUrl: data.imageUrl,
-                        name: data.name,
-                        username: data.username,
-                        tickets: data.tickets,
-                        ticketIndex: widget.ticketIndex,
-                      );
-                    }).toList(),
+                    itemCount: userList.length,
+                    itemBuilder: (context, index) {
+                      final user = userList[index];
+                      if (user.eventTicket!.sId == ticketId) {
+                        return TicketListCardWidget(
+                          name: user.name!,
+                          phoneNumber: user.phone!,
+                          tickets: user.noOfUser!,
+                          ticketIndex: widget.ticketIndex,
+                          ticketType: ticketType,
+                          isScanned: user.isScaned!,
+                          ticketId: user.sId!,
+                        );
+                      } else {
+                        return const SizedBox.shrink();
+                      }
+                    },
                   ),
                 ),
               ],

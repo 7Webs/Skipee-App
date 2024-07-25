@@ -1,18 +1,24 @@
+import 'package:assignment/models/get_ticket_model.dart';
+import 'package:assignment/repository/ticket_repo.dart';
 import 'package:assignment/screens/tickets/ticket_approval_screen.dart';
 import 'package:flutter/material.dart';
 
 class TicketDetailBottomSheet extends StatefulWidget {
-  final String imageUrl;
   final String name;
-  final String username;
+  final String phonenumber;
   final int tickets;
+  final String ticketType;
+  final bool isScanned;
+  final String ticketId;
 
   const TicketDetailBottomSheet({
     super.key,
-    required this.imageUrl,
     required this.name,
-    required this.username,
+    required this.phonenumber,
     required this.tickets,
+    required this.ticketType,
+    required this.isScanned,
+    required this.ticketId,
   });
 
   @override
@@ -49,7 +55,11 @@ class _TicketDetailBottomSheetState extends State<TicketDetailBottomSheet> {
               children: [
                 CircleAvatar(
                   backgroundColor: Colors.black,
-                  backgroundImage: NetworkImage(widget.imageUrl),
+                  child: Icon(
+                    Icons.person,
+                    color: Colors.white,
+                    size: 35,
+                  ),
                   radius: 30,
                 ),
                 const SizedBox(width: 16),
@@ -61,7 +71,7 @@ class _TicketDetailBottomSheetState extends State<TicketDetailBottomSheet> {
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     Text(
-                      widget.username,
+                      widget.phonenumber,
                       style: Theme.of(context)
                           .textTheme
                           .bodySmall
@@ -95,15 +105,17 @@ class _TicketDetailBottomSheetState extends State<TicketDetailBottomSheet> {
                         IconButton(
                           icon: Icon(
                             Icons.remove_circle_outline,
-                            color: negativeButtonColor,
+                            color: widget.isScanned
+                                ? Colors.grey
+                                : negativeButtonColor,
                           ),
-                          onPressed: selectedTickets > 1
-                              ? () {
+                          onPressed: widget.isScanned || selectedTickets <= 1
+                              ? null
+                              : () {
                                   setState(() {
                                     selectedTickets--;
                                   });
-                                }
-                              : null,
+                                },
                         ),
                         Container(
                           width: 40,
@@ -123,15 +135,18 @@ class _TicketDetailBottomSheetState extends State<TicketDetailBottomSheet> {
                         IconButton(
                           icon: Icon(
                             Icons.add_circle_outline,
-                            color: positiveButtonColor,
+                            color: widget.isScanned
+                                ? Colors.grey
+                                : positiveButtonColor,
                           ),
-                          onPressed: selectedTickets < widget.tickets
-                              ? () {
+                          onPressed: widget.isScanned ||
+                                  selectedTickets >= widget.tickets
+                              ? null
+                              : () {
                                   setState(() {
                                     selectedTickets++;
                                   });
-                                }
-                              : null,
+                                },
                         ),
                       ],
                     ),
@@ -144,7 +159,8 @@ class _TicketDetailBottomSheetState extends State<TicketDetailBottomSheet> {
             color: Colors.grey.shade200,
             width: MediaQuery.of(context).size.width,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -152,21 +168,11 @@ class _TicketDetailBottomSheetState extends State<TicketDetailBottomSheet> {
                     'Ticket Type:',
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
-                  DropdownButton<String>(
-                    value: selectedTicketType,
-                    items: <String>['General Admission', 'VIP', 'Backstage']
-                        .map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        selectedTicketType = newValue!;
-                      });
-                    },
-                  ),
+                  Text(widget.ticketType,
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleMedium!
+                          .copyWith(fontWeight: FontWeight.bold)),
                 ],
               ),
             ),
@@ -176,22 +182,27 @@ class _TicketDetailBottomSheetState extends State<TicketDetailBottomSheet> {
             child: SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => const TicketApprovalScreen(),
-                    ),
-                  );
-                },
+                onPressed: widget.isScanned
+                    ? null
+                    : () async {
+                        GetTicketModel ticket =
+                            await TicketRepo().approveTicket(widget.ticketId);
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => const TicketApprovalScreen(),
+                          ),
+                        );
+                      },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF1eb953),
+                  backgroundColor:
+                      widget.isScanned ? Colors.grey : const Color(0xFF1eb953),
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10), // Rectangle shape
                   ),
                 ),
                 child: Text(
-                  'ADMIT',
+                  widget.isScanned ? 'Already Scanned' : 'ADMIT',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,

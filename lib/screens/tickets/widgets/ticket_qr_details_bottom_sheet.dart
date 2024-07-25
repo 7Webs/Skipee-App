@@ -65,94 +65,74 @@ class TicketQrDetailsBottomSheet extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 20),
-            if (event.tickets != null)
-              for (final eventTicket in event.tickets!)
-                if (eventTicket.sId == ticket.sId)
-                  Center(
-                    child: Text(
-                      eventTicket.name!,
+            Center(
+              child: Text(
+                ticket.eventTicket!.name!.toUpperCase(),
+                style: theme.textTheme.headlineSmall!.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  decoration: TextDecoration.underline,
+                  decorationColor: Colors.white,
+                ),
+              ),
+            ),
+            const SizedBox(height: 30),
+            RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: 'Name : ',
+                    style: theme.textTheme.headlineSmall!
+                        .copyWith(color: Colors.white),
+                  ),
+                  TextSpan(
+                    text: ticket.name,
+                    style: theme.textTheme.headlineSmall!.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 15),
+            RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: 'Phone : ',
+                    style: theme.textTheme.headlineSmall!
+                        .copyWith(color: Colors.white),
+                  ),
+                  TextSpan(
+                    text: ticket.phone,
+                    style: theme.textTheme.headlineSmall!.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 15),
+            RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: 'Number of People : ',
+                    style: theme.textTheme.headlineSmall!
+                        .copyWith(color: Colors.white),
+                  ),
+                  TextSpan(
+                      text: ticket.noOfUser.toString(),
                       style: theme.textTheme.headlineSmall!.copyWith(
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
-                      ),
-                    ),
-                  ),
-            const SizedBox(height: 10),
-            if (ticket.name != null)
-              RichText(
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: 'Name : ',
-                      style: theme.textTheme.headlineSmall!
-                          .copyWith(color: Colors.white),
-                    ),
-                    TextSpan(
-                        text: ticket.name,
-                        style: theme.textTheme.headlineSmall!.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        )),
-                  ],
-                ),
+                      )),
+                ],
               ),
-            const SizedBox(height: 5),
-            if (ticket.email != null)
-              RichText(
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: 'Email : ',
-                      style: theme.textTheme.headlineSmall!
-                          .copyWith(color: Colors.white),
-                    ),
-                    TextSpan(
-                        text: ticket.email,
-                        style: theme.textTheme.headlineSmall!.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        )),
-                  ],
-                ),
-              ),
-            const SizedBox(height: 8),
-            if (ticket.site != null)
-              RichText(
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: 'Site : ',
-                      style: theme.textTheme.headlineSmall!
-                          .copyWith(color: Colors.white),
-                    ),
-                    TextSpan(
-                        text: ticket.site,
-                        style: theme.textTheme.headlineSmall!.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        )),
-                  ],
-                ),
-              ),
-            const SizedBox(height: 8),
-            if (ticket.noOfUser != null)
-              RichText(
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: 'Number of People : ',
-                      style: theme.textTheme.headlineSmall!
-                          .copyWith(color: Colors.white),
-                    ),
-                    TextSpan(
-                        text: ticket.noOfUser.toString(),
-                        style: theme.textTheme.headlineSmall!.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        )),
-                  ],
-                ),
-              ),
+            ),
+            const SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: SizedBox(

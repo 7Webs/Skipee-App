@@ -2,19 +2,23 @@ import 'package:assignment/screens/tickets/widgets/ticket_detail_bottom_sheet.da
 import 'package:flutter/material.dart';
 
 class TicketListCardWidget extends StatelessWidget {
-  final String imageUrl;
   final String name;
-  final String username;
+  final String phoneNumber;
   final int tickets;
   final int ticketIndex;
+  final String ticketType;
+  final bool isScanned;
+  final String ticketId;
 
   const TicketListCardWidget({
     super.key,
-    required this.imageUrl,
     required this.name,
-    required this.username,
+    required this.phoneNumber,
     required this.tickets,
     required this.ticketIndex,
+    required this.ticketType,
+    required this.isScanned,
+    required this.ticketId,
   });
 
   @override
@@ -29,7 +33,11 @@ class TicketListCardWidget extends StatelessWidget {
             children: [
               CircleAvatar(
                 backgroundColor: Colors.black,
-                backgroundImage: NetworkImage(imageUrl),
+                child: Icon(
+                  Icons.person,
+                  color: Colors.white,
+                  size: 35,
+                ),
                 radius: 30,
               ),
               const SizedBox(width: 16),
@@ -41,7 +49,7 @@ class TicketListCardWidget extends StatelessWidget {
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   Text(
-                    username,
+                    phoneNumber,
                     style: Theme.of(context)
                         .textTheme
                         .bodySmall
@@ -80,10 +88,12 @@ class TicketListCardWidget extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       builder: (context) => TicketDetailBottomSheet(
-        imageUrl: imageUrl,
         name: name,
-        username: username,
+        phonenumber: phoneNumber,
         tickets: tickets,
+        ticketType: ticketType,
+        isScanned: isScanned,
+        ticketId: ticketId,
       ),
     );
   }
