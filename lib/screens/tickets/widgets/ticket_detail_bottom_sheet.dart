@@ -7,6 +7,7 @@ class TicketDetailBottomSheet extends StatefulWidget {
   final String name;
   final String phonenumber;
   final int tickets;
+  final int enteredTickets;
   final String ticketType;
   final bool isScanned;
   final String ticketId;
@@ -16,6 +17,7 @@ class TicketDetailBottomSheet extends StatefulWidget {
     required this.name,
     required this.phonenumber,
     required this.tickets,
+    required this.enteredTickets,
     required this.ticketType,
     required this.isScanned,
     required this.ticketId,
@@ -30,13 +32,24 @@ class _TicketDetailBottomSheetState extends State<TicketDetailBottomSheet> {
   int selectedTickets = 1;
   String selectedTicketType = 'General Admission';
 
+  void admitTicket() async {
+    final GetTicketModel ticket =
+        await TicketRepo().approveTicket(widget.ticketId, selectedTickets);
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => const TicketApprovalScreen(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     Color negativeButtonColor =
         selectedTickets <= 1 ? Colors.grey : const Color(0xFF1eb953);
-    Color positiveButtonColor = selectedTickets < widget.tickets
-        ? const Color(0xFF1eb953)
-        : Colors.grey;
+    Color positiveButtonColor =
+        selectedTickets < (widget.tickets - widget.enteredTickets)
+            ? const Color(0xFF1eb953)
+            : Colors.grey;
     return Container(
       decoration: const BoxDecoration(
         color: Colors.white,
@@ -91,7 +104,9 @@ class _TicketDetailBottomSheetState extends State<TicketDetailBottomSheet> {
                             ?.copyWith(color: Colors.grey),
                         children: <TextSpan>[
                           TextSpan(
-                            text: widget.tickets.toString().padLeft(2, '0'),
+                            text: (widget.tickets - widget.enteredTickets)
+                                .toString()
+                                .padLeft(2, '0'),
                             style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black),
@@ -105,11 +120,12 @@ class _TicketDetailBottomSheetState extends State<TicketDetailBottomSheet> {
                         IconButton(
                           icon: Icon(
                             Icons.remove_circle_outline,
-                            color: widget.isScanned
+                            color: widget.enteredTickets == widget.tickets
                                 ? Colors.grey
                                 : negativeButtonColor,
                           ),
-                          onPressed: widget.isScanned || selectedTickets <= 1
+                          onPressed: widget.enteredTickets == widget.tickets ||
+                                  selectedTickets <= 1
                               ? null
                               : () {
                                   setState(() {
@@ -135,12 +151,13 @@ class _TicketDetailBottomSheetState extends State<TicketDetailBottomSheet> {
                         IconButton(
                           icon: Icon(
                             Icons.add_circle_outline,
-                            color: widget.isScanned
+                            color: widget.enteredTickets == widget.tickets
                                 ? Colors.grey
                                 : positiveButtonColor,
                           ),
-                          onPressed: widget.isScanned ||
-                                  selectedTickets >= widget.tickets
+                          onPressed: widget.enteredTickets == widget.tickets ||
+                                  selectedTickets >=
+                                      (widget.tickets - widget.enteredTickets)
                               ? null
                               : () {
                                   setState(() {
@@ -182,27 +199,22 @@ class _TicketDetailBottomSheetState extends State<TicketDetailBottomSheet> {
             child: SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: widget.isScanned
+                onPressed: widget.enteredTickets == widget.tickets
                     ? null
-                    : () async {
-                        GetTicketModel ticket =
-                            await TicketRepo().approveTicket(widget.ticketId);
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (_) => const TicketApprovalScreen(),
-                          ),
-                        );
-                      },
+                    : admitTicket,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor:
-                      widget.isScanned ? Colors.grey : const Color(0xFF1eb953),
+                  backgroundColor: widget.enteredTickets == widget.tickets
+                      ? Colors.grey
+                      : const Color(0xFF1eb953),
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10), // Rectangle shape
                   ),
                 ),
                 child: Text(
-                  widget.isScanned ? 'Already Scanned' : 'ADMIT',
+                  widget.enteredTickets == widget.tickets
+                      ? 'Already Scanned'
+                      : 'ADMIT',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,

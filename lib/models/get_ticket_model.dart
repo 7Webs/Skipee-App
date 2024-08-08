@@ -3,6 +3,7 @@ class GetTicketModel {
   String? name;
   String? phone;
   int? amount;
+  int? entered;
   EventTicket? eventTicket;
   int? noOfUser;
   bool? isScaned;
@@ -16,6 +17,7 @@ class GetTicketModel {
       this.name,
       this.phone,
       this.amount,
+      this.entered,
       this.eventTicket,
       this.noOfUser,
       this.isScaned,
@@ -29,6 +31,7 @@ class GetTicketModel {
     name = json['name'];
     phone = json['phone'];
     amount = json['amount'];
+    entered = json['entered'];
     eventTicket = json['eventTicket'] != null
         ? new EventTicket.fromJson(json['eventTicket'])
         : null;
@@ -46,6 +49,7 @@ class GetTicketModel {
     data['name'] = this.name;
     data['phone'] = this.phone;
     data['amount'] = this.amount;
+    data['entered'] = this.entered;
     if (this.eventTicket != null) {
       data['eventTicket'] = this.eventTicket!.toJson();
     }

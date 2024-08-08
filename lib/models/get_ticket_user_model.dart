@@ -1,5 +1,6 @@
 class GetTicketUserModel {
   String? sId;
+  int? entered;
   String? name;
   String? phone;
   int? amount;
@@ -14,6 +15,7 @@ class GetTicketUserModel {
   GetTicketUserModel(
       {this.sId,
       this.name,
+      this.entered,
       this.phone,
       this.amount,
       this.eventTicket,
@@ -27,6 +29,7 @@ class GetTicketUserModel {
   GetTicketUserModel.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     name = json['name'];
+    entered = json['entered'];
     phone = json['phone'];
     amount = json['amount'];
     eventTicket = json['eventTicket'] != null
@@ -44,6 +47,7 @@ class GetTicketUserModel {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['_id'] = this.sId;
     data['name'] = this.name;
+    data['entered'] = this.entered;
     data['phone'] = this.phone;
     data['amount'] = this.amount;
     if (this.eventTicket != null) {

@@ -21,14 +21,14 @@ class TicketRepo {
       throw Exception("Ticket Not Found");
     }
   }
-  Future<GetTicketModel> approveTicket(String id) async {
-    final url = Uri.parse("$URL/tickets/approve/$id");
+
+  Future<GetTicketModel> approveTicket(String id, int quantity) async {
+    final url = Uri.parse("$URL/tickets/approve/$id/$quantity");
 
     final response = await http.get(url);
     final data = jsonDecode(response.body);
     if (response.statusCode == 200) {
-      log("Successfully Fetched Ticket");
-
+      log("Successfully Approved Ticket");
       return GetTicketModel.fromJson(data);
     } else {
       log(data.toString());
@@ -43,7 +43,7 @@ class TicketRepo {
     final response = await http.get(url);
     final data = jsonDecode(response.body);
     if (response.statusCode == 200) {
-      log(response.toString());
+      // log(data.toString());
       for (var user in data) {
         list.add(GetTicketUserModel.fromJson(user));
       }

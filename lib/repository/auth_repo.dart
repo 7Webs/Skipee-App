@@ -44,10 +44,8 @@ class AuthServices {
         await http.get(url, headers: {"Authorization": "Bearer $token"});
     final data = jsonDecode(response.body);
     if (response.statusCode == 200) {
-      log(data.toString());
       return GetUserModel.fromJson(data);
     } else {
-      log(data.toString());
       throw Exception("Failed to login");
     }
   }

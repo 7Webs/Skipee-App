@@ -5,6 +5,7 @@ class TicketListCardWidget extends StatelessWidget {
   final String name;
   final String phoneNumber;
   final int tickets;
+  final int enteredTickets;
   final int ticketIndex;
   final String ticketType;
   final bool isScanned;
@@ -15,6 +16,7 @@ class TicketListCardWidget extends StatelessWidget {
     required this.name,
     required this.phoneNumber,
     required this.tickets,
+    required this.enteredTickets,
     required this.ticketIndex,
     required this.ticketType,
     required this.isScanned,
@@ -70,7 +72,7 @@ class TicketListCardWidget extends StatelessWidget {
                     radius: 15,
                     backgroundColor: Theme.of(context).colorScheme.background,
                     child: Text(
-                      tickets.toString().padLeft(2, '0'),
+                      (tickets - enteredTickets).toString().padLeft(2, '0'),
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: Colors.black, fontWeight: FontWeight.bold),
                     ),
@@ -91,6 +93,7 @@ class TicketListCardWidget extends StatelessWidget {
         name: name,
         phonenumber: phoneNumber,
         tickets: tickets,
+        enteredTickets: enteredTickets,
         ticketType: ticketType,
         isScanned: isScanned,
         ticketId: ticketId,

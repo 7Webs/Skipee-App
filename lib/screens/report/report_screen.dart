@@ -1,8 +1,12 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:assignment/common/constants.dart';
 import 'package:assignment/common/widgets/event_appbar.dart';
 import 'package:assignment/models/get_events_model.dart';
+import 'package:assignment/repository/auth_repo.dart';
+import 'package:assignment/repository/report_repo.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ReportScreen extends StatefulWidget {
   const ReportScreen({super.key, required this.event});
@@ -14,6 +18,8 @@ class ReportScreen extends StatefulWidget {
 
 class _ReportScreenState extends State<ReportScreen> {
   bool _isLoading = false;
+  final TextEditingController messageController =
+      TextEditingController(); // Controller for the message input
 
   List<String> incidentTypes = [
     'Assault',
@@ -22,6 +28,7 @@ class _ReportScreenState extends State<ReportScreen> {
     'Others',
   ];
   List<String> selectedIncidents = [];
+
   void _refreshScreen() {
     setState(() {
       _isLoading = true;
@@ -33,6 +40,27 @@ class _ReportScreenState extends State<ReportScreen> {
         _isLoading = false;
       });
     });
+  }
+
+  void submitReport() async {
+    var pref = await SharedPreferences.getInstance();
+    String token = pref.getString("token")!;
+    final userData = await AuthServices().getUser(token);
+    String incidents = selectedIncidents.join(',');
+    bool isReported = await ReportRepo().postReport(
+      userData.sId!,
+      DateTime.now().toString(),
+      messageController.text,
+      userData.worksIn!.sId!,
+      incidents,
+      token,
+    );
+    if (isReported) {
+      Navigator.pop(context);
+      showSnackBar(context, "Successfully Reported", Colors.green.shade400);
+    } else {
+      showSnackBar(context, "Did Not Reported", Colors.red.shade400);
+    }
   }
 
   @override
@@ -133,6 +161,8 @@ class _ReportScreenState extends State<ReportScreen> {
                         ),
                         const SizedBox(height: 16),
                         TextField(
+                          controller:
+                              messageController, // Set the controller for the TextField
                           style: const TextStyle(color: Colors.black),
                           cursorColor: Colors.black,
                           keyboardType: TextInputType.multiline,
@@ -166,11 +196,8 @@ class _ReportScreenState extends State<ReportScreen> {
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                              showSnackBar(context, "Successfully Reported",
-                                  Colors.green.shade400);
-                            },
+                            onPressed:
+                                submitReport, // Call the submitReport function
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFF1eb953),
                               padding: const EdgeInsets.symmetric(vertical: 16),

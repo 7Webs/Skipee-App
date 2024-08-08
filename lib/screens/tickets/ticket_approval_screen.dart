@@ -107,6 +107,7 @@ class _TicketApprovalScreenState extends State<TicketApprovalScreen> {
               onPressed: () {
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
+                Navigator.of(context).pop();
               },
               child: const Text('DONE',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),

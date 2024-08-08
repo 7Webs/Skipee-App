@@ -44,8 +44,9 @@ class _EventsScreenState extends State<EventsScreen> {
         GetTicketModel ticket = await TicketRepo().scanTicket(qrData!);
         log(qrData!);
         if (!ticket.isScaned!) {
-          GetTicketModel ticket = await TicketRepo().approveTicket(qrData!);
-          showticketDetails(context, ticket, widget.event);
+          GetTicketModel ticketNew =
+              await TicketRepo().approveTicket(qrData!, ticket.noOfUser!);
+          showticketDetails(context, ticketNew, widget.event);
         } else if (ticket.isScaned!) {
           showAlertDialog(context, "TICKET ALREADY SCANNED");
         } else {
@@ -122,56 +123,56 @@ class _EventsScreenState extends State<EventsScreen> {
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold),
                               ),
-                              const SizedBox(height: 20),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const SizedBox(),
-                                  Text(
-                                    'Remaining',
-                                    style: theme.textTheme.titleLarge!
-                                        .copyWith(color: Colors.white),
-                                  ),
-                                  const SizedBox(),
-                                  const SizedBox(),
-                                  Text(
-                                    widget
-                                        .event.tickets![index].availableQuantity
-                                        .toString(),
-                                    style: theme.textTheme.headlineMedium!
-                                        .copyWith(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  const SizedBox(),
-                                ],
-                              ),
-                              const SizedBox(height: 10),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const SizedBox(),
-                                  Text(
-                                    'Admitted',
-                                    style: theme.textTheme.titleLarge!
-                                        .copyWith(color: Colors.white),
-                                  ),
-                                  const SizedBox(),
-                                  const SizedBox(),
-                                  Text(
-                                    '${int.parse(widget.event.tickets![index].totalQuantity!) - int.parse(widget.event.tickets![index].availableQuantity!)}',
-                                    style: theme.textTheme.headlineMedium!
-                                        .copyWith(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  const SizedBox(),
-                                ],
-                              ),
+                              // const SizedBox(height: 20),
+                              // Row(
+                              //   mainAxisAlignment:
+                              //       MainAxisAlignment.spaceBetween,
+                              //   children: [
+                              //     const SizedBox(),
+                              //     Text(
+                              //       'Remaining',
+                              //       style: theme.textTheme.titleLarge!
+                              //           .copyWith(color: Colors.white),
+                              //     ),
+                              //     const SizedBox(),
+                              //     const SizedBox(),
+                              //     Text(
+                              //       widget
+                              //           .event.tickets![index].availableQuantity
+                              //           .toString(),
+                              //       style: theme.textTheme.headlineMedium!
+                              //           .copyWith(
+                              //         color: Colors.white,
+                              //         fontWeight: FontWeight.bold,
+                              //       ),
+                              //     ),
+                              //     const SizedBox(),
+                              //   ],
+                              // ),
+                              // const SizedBox(height: 10),
+                              // Row(
+                              //   mainAxisAlignment:
+                              //       MainAxisAlignment.spaceBetween,
+                              //   children: [
+                              //     const SizedBox(),
+                              //     Text(
+                              //       'Admitted',
+                              //       style: theme.textTheme.titleLarge!
+                              //           .copyWith(color: Colors.white),
+                              //     ),
+                              //     const SizedBox(),
+                              //     const SizedBox(),
+                              //     Text(
+                              //       '${int.parse(widget.event.tickets![index].totalQuantity!) - int.parse(widget.event.tickets![index].availableQuantity!)}',
+                              //       style: theme.textTheme.headlineMedium!
+                              //           .copyWith(
+                              //         color: Colors.white,
+                              //         fontWeight: FontWeight.bold,
+                              //       ),
+                              //     ),
+                              //     const SizedBox(),
+                              //   ],
+                              // ),
                               const SizedBox(height: 10),
                             ],
                           ),

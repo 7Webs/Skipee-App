@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:assignment/common/widgets/event_appbar.dart';
+import 'package:assignment/models/get_ticket_model.dart';
 import 'package:assignment/models/get_ticket_user_model.dart';
 import 'package:assignment/repository/ticket_repo.dart';
 import 'package:assignment/screens/tickets/widgets/ticket_data.dart';
@@ -19,7 +20,6 @@ class TicketListScreen extends StatefulWidget {
 
 class _TicketListScreenState extends State<TicketListScreen> {
   bool isLoading = false;
-  List<TicketData> dummyData = TicketData.dummyData;
   List<GetTicketUserModel> userList = [];
 
   @override
@@ -80,20 +80,20 @@ class _TicketListScreenState extends State<TicketListScreen> {
                         style: Theme.of(context).textTheme.titleLarge!.copyWith(
                             color: Colors.black, fontWeight: FontWeight.bold),
                       ),
-                      Row(
-                        children: [
-                          Image.asset(
-                            "assets/images/ticket.png",
-                            color: Colors.black,
-                            width: 30,
-                            height: 30,
-                          ),
-                          Text(
-                            totalTicketQuantity,
-                            style: Theme.of(context).textTheme.titleLarge,
-                          ),
-                        ],
-                      ),
+                      // Row(
+                      //   children: [
+                      //     Image.asset(
+                      //       "assets/images/ticket.png",
+                      //       color: Colors.black,
+                      //       width: 30,
+                      //       height: 30,
+                      //     ),
+                      //     Text(
+                      //       totalTicketQuantity,
+                      //       style: Theme.of(context).textTheme.titleLarge,
+                      //     ),
+                      //   ],
+                      // ),
                     ],
                   ),
                 ),
@@ -108,6 +108,7 @@ class _TicketListScreenState extends State<TicketListScreen> {
                           name: user.name!,
                           phoneNumber: user.phone!,
                           tickets: user.noOfUser!,
+                          enteredTickets: user.entered!,
                           ticketIndex: widget.ticketIndex,
                           ticketType: ticketType,
                           isScanned: user.isScaned!,
