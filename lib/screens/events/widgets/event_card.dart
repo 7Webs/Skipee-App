@@ -58,7 +58,9 @@ class EventCard extends ConsumerWidget {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Text(
-                          "${date.split(' ')[0]}\n${date.split(' ')[1].toUpperCase()}",
+                          date.isNotEmpty
+                              ? "${date.split(' ')[0]}\n${date.split(' ')[1].toUpperCase()}"
+                              : "",
                           textAlign: TextAlign.center,
                           style: Theme.of(context)
                               .textTheme

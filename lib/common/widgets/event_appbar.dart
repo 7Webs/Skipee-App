@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class EventAppbar extends StatelessWidget {
-  const EventAppbar(
-      {super.key,
-      required this.event,
-      required this.onPressed,
-      required this.haveSearch});
+  const EventAppbar({
+    super.key,
+    required this.event,
+    required this.onPressed,
+    required this.haveSearch,
+  });
   final GetEventsModel event;
   final VoidCallback onPressed;
   final bool haveSearch;
@@ -19,8 +20,14 @@ class EventAppbar extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
         color: Colors.black,
-        image: DecorationImage(
-            image: NetworkImage(event.image!), fit: BoxFit.cover, opacity: 0.5),
+        image: event.image != null
+            ? DecorationImage(
+                image: NetworkImage(event.image!),
+                fit: BoxFit.cover,
+                opacity: 0.5,
+                onError: (exception, stackTrace) => Container(),
+              )
+            : null,
         borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(40),
           bottomRight: Radius.circular(40),
@@ -55,11 +62,12 @@ class EventAppbar extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  event.description!,
-                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                      color: Colors.white, fontWeight: FontWeight.bold),
-                ),
+                if (event.description != null)
+                  Text(
+                    event.description!,
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
                 const SizedBox(height: 16),
                 Row(
                   children: [
@@ -79,23 +87,27 @@ class EventAppbar extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          DateFormat('d MMMM yyyy')
-                              .format(DateTime.parse(event.date.toString())),
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium!
-                              .copyWith(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          '${DateFormat('EEEE').format(DateTime.parse(event.date.toString()))}, ${event.startTime} - ${event.endTime}',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall!
-                              .copyWith(color: Colors.white),
-                        ),
+                        if (event.date != null)
+                          Text(
+                            DateFormat('d MMMM yyyy')
+                                .format(DateTime.parse(event.date.toString())),
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium!
+                                .copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                          ),
+                        if (event.date != null &&
+                            event.startTime != null &&
+                            event.endTime != null)
+                          Text(
+                            '${DateFormat('EEEE').format(DateTime.parse(event.date.toString()))}, ${event.startTime} - ${event.endTime}',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall!
+                                .copyWith(color: Colors.white),
+                          ),
                       ],
                     ),
                   ],

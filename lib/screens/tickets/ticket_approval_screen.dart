@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 
 class TicketApprovalScreen extends StatefulWidget {
@@ -9,67 +8,14 @@ class TicketApprovalScreen extends StatefulWidget {
 }
 
 class _TicketApprovalScreenState extends State<TicketApprovalScreen> {
-  int _counter = 5;
-  late Timer _timer;
-
-  @override
-  void initState() {
-    super.initState();
-    _timer = Timer.periodic(const Duration(milliseconds: 800), (timer) {
-      if (_counter > 1) {
-        setState(() {
-          _counter--;
-        });
-      } else {
-        _timer.cancel();
-        Navigator.of(context).pop();
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _timer.cancel();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF1eb953),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          const SizedBox(height: 40),
-          Align(
-            alignment: Alignment.topRight,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                width: 50,
-                height: 50,
-                decoration: BoxDecoration(
-                  color: const Color(0xFF1eb953),
-                  shape: BoxShape.circle,
-                  border: Border.all(color: Colors.white, width: 2),
-                ),
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text('$_counter ',
-                          style: const TextStyle(
-                              fontSize: 20, color: Colors.white)),
-                      const Text('SEC',
-                          style:
-                              TextStyle(fontSize: 12, color: Colors.white70)),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
+        children: [
+          const SizedBox(height: 80),
           Expanded(
             child: Center(
               child: Column(

@@ -1,3 +1,4 @@
+import 'package:assignment/common/widgets/not_fount.dart';
 import 'package:assignment/screens/events/saved_events_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -43,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _getCurrentLocation() async {
-    LocationPermission permission;
+    LocationPermission? permission;
     // Check if location services are enabled
     bool isLocationServiceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!isLocationServiceEnabled) {
@@ -73,17 +74,21 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     // Get the current position
-    Position position = await Geolocator.getCurrentPosition(
+    Position? position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
 
     // Use reverse geocoding to get the address
-    List<Placemark> placemarks =
-        await placemarkFromCoordinates(position.latitude, position.longitude);
-    Placemark place = placemarks[0];
+    if (position != null) {
+      List<Placemark>? placemarks =
+          await placemarkFromCoordinates(position.latitude, position.longitude);
+      Placemark? place = placemarks?.isNotEmpty == true ? placemarks[0] : null;
 
-    setState(() {
-      _location = '${place.locality}, ${place.country}';
-    });
+      setState(() {
+        _location = place != null
+            ? '${place.locality ?? ''}, ${place.country ?? ''}'
+            : 'Location not found';
+      });
+    }
   }
 
   void _filterEvents(String query) {
@@ -95,7 +100,8 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {
         filterEvents = events
             .where((event) =>
-                event.name!.toLowerCase().contains(query.toLowerCase()))
+                event.name?.toLowerCase().contains(query.toLowerCase()) ??
+                false)
             .toList();
       });
     }
@@ -129,12 +135,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 MaterialPageRoute(builder: (_) => const SavedEventsScreen()),
               ),
             ),
-            // ListTile(
-            //   leading: Icon(Icons.account_circle),
-            //   title: Text('Profile'),
-            //   onTap: () => Navigator.of(context).push(
-            //       MaterialPageRoute(builder: (_) => const ProfileScreen())),
-            // ),
             const ListTile(
               leading: Icon(Icons.settings),
               title: Text('Settings'),
@@ -259,61 +259,33 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 filterEvents.isEmpty
-                    ? Center(
-                        child: Column(
-                          children: [
-                            Image.asset(
-                              'assets/images/no_events.png',
-                              width: 200,
-                              height: 300,
-                              color: const Color(0xFF1eb953),
-                            ),
-                            const Text(
-                              "No Available Events",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                      )
+                    ? const NotFoundWidget(message: "No Events Found")
                     : Expanded(
                         child: ListView.builder(
                           itemCount: filterEvents.length,
                           itemBuilder: (BuildContext context, int index) {
+                            final event = filterEvents[index];
                             return GestureDetector(
                               onTap: () {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (_) => EventsScreen(
-                                      event: filterEvents[index],
+                                      event: event,
                                     ),
                                   ),
                                 );
                               },
-                              // child: EventCard(
-                              //   date: DateFormat('dd MMMM').format(
-                              //       DateTime.parse(
-                              //           filterEvents[index].date.toString())),
-                              //   time: DateFormat('h:mm a').format(
-                              //       DateTime.parse(filterEvents[index]
-                              //           .startTime
-                              //           .toString())),
-                              //   description: filterEvents[index].description!,
-                              //   location: filterEvents[index].location!,
-                              //   imageUrl: filterEvents[index].image!,
-                              //   id: filterEvents[index].sId!,
-                              // ),
                               child: EventCard(
-                                date: DateFormat('d MMMM').format(
-                                    DateTime.parse(filterEvents[index].date!)),
-                                startTime: filterEvents[index].startTime!,
-                                endTime: filterEvents[index].endTime!,
-                                description: filterEvents[index].description!,
-                                location: filterEvents[index].location!,
-                                imageUrl: filterEvents[index].image!,
-                                id: filterEvents[index].sId!,
+                                date: event.date != null
+                                    ? DateFormat('d MMMM')
+                                        .format(DateTime.parse(event.date!))
+                                    : '',
+                                startTime: event.startTime ?? '',
+                                endTime: event.endTime ?? '',
+                                description: event.description ?? '',
+                                location: event.location ?? '',
+                                imageUrl: event.image ?? '',
+                                id: event.sId ?? '',
                               ),
                             );
                           },

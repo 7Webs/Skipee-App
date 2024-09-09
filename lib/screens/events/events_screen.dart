@@ -4,6 +4,7 @@ import 'package:assignment/common/constants.dart';
 import 'package:assignment/common/widgets/event_appbar.dart';
 import 'package:assignment/models/get_events_model.dart';
 import 'package:assignment/models/get_ticket_model.dart';
+import 'package:assignment/screens/events/widgets/total_users_bottomsheet.dart';
 import 'package:assignment/screens/report/report_screen.dart';
 import 'package:assignment/screens/tickets/ticket_list_screen.dart';
 import 'package:assignment/screens/tickets/widgets/ticket_qr_details_bottom_sheet.dart';
@@ -12,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:assignment/common/widgets/not_fount.dart';
 
 class EventsScreen extends StatefulWidget {
   const EventsScreen({super.key, required this.event});
@@ -34,6 +36,13 @@ class _EventsScreenState extends State<EventsScreen> {
     );
   }
 
+  Future<int?> showNumberOfUsers(BuildContext context, int totalUsers) {
+    return showModalBottomSheet<int>(
+      context: context,
+      builder: (context) => TotalUsersBottomSheet(totalUsers: totalUsers),
+    );
+  }
+
   void scanQrCode() async {
     try {
       final qrCode = await FlutterBarcodeScanner.scanBarcode(
@@ -43,11 +52,18 @@ class _EventsScreenState extends State<EventsScreen> {
       if (qrData != null) {
         GetTicketModel ticket = await TicketRepo().scanTicket(qrData!);
         log(qrData!);
-        if (!ticket.isScaned!) {
-          GetTicketModel ticketNew =
-              await TicketRepo().approveTicket(qrData!, ticket.noOfUser!);
-          showticketDetails(context, ticketNew, widget.event);
-        } else if (ticket.isScaned!) {
+        if (ticket.entered! < ticket.noOfUser!) {
+          int ans = await showNumberOfUsers(
+                  context, (ticket.noOfUser! - ticket.entered!)) ??
+              0;
+          if (ans > 0) {
+            GetTicketModel ticketNew =
+                await TicketRepo().approveTicket(qrData!, ans);
+            showticketDetails(context, ticketNew, widget.event);
+          } else {
+            return;
+          }
+        } else if (ticket.entered == ticket.noOfUser) {
           showAlertDialog(context, "TICKET ALREADY SCANNED");
         } else {
           showAlertDialog(context, "NO TICKET FOUND");
@@ -86,100 +102,54 @@ class _EventsScreenState extends State<EventsScreen> {
                   haveSearch: false,
                 ),
                 Expanded(
-                  child: ListView.builder(
-                    itemCount: widget.event.tickets!.length,
-                    itemBuilder: (context, index) {
-                      isGreen = !isGreen;
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (_) => TicketListScreen(
-                                event: widget.event,
-                                ticketIndex: index,
+                  child: widget.event.tickets == null ||
+                          widget.event.tickets!.isEmpty
+                      ? const NotFoundWidget(message: "No Tickets Found")
+                      : ListView.builder(
+                          itemCount: widget.event.tickets!.length,
+                          itemBuilder: (context, index) {
+                            isGreen = !isGreen;
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (_) => TicketListScreen(
+                                      event: widget.event,
+                                      ticketIndex: index,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Container(
+                                height: MediaQuery.of(context).size.height / 4,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: isGreen
+                                        ? const AssetImage(
+                                            'assets/images/ticket_card.png')
+                                        : const AssetImage(
+                                            'assets/images/queue_card.png'),
+                                    fit: BoxFit.cover,
+                                  ),
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      widget.event.tickets![index].name!,
+                                      style: theme.textTheme.headlineMedium!
+                                          .copyWith(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold),
+                                    ),
+                                    const SizedBox(height: 10),
+                                  ],
+                                ),
                               ),
-                            ),
-                          );
-                        },
-                        child: Container(
-                          height: MediaQuery.of(context).size.height / 4,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: isGreen
-                                  ? const AssetImage(
-                                      'assets/images/ticket_card.png')
-                                  : const AssetImage(
-                                      'assets/images/queue_card.png'),
-                              fit: BoxFit.cover,
-                            ),
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                widget.event.tickets![index].name!,
-                                style: theme.textTheme.headlineMedium!.copyWith(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              // const SizedBox(height: 20),
-                              // Row(
-                              //   mainAxisAlignment:
-                              //       MainAxisAlignment.spaceBetween,
-                              //   children: [
-                              //     const SizedBox(),
-                              //     Text(
-                              //       'Remaining',
-                              //       style: theme.textTheme.titleLarge!
-                              //           .copyWith(color: Colors.white),
-                              //     ),
-                              //     const SizedBox(),
-                              //     const SizedBox(),
-                              //     Text(
-                              //       widget
-                              //           .event.tickets![index].availableQuantity
-                              //           .toString(),
-                              //       style: theme.textTheme.headlineMedium!
-                              //           .copyWith(
-                              //         color: Colors.white,
-                              //         fontWeight: FontWeight.bold,
-                              //       ),
-                              //     ),
-                              //     const SizedBox(),
-                              //   ],
-                              // ),
-                              // const SizedBox(height: 10),
-                              // Row(
-                              //   mainAxisAlignment:
-                              //       MainAxisAlignment.spaceBetween,
-                              //   children: [
-                              //     const SizedBox(),
-                              //     Text(
-                              //       'Admitted',
-                              //       style: theme.textTheme.titleLarge!
-                              //           .copyWith(color: Colors.white),
-                              //     ),
-                              //     const SizedBox(),
-                              //     const SizedBox(),
-                              //     Text(
-                              //       '${int.parse(widget.event.tickets![index].totalQuantity!) - int.parse(widget.event.tickets![index].availableQuantity!)}',
-                              //       style: theme.textTheme.headlineMedium!
-                              //           .copyWith(
-                              //         color: Colors.white,
-                              //         fontWeight: FontWeight.bold,
-                              //       ),
-                              //     ),
-                              //     const SizedBox(),
-                              //   ],
-                              // ),
-                              const SizedBox(height: 10),
-                            ],
-                          ),
+                            );
+                          },
                         ),
-                      );
-                    },
-                  ),
                 ),
                 Center(
                   child: Row(

@@ -100,7 +100,7 @@ class TicketQrDetailsBottomSheet extends StatelessWidget {
               text: TextSpan(
                 children: [
                   TextSpan(
-                    text: 'Phone : ',
+                    text: 'Email : ',
                     style: theme.textTheme.headlineSmall!
                         .copyWith(color: Colors.white),
                   ),
@@ -119,12 +119,30 @@ class TicketQrDetailsBottomSheet extends StatelessWidget {
               text: TextSpan(
                 children: [
                   TextSpan(
-                    text: 'Number of People : ',
+                    text: 'Remaining Tickets : ',
                     style: theme.textTheme.headlineSmall!
                         .copyWith(color: Colors.white),
                   ),
                   TextSpan(
-                      text: ticket.noOfUser.toString(),
+                      text: (ticket.noOfUser! - ticket.entered!).toString(),
+                      style: theme.textTheme.headlineSmall!.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      )),
+                ],
+              ),
+            ),
+            const SizedBox(height: 20),
+            RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: 'Admitted Tickets : ',
+                    style: theme.textTheme.headlineSmall!
+                        .copyWith(color: Colors.white),
+                  ),
+                  TextSpan(
+                      text: (ticket.entered!).toString(),
                       style: theme.textTheme.headlineSmall!.copyWith(
                         fontWeight: FontWeight.bold,
                         color: Colors.white,

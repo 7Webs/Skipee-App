@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:assignment/common/widgets/event_appbar.dart';
+import 'package:assignment/common/widgets/not_fount.dart';
 import 'package:assignment/models/get_ticket_model.dart';
 import 'package:assignment/models/get_ticket_user_model.dart';
 import 'package:assignment/repository/ticket_repo.dart';
@@ -80,45 +82,33 @@ class _TicketListScreenState extends State<TicketListScreen> {
                         style: Theme.of(context).textTheme.titleLarge!.copyWith(
                             color: Colors.black, fontWeight: FontWeight.bold),
                       ),
-                      // Row(
-                      //   children: [
-                      //     Image.asset(
-                      //       "assets/images/ticket.png",
-                      //       color: Colors.black,
-                      //       width: 30,
-                      //       height: 30,
-                      //     ),
-                      //     Text(
-                      //       totalTicketQuantity,
-                      //       style: Theme.of(context).textTheme.titleLarge,
-                      //     ),
-                      //   ],
-                      // ),
                     ],
                   ),
                 ),
                 Expanded(
-                  child: ListView.builder(
-                    padding: const EdgeInsets.all(16.0),
-                    itemCount: userList.length,
-                    itemBuilder: (context, index) {
-                      final user = userList[index];
-                      if (user.eventTicket!.sId == ticketId) {
-                        return TicketListCardWidget(
-                          name: user.name!,
-                          phoneNumber: user.phone!,
-                          tickets: user.noOfUser!,
-                          enteredTickets: user.entered!,
-                          ticketIndex: widget.ticketIndex,
-                          ticketType: ticketType,
-                          isScanned: user.isScaned!,
-                          ticketId: user.sId!,
-                        );
-                      } else {
-                        return const SizedBox.shrink();
-                      }
-                    },
-                  ),
+                  child: userList.isEmpty
+                      ? const NotFoundWidget(message: "No Users Found")
+                      : ListView.builder(
+                          padding: const EdgeInsets.all(16.0),
+                          itemCount: userList.length,
+                          itemBuilder: (context, index) {
+                            final user = userList[index];
+                            if (user.eventTicket!.sId == ticketId) {
+                              return TicketListCardWidget(
+                                name: user.name!,
+                                phoneNumber: user.phone!,
+                                tickets: user.noOfUser!,
+                                enteredTickets: user.entered!,
+                                ticketIndex: widget.ticketIndex,
+                                ticketType: ticketType,
+                                isScanned: user.isScaned!,
+                                ticketId: user.sId!,
+                              );
+                            } else {
+                              return const SizedBox.shrink();
+                            }
+                          },
+                        ),
                 ),
               ],
             ),
