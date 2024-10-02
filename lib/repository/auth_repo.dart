@@ -3,7 +3,10 @@ import 'dart:developer';
 import 'package:assignment/common/constants.dart';
 import 'package:assignment/models/get_user_model.dart';
 import 'package:assignment/models/login_user_model.dart';
+import 'package:assignment/screens/login/login_screen.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthServices {
   Future<bool> registerUser(String name, String email, String password) async {
@@ -46,6 +49,14 @@ class AuthServices {
     if (response.statusCode == 200) {
       return GetUserModel.fromJson(data);
     } else {
+      var pref = await SharedPreferences.getInstance();
+      pref.clear();
+      runApp(
+        const MaterialApp(
+          home: LoginScreen(),
+          debugShowCheckedModeBanner: false,
+        ),
+      );
       throw Exception("Failed to login");
     }
   }
